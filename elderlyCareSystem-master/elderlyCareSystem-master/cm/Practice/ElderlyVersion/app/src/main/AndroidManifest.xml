@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.mybtchat">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CALL_PHONE" /> <!-- Bluetooth Permission -->
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH" /> <!-- GPS Permission -->
+    <permission
+        android:name="org.techtown.location.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
+
+
+        <service
+            android:name=".service.DataSendService"
+            android:enabled="true"
+            android:exported="true" /> <!-- Map library -->
+        <uses-library android:name="com.google.android.maps" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- Map library -->
+        <!-- Meta tag / ADD API KEY -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyCqnBnYdPXsofQFXxCC35WolVjH1FLzdDU" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" /> <!-- Meta tag -->
+
+        <!-- Activity -->
+        <activity
+            android:name=".ui.LoginActivity"
+            android:theme="@style/Theme.AppCompat">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.MapActivity"
+            android:theme="@style/Theme.AppCompat" />
+        <activity
+            android:name=".ui.DeviceListActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/select_device"
+            android:theme="@android:style/Theme.Dialog" />
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:launchMode="singleTask"/>
+        <!-- Activity -->
+
+        <!-- Service -->
+        <!-- Bluetooth Service -->
+        <service
+            android:name=".service.BTCTemplateService"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/service_name" />
+        <!-- StepCheck Service -->
+        <service
+            android:name=".data.step.StepCheckService"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="app.manbo.Service" />
+            </intent-filter>
+        </service>
+
+    </application>
+
+</manifest>

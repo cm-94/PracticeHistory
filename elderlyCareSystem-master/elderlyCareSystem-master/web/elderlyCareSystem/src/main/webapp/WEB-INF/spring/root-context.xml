@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.3.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	
+	
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost:3306/healthmonitoring?useSSL=false&amp;serverTimezone=UTC" />
+        <property name="username" value="healthmonitoring" />
+        <property name="password" value="hm1234" />
+    </bean>
+    
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:mybatis-config.xml" />
+        <property name = "mapperLocations" value = "classpath:mappers/**/*.xml"/>
+    
+    </bean>
+	
+	<!-- SqlSessionTemplate 설정 -->
+	<bean id = "sqlSession" class = "org.mybatis.spring.SqlSessionTemplate" destroy-method = "clearCache">
+		<constructor-arg name = "sqlSessionFactory" ref = "sqlSessionFactory"/>
+	</bean>
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+		<bean class = "org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	<mvc:default-servlet-handler/>
+	<mvc:resources mapping="/resources/**" location="/resources/" />  
+	<mvc:annotation-driven ignore-default-model-on-redirect="true" />
+	<!--  
+	<mvc:resources mapping = "/js/**" location = "/resources/js/"></mvc:resources>
+	<mvc:resources mapping = "/css/**" location = "/resources/css/"></mvc:resources>
+	<mvc:resources mapping = "/font/**" location = "/resources/font/"></mvc:resources>
+	<mvc:resources mapping = "/img/**" location = "/resources/img/"></mvc:resources>
+	-->
+	<bean id="clientFactory"
+        class="org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory">
+    <property name="connectionOptions">
+        <bean class="org.eclipse.paho.client.mqttv3.MqttConnectOptions">
+            <property name="userName" value="${mqtt.username}"/>
+            <property name="password" value="${mqtt.password}"/>
+        </bean>
+    </property>
+	</bean>
+	<bean name = "MqttStarter" init-method = "mqttstart" class = "com.spring.elderlycare.util.MqttStarter"  />
+	<bean name = "MqttDestroy" destroy-method = "mqttdestroy" class = "com.spring.elderlycare.util.MqttStarter"  />
+
+	<bean id = "taskExecutor" class = "org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >
+		<property name = "corePoolSize" value = "5" />
+		<property name = "maxPoolSize" value = "10"/>
+		<property name = "queueCapacity" value = "25"/>
+	</bean>	
+	
+	
+		<!-- 트랜잭션 관련 설정 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+	<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<aop:config proxy-target-class = "true">
+		<aop:pointcut id = "txAdvisePointCut" expression= "execution(public * com.elderlycare..service.*Service.*(..))"/>
+		<aop:advisor id = "transactionAdvisor" pointcut-ref = "txAdvisePointCut" advice-ref = "txAdvice"/>
+	</aop:config>
+	
+	<tx:advice id = "txAdvice" transaction-manager = "transactionManager">
+		<tx:attributes>
+			<tx:method name = "join" propagation="REQUIRED" rollback-for = "Exception"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<!-- 트랜잭션 어노테이션 인식 -->
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path = "/**"/>
+			<mvc:exclude-mapping path = "/users/log*"/>
+			<mvc:exclude-mapping path = "/devices/log*"/>
+			<mvc:exclude-mapping path = "/users/join"/>
+			
+			<mvc:exclude-mapping path = "/datas"/>
+			<bean class = "com.spring.elderlycare.util.SessInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	</beans>
+

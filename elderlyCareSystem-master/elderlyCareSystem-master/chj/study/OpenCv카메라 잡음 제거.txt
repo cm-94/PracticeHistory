@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*- 
+import cv2
+import sys, subprocess
+
+cap = cv2.VideoCapture('http://222.106.22.114:8090/?action=stream')   # 스트리밍 영상 가져오기 
+
+# Background Subtraction 의 알고리즘 중 BackgroundSubtractorMOG2 적용해 본다.
+
+# BackgroundSubtractorMOG2
+fgbg = cv2.createBackgroundSubtractorMOG2()
+frame_width, frame_height, frame_rate = int(cap.get(3)), int(cap.get(4)), int(cap.get(5))
+ 
+fourcc = cv2.VideoWriter_fourcc(*'DIVX') # 디지털 포맷 코드 - 인코딩 방식 설정 
+#out = cv2.VideoWriter('move2.avi', fourcc, frame_rate, (frame_width, frame_height), 0) # 캡쳐 동영상 저장
+
+
+kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE,(3,3))  # 커널을 생성하고 형태 변환 중 Opening 기법을 적용
+
+while(cap.isOpened()):
+    ret, frame = cap.read()
+    if (ret):
+        fgmask = fgbg.apply(frame)
+        fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel)
+        cv2.imshow('frame', fgmask)
+#        out.write(fgmask)
+
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+            
+
+cap.release()
+out.release()
+cv2.destroyAllWindows()

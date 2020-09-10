@@ -1,0 +1,15 @@
+sudo apt-get update
+sudo apt-get install -y python3 python3-pip python-dev
+sudo pip3 install rpi.gpio
+sudo apt-get install build-essential python-dev
+git clone https://github.com/adafruit/Adafruit_Python_DHT.git
+cd Adafruit_Python_DHT
+sudo python setup.py install
+
+
+# -- 온습도 센서 모듈 
+import Adafruit_DHT
+sensor = Adafruit_DHT.DHT11
+pin = 4  # 온습도 센서 핀 
+
+h, t = Adafruit_DHT.read_retry(sensor, pin)   # t, h로 온도, 습도 값을 받는다. 

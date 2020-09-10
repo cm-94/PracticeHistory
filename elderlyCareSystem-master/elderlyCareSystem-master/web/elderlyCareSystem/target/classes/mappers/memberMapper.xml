@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.elderlycare.dao.MemberDAOImpl">
+
+	<select id = "isExist" parameterType = "com.spring.elderlycare.dto.MemberDTO" resultType = "int">
+		<!--  SELECT EXISTS(
+			SELECT urole FROM `user`
+			WHERE uid = #{uid} AND upwd = #{upwd}
+			);-->
+		SELECT urole FROM `user`
+		WHERE uid = #{uid} AND upwd = #{upwd};
+	</select>
+	<insert id = "insertMember" parameterType = "com.spring.elderlycare.dto.MemberDTO">
+	INSERT INTO `user`(uid, upwd, uname, utel, uemail, urole)
+	VALUES(#{uid}, #{upwd}, #{uname}, #{utel}, #{uemail}, -1);
+	</insert>
+	<update id = "modifyMember" parameterType = "com.spring.elderlycare.dto.MemberDTO">
+	UPDATE `user` SET uname = #{uname}, utel = #{utel}, uemail = #{uemail};
+	</update>
+	<update id = "joinApproval" parameterType = "String">
+	UPDATE `user` SET urole = 0 WHERE uid=#{value};
+	</update>
+	<delete id = "deleteMember" parameterType = "String">
+	DELETE FROM `user` WHERE uid=#{value}; <!--  AND upwd = #{upwd};-->
+	</delete>
+	<select id = "selectOne" parameterType = "String" resultType = "com.spring.elderlycare.dto.MemberDTO">
+	SELECT uid, uname, utel, uemail, urole FROM `user` WHERE uid = #{value};
+	</select>
+	<update id = "insertRel" parameterType = "hashmap">
+	UPDATE manage SET relative = #{uid} 
+	WHERE elderly = (
+	SELECT ekey FROM elderly 
+	WHERE ename = #{ename} AND ebirth = #{ebirth});
+	</update>
+	<update id = "updateRegId" parameterType = "hashmap">
+	UPDATE manage SET regId = #{regId}
+	WHERE staff = #{uid};
+	</update>
+	<select id = "approvalList" parameterType = "String" resultType = "String">
+	select uid from (select relative from manage
+	where staff = #{value})a left join `user` on relative = `user`.uid
+	where urole = -1;
+	</select>
+<insert id = "insertCalendar" parameterType = "hashmap">
+		insert into calendar(uid, `start`, `end`, title, allDay)
+		values (#{uid}, #{cdto.start}, #{cdto.end}, #{cdto.title}, #{cdto.allDay});
+	</insert>
+	<select id ="selectCalendars" parameterType = "string" resultType = "com.spring.elderlycare.dto.CalendarDTO">
+		select * from calendar
+		where uid = #{value};
+	</select>
+</mapper>

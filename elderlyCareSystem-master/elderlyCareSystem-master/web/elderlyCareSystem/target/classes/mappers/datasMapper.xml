@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "com.spring.elderlycare.dao.DatasDAOImpl">
+
+<select id = "selectHumids" parameterType = "int" resultType = "com.spring.elderlycare.dto.DatasDTO">
+	SELECT measuredtime, humid FROM realtimedata 
+	WHERE elderly = #{value} AND DATE(measuredtime) = DATE(NOW()) AND humid is not NULL
+	ORDER BY measuredtime DESC;
+</select>
+<select id = "selectTemps" parameterType = "int" resultType = "com.spring.elderlycare.dto.DatasDTO">
+	SELECT measuredtime, temp FROM realtimedata 
+	WHERE elderly = #{value} AND DATE(measuredtime) = DATE(NOW()) AND temp is not NULL
+	ORDER BY measuredtime DESC;
+</select>
+<select id = "selectHts" parameterType = "int" resultType = "com.spring.elderlycare.dto.DatasDTO">
+	SELECT * FROM realtimedata
+	  WHERE elderly = #{value} AND DATE(measuredtime) = DATE(NOW())
+	<!--WHERE elderly = #{value} AND DATE(measuredtime) = DATE("2020-07-21") for test -->
+	ORDER BY measuredtime DESC;
+</select>
+<insert id = "log" parameterType = "hashmap">
+	INSERT INTO realtimedata (elderly, humid, temp)
+	VALUES(#{elderly}, #{humid}, #{temp});
+</insert>
+<select id = "selectDevIPs" resultType = "hashmap">
+		SELECT elderly, homeIoT FROM devices;
+	</select>
+<insert id = "log2" parameterType = "com.spring.elderlycare.dto.Datas2DTO">
+	INSERT INTO banddata (ekey, estep, epulse, ekcal, ealtitude, elongitude, stat)
+	VALUES(#{ekey}, #{estep}, #{epulse}, #{ekcal}, #{ealtitude}, #{elongitude}, #{stat});
+</insert>
+<select id = "curData"  parameterType = "int" resultType = "com.spring.elderlycare.dto.Datas2DTO">
+	 select * FROM(select * FROM banddata
+    where ekey = #{value}
+    order by measuredtime DESC limit 1)b
+	cross join (SELECT humid, temp FROM realtimedata
+    where elderly = #{value}
+    order by measuredtime DESC limit 1)a;
+</select>
+
+<select id = "curHT" parameterType = "int" resultType = "hashmap">
+<!-- 현재 온습도 -->
+	<!-- 쿼리 두개로 나눠서 날짜 시간 하나랑 온습도 한번에 받을까? -->
+	SELECT * FROM realtimedata
+	WHERE elderly = #{value}
+	ORDER BY measuredtime DESC limit 2;
+</select>
+<select id = "selectHealths" parameterType = "int" resultType = "com.spring.elderlycare.dto.Datas2DTO">
+<!-- 하루 health 로그 -->
+	SELECT * FROM banddata
+	<!--WHERE ekey = #{value} AND DATE(measuredtime) = DATE(NOW())-->
+	WHERE ekey = #{value} <!-- AND DATE(measuredtime) = DATE("2020-07-21") --> <!--for test -->
+	ORDER BY measuredtime DESC limit 30;
+</select>
+</mapper>

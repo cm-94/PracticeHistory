@@ -1,0 +1,9 @@
+git 주소 : https://github.com/agitated-deduction/elderlyCareSystem
+
+★순서
+git add .
+git commit -m cm
+git remote add origin https://github.com/agitated-deduction/elderlyCareSystem.git
+git push --set-upstream origin brch_cm
+
++ git 들어가서 pull request

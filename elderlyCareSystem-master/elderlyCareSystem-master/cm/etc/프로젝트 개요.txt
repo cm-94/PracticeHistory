@@ -1,0 +1,47 @@
+★개요★
+로그인 액티비티 ---> 메인 액티비티 ---> 상세 정보 액티비티(Home CCTV & Call Button)
+
+1. 로그인
+ - User Data (ID,PW,USER_TYPE..)입력
+ - User Data -> Server 전송
+ - Response 처리
+  > 연결 성공 - MainActivity로 Intent(Response) 전달
+  > 연결 실패 - User_Data 오류 : 재입력(or회원가입) 요청  /  Connect 오류 : 재시도 요청
+
+※ Need to.. ( Class & Permission & depedency )
+
+* Permission ( Server Connect )
+<uses-permission android:name="android.permission.INTERNET"/>
+* depedency ( Get JSON Data )
+implementation 'com.android.volley:volley:1.1.0'
+
+
+
+
+
+2. 메인 액티비티(->리싸이클뷰)
+ - Response -> JSON 객체 파싱
+ - JSON -> Elder List -> 
+
+ - 리싸이클러 뷰에 표현
+  // 관리자
+    > Name[Button] Pulse GPS STEP STAT
+    > [보호자 연결버튼]  [119 연결 버튼]
+
+  // 사용자
+    > Name[Button] Pulse GPS STEP STAT
+    > [담당자 연결버튼]  [119 연결 버튼]
+
++ Name[Button] : 상세 메뉴 엑티비티 전환
++ [담당자 연결] : Phone Call app 실행
++ [보호자 연결] : Phone Call app 실행
++ [119 연결] : Phone Call app 실행
+
+※ Need... ( Class & Permission & depedency )
+* Class
+- Elder {String name; String pulse; String step; String gps}
+- ElderList {ElderListResult elderResult;}
+-
+
+
+3. 상세 정보 액티비티

@@ -1,0 +1,24 @@
+class mainGUI(QDialog):
+    def __init__(self, parent=None):
+ 
+        self.timer_() # 타이머 실행
+        self.displayDateTime() # 날짜 함수 실행 
+
+    def timer_(self):
+
+        # timer 초기화
+        self.timer = QtCore.QTimer()
+        
+        # 업데이트 및 시작
+        self.timer.timeout.connect(self.displayDateTime)
+        self.timer.start(1000)
+        
+    def displayDateTime(self) :
+        
+
+        # 현재 날짜 세팅 
+        self.dateTimeVar = QDateTime.currentDateTime()  # 값 받아오기
+        currenttime = self.dateTimeVar.toString("yyyy-MM-dd    hh:mm:ss")
+
+        # 현재 날짜 넘기기 
+        self.ui.label_time.setText(currenttime)
