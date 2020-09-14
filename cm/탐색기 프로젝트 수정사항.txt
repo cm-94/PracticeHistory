@@ -1,0 +1,55 @@
+1. 역정렬 기능 추가
+ 1.1 FileView.h(22) : int sortOps; => 오름&내림차순 설정 값
+ 1.2 FileView.h(47) : void SwitchSortOps(); => sortOps값 변경 함수 선언
+ 1.3 FileView.cpp(225) : void SwitchSortOps() 함수 정의.(0 or 1)
+   + OnColumnclick 함수에서 MAKEWPARAM으로 파라미터 전달 시 음수 x. 
+ 1.4 FileView.cpp(316) : CFileView::OnColumnclick => Compare함수에 클릭한 Column 번호, sortOps 전달
+ 1.5 FileView.cpp(347) : CALLBACK Compare함수에서 sortOps 확인.
+   sortOps == 1 : return nResult;
+   sortOps == 0 : return nResult *= -1;
+
+수정 필요사항: 크기가 0인 파일은 정렬에 포함되지 않음. => Compare함수 case1 수정 필요
+
+2. 삭제 기능 추가
+ 2.1 Item Path 정보 추가
+  FileView.cpp =>  FILEITEM 구조체에 CString strFilePath 변수 추가
+  AddItem() => pItem->strFilePath = pFileFind->GetFilePath() 경로 데이터 추가
+ 2.2 View에서 삭제
+  Toolbar : ID_EDIT_CUT, Command : CFileView::OnEditCut()
+  OnEditCut()
+   - 클릭된 파일 찾기 => GetListCtrl().GetItemState(index,option) 
+   - 해당 파일 FILEITEM으로 캐스팅 =>FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem) 
+ 2.3 삭제 여부 재확인
+  AfxMessageBox(fileName, MB_OKCANCEL);
+ 2.4 실제 파일 삭제
+  CFile::Remove(path)
+ 2.5 n개 이상 파일 삭제
+  item 삭제 시 : nItem--;delCount++;
+
+수정 필요사항 : 권한 없는 파일 삭제 불가(관리자 권한 요청 필요) / n개 이상 삭제 추가
+
+3. 복사 & 붙여넣기
+ 3.1 변수 추가 -> FileView.h : CString copyPath, CString copyName
+ 3.2 함수 추가 -> FileView.cpp : OnEditCopy() & OnEditPaste()
+  - OnEditCopy()
+   선택된 File의 Path, Name 클래스 변수에 저장
+  - OnEditPaste() -> [복사 할 파일 체크, 복사 할 폴더 체크]
+    1. 복사 할 파일 체크
+     Path,Name NULL체크
+     선택된 폴더의 Path로 복사한 파일 저장 -> 실패(res==0) : MessageBox()
+    2. 복사 할 폴더 체크
+     for문 나올 경우 (pastePath 지정 못한경우)
+     실패 MessageBox()
+
+수정 필요사항 : n개 파일 선택 시 배열(or포인터 동적할당) 필요. or 클립보드 사용!!
+
+4. 폴더 & 파일 더블클릭 시 열기
+ 4.1 CFileView::OnNMDClick 함수 추가
+  - 선택한 파일의 인덱스 가져오기 : int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
+  - 해당 인덱스 FILEITEM 가져오기 : FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(index); 
+  - 해당 아이템 경로로 가기 : BOOL bContinue = filefind.FindFile(path); 
+  - 파일 & 폴더 구분 : filefind.IsDirectory()
+  - 해당 아이템이 파일이면 => ::ShellExecuteA(NULL, _T("open"), _T(path),NULL,NULL,SW_SHOW);
+  - 해당 아이템이 폴더이면 => SetListData(path);
+ 
+5. 팝업 메뉴창 띄우기

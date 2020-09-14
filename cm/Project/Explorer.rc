@@ -121,6 +121,16 @@ BEGIN
     END
 END
 
+IDR_POPUP MENU
+BEGIN
+    POPUP "팝업"
+    BEGIN
+        MENUITEM "삭제",                          ID_EDIT_CUT
+        MENUITEM "복사",                          ID_EDIT_COPY
+        MENUITEM "붙어넣기",                        ID_EDIT_PASTE
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -150,14 +160,14 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG 0, 0, 217, 55
+IDD_ABOUTBOX DIALOGEX 0, 0, 217, 55
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Explorer 정보"
-FONT 8, "굴림"
+FONT 8, "굴림", 0, 0, 0x0
 BEGIN
     ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
     LTEXT           "Explorer 버전 1.0",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1998",IDC_STATIC,40,25,119,8
+    LTEXT           "Copyright (C) 2020",IDC_STATIC,40,25,119,8
     DEFPUSHBUTTON   "확인",IDOK,178,7,32,14,WS_GROUP
 END
 
@@ -182,12 +192,12 @@ VS_VERSION_INFO VERSIONINFO
 BEGIN
     BLOCK "StringFileInfo"
     BEGIN
-        BLOCK "041204B0"
+        BLOCK "041204b0"
         BEGIN
             VALUE "FileDescription", "Explorer MFC 응용 프로그램"
             VALUE "FileVersion", "1, 0, 0, 1"
             VALUE "InternalName", "Explorer"
-            VALUE "LegalCopyright", "Copyright (C) 1998"
+            VALUE "LegalCopyright", "Copyright (C) 2020"
             VALUE "OriginalFilename", "Explorer.EXE"
             VALUE "ProductName", "Explorer 응용 프로그램"
             VALUE "ProductVersion", "1, 0, 0, 1"
@@ -248,7 +258,7 @@ END
 STRINGTABLE
 BEGIN
     ID_FILE_NEW             "새 문서를 작성합니다\n새 파일"
-    ID_FILE_OPEN            "기존 문서를 엽니다\n열기"
+    ID_FILE_OPEN            "선택 된 문서를 엽니다\n열기"
     ID_FILE_CLOSE           "현재 열린 문서를 닫습니다\n닫기"
     ID_FILE_SAVE            "현재 열린 문서를 저장합니다\n저장"
     ID_FILE_SAVE_AS         "현재 열린 문서를 다른 이름으로 저장합니다\n다른 이름으로 저장"

@@ -6,6 +6,7 @@
 
 #include "ExplorerDoc.h"
 #include "FileView.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,6 +29,10 @@ BEGIN_MESSAGE_MAP(CFileView, CListView)
 	ON_COMMAND(ID_EDIT_CUT, &CFileView::OnEditCut)
 	ON_COMMAND(ID_EDIT_COPY, &CFileView::OnEditCopy)
 	ON_COMMAND(ID_EDIT_PASTE, &CFileView::OnEditPaste)
+	// View Click Event
+	//	ON_NOTIFY_REFLECT(NM_CLICK, &CFileView::OnNMClick)
+	ON_NOTIFY_REFLECT(NM_DBLCLK, &CFileView::OnNMDblclk)
+	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
@@ -96,30 +101,30 @@ void CFileView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStruct)
 }
 
 // 리스트뷰 초기화
-int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct) 
+int CFileView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CListView::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+
 	// 운영체제가 관리하는 이미지 리스트 얻기
-	GetSystemImageList();	
+	GetSystemImageList();
 	// 리스트 컨트롤에 컬럼 추가
 	InsertColumn();
 	return 0;
 }
 
-HGLOBAL WINAPI CopyHandle (HGLOBAL h)
+HGLOBAL WINAPI CopyHandle(HGLOBAL h)
 {
 	if (h == NULL)
 		return NULL;
 
-	DWORD dwLen = ::GlobalSize((HGLOBAL) h);
+	DWORD dwLen = ::GlobalSize((HGLOBAL)h);
 	HGLOBAL hCopy = ::GlobalAlloc(GHND, dwLen);
 
 	if (hCopy != NULL)
 	{
-		void* lpCopy = ::GlobalLock((HGLOBAL) hCopy);
-		void* lp     = ::GlobalLock((HGLOBAL) h);
+		void* lpCopy = ::GlobalLock((HGLOBAL)hCopy);
+		void* lp = ::GlobalLock((HGLOBAL)h);
 		memcpy(lpCopy, lp, dwLen);
 		::GlobalUnlock(hCopy);
 		::GlobalUnlock(h);
@@ -131,20 +136,20 @@ HGLOBAL WINAPI CopyHandle (HGLOBAL h)
 // 운영체제가 관리하는 이미지 리스트 얻기
 void CFileView::GetSystemImageList()
 {
-	HIMAGELIST	hSystemImageList; 
+	HIMAGELIST	hSystemImageList;
 	SHFILEINFO	info;
 
 	// 운영체제가 관리하는 작은 아이콘 이미지 리스트와 연결
-	hSystemImageList = (HIMAGELIST)SHGetFileInfo((LPCTSTR)_T("C:\\"), 
-		0, &info, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON); 
+	hSystemImageList = (HIMAGELIST)SHGetFileInfo((LPCTSTR)_T("C:\\"),
+		0, &info, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON);
 
 	m_imgSmallList.Attach(hSystemImageList);
 	m_imgSmallList.Add(AfxGetApp()->LoadIcon(IDR_MAINFRAME));
-	
+
 	// 운영체제가 관리하는 작은 아이콘 이미지 리스트와 연결
-	hSystemImageList = (HIMAGELIST)SHGetFileInfo((LPCTSTR)_T("C:\\"), 
-		0, &info, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_ICON); 
-	m_imgLargeList.Attach(hSystemImageList); 
+	hSystemImageList = (HIMAGELIST)SHGetFileInfo((LPCTSTR)_T("C:\\"),
+		0, &info, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_ICON);
+	m_imgLargeList.Attach(hSystemImageList);
 	m_imgLargeList.Add(AfxGetApp()->LoadIcon(IDR_MAINFRAME));
 
 	// 리스트 컨트롤과 이미지 리스트 연결
@@ -153,10 +158,10 @@ void CFileView::GetSystemImageList()
 }
 
 
-void CFileView::OnDestroy() 
+void CFileView::OnDestroy()
 {
 	CListView::OnDestroy();
-	FreeItemMemory();	
+	FreeItemMemory();
 
 	// 운영체제가 관리하는 이미지 리스트와 연결 해제
 	m_imgSmallList.Detach();
@@ -169,7 +174,6 @@ void CFileView::InsertColumn()
 	GetListCtrl().InsertColumn(0, "파일명", LVCFMT_LEFT, 200);
 	GetListCtrl().InsertColumn(1, "크기", LVCFMT_RIGHT, 100);
 	GetListCtrl().InsertColumn(2, "바뀐 날짜", LVCFMT_CENTER, 200);
-	GetListCtrl().InsertColumn(3, "파일 경로", LVCFMT_CENTER, 400);
 }
 
 // 리스트뷰의 초기화면 표시
@@ -181,9 +185,9 @@ void CFileView::OnInitialUpdate()
 }
 
 // 트리뷰에서 선택된 디렉토리가 바뀔 때마다 리스트뷰 갱신
-void CFileView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void CFileView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
-	if(lHint)
+	if (lHint)
 	{
 		// 이전에 표시되고 있던 데이터를 위한 메모리 해제
 		FreeItemMemory();
@@ -202,23 +206,23 @@ int CFileView::SetListData(LPCTSTR pszPath)
 	// 지정된 디렉토리 뒤에 "\\*.*"를 덧붙임
 	// 예: pszPath = "C:\\Temp"이면, strPath = "C:\\Temp\\*.*"가 됨
 	CString strPath = pszPath;
-	if(strPath.Right(1) != "\\") strPath += "\\";
+	if (strPath.Right(1) != "\\") strPath += "\\";
 	strPath += "*.*";
 
 	// 지정된 디렉토리의 파일을 차례로 읽어옴
 	CFileFind filefind;
 	BOOL bContinue;
-	if(!(bContinue = filefind.FindFile(strPath)))
+	if (!(bContinue = filefind.FindFile(strPath)))
 		return -1;
 	int nCount = 0;
 
 	CString strFilename;
 	// 디렉토리 탐색
-	while(bContinue)
+	while (bContinue)
 	{
 		bContinue = filefind.FindNextFile();
 		strFilename = filefind.GetFileName();
-		if(strFilename != "." && strFilename != "..")
+		if (strFilename != "." && strFilename != "..")
 			AddItem(nCount++, &filefind);  // 리스트 컨트롤에 추가
 	}
 
@@ -230,14 +234,14 @@ void CFileView::SwitchSortOps(){
 	if (sortOps>0) sortOps = 0;
 	else sortOps = 1;
 }
-	
+
 BOOL CFileView::AddItem(int nIndex, CFileFind *pFileFind)
 {
 	// 데이터를 저장할 구조체의 메모리 공간 할당
 	FILEITEM *pItem;
-	try 
+	try
 	{
-		pItem = new FILEITEM ;
+		pItem = new FILEITEM;
 	}
 	catch (CMemoryException *e)
 	{
@@ -247,22 +251,21 @@ BOOL CFileView::AddItem(int nIndex, CFileFind *pFileFind)
 	// 데이터 설정
 	pItem->strFileName = pFileFind->GetFileName();
 	pItem->nFileSize = pFileFind->GetLength();
-	pFileFind->GetLastWriteTime(pItem->timeLastWriteTime);
 	pItem->strFilePath = pFileFind->GetFilePath();
-	OutputDebugString("ADD FILES PATH:" + pItem->strFilePath + "\n");
+	pFileFind->GetLastWriteTime(pItem->timeLastWriteTime);
 	// 리스트 컨트롤에 항목을 추가하기 위해 LV_ITEM 구조체 설정
 	LV_ITEM lvi;
-	lvi.mask = LVIF_TEXT|LVIF_IMAGE|LVIF_PARAM;
+	lvi.mask = LVIF_TEXT | LVIF_IMAGE | LVIF_PARAM;
 	lvi.iItem = nIndex;
 	lvi.iSubItem = 0;
 	lvi.iImage = GetIconIndex(pFileFind->GetFilePath());
 	lvi.pszText = LPSTR_TEXTCALLBACK;
 	lvi.lParam = (LPARAM)pItem;
-	
+
 	// 리스트 컨트롤에 데이터 저장
-	if(GetListCtrl().InsertItem(&lvi) == -1)
+	if (GetListCtrl().InsertItem(&lvi) == -1)
 		return FALSE;
-	
+
 	return TRUE;
 }
 
@@ -271,52 +274,52 @@ BOOL CFileView::AddItem(int nIndex, CFileFind *pFileFind)
 // 데이터를 저장하는데 할당한 메모리를 해제
 void CFileView::FreeItemMemory()
 {
-	for(int i=0 ; i<GetListCtrl().GetItemCount() ; i++)
+	for (int i = 0; i<GetListCtrl().GetItemCount(); i++)
 		delete (FILEITEM *)GetListCtrl().GetItemData(i);
 }
 
 // 이미지 리스트의 인덱스 얻음
 int CFileView::GetIconIndex(CString FileName)
 {
-	SHFILEINFO    sfi;        
-	SHGetFileInfo( (LPCTSTR)FileName, 0, &sfi, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON );
-	
+	SHFILEINFO    sfi;
+	SHGetFileInfo((LPCTSTR)FileName, 0, &sfi, sizeof(SHFILEINFO), SHGFI_SYSICONINDEX | SHGFI_SMALLICON);
+
 	return sfi.iIcon;
 }
 
 
 // 리스트 컨트롤에 파일 정보 표시, LVN_GETDISPINFO 통지 메시지에 대한 핸들러 함수
-void CFileView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
+void CFileView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 
 	CString str;
-	if(pDispInfo->item.mask & LVIF_TEXT)
+	if (pDispInfo->item.mask & LVIF_TEXT)
 	{
 		FILEITEM *pItem = (FILEITEM *)pDispInfo->item.lParam;
 
-		switch(pDispInfo->item.iSubItem)
+		switch (pDispInfo->item.iSubItem)
 		{
-			case 0:	// 파일명
-				::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)pItem->strFileName);
-				break;
-			case 1: // 크기
-				str.Format("%u", pItem->nFileSize);
-				::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
-				break;
-			case 2: // 바뀐 날짜
-				str = pItem->timeLastWriteTime.Format("%Y-%m-%d %H:%M");
-				::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
-				break;
-			case 3: // 파일 경로
-				str = pItem->strFileName;
-				::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
+		case 0:	// 파일명
+			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)pItem->strFileName);
+			break;
+		case 1: // 크기
+			str.Format("%u", pItem->nFileSize);
+			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
+			break;
+		case 2: // 바뀐 날짜
+			str = pItem->timeLastWriteTime.Format("%Y-%m-%d %H:%M");
+			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
+			break;
+		case 3: // 파일 경로
+			str = pItem->strFileName;
+			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
 		}
 	}
 }
 
 // 리스트 컨트롤의 내용 정렬, LVN_COLUMNCLICK 통지 메시지의 핸들러 함수
-void CFileView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
+void CFileView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	//NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	//GetListCtrl().SortItems(CompareFunc, pNMListView->iSubItem);
@@ -336,7 +339,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	FILEITEM *pItem2 = (FILEITEM *)lParam2;
 	CString s = pItem1->strFilePath;
 	OutputDebugString("ss:" + s + "\n");
-	switch(nSubItem)
+	switch (nSubItem)
 	{
 	case 0:		// 파일명으로 정렬
 		nResult = pItem1->strFileName.CompareNoCase(pItem2->strFileName);
@@ -362,7 +365,53 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 void CFileView::OnEditCut()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
-	
+
+	CString strPath = "C:\\";
+	if (strPath.Right(1) != "\\") strPath += "\\";
+	strPath += "*.*";
+	// 지정된 디렉토리의 파일을 차례로 읽어옴
+	CFileFind filefind;
+	BOOL bContinue;
+	bContinue = filefind.FindFile(strPath);
+	if (!bContinue) return;
+	// 디렉토리 탐색
+	int delCount = 0;
+
+	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
+		if (filefind.FindNextFile()){
+			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
+				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+
+				// 삭제 여부 재확인
+				CString fileName = item->strFileName;
+				fileName.Format("%s를 삭제하시겠습니까?", fileName);
+				int temp = AfxMessageBox(fileName, MB_OKCANCEL);
+				if (temp != 1) continue;
+
+				// 파일 삭제(리스트 & File)
+				GetListCtrl().DeleteItem(nItem);
+				CString path = item->strFilePath;
+				CFile::Remove(path);
+				nItem--;
+				delCount++;
+			}
+			else continue;
+		}
+	}
+	filefind.Close();
+	if (delCount == 0) MessageBox("삭제할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
+	else{
+		CString countStr; countStr.Format("파일 %d개 삭제 완료",delCount);
+		MessageBox(countStr, "성공", MB_ICONSTOP);
+		
+	}
+}
+
+
+void CFileView::OnEditCopy()
+{
+	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
 	CString strPath = "C:\\";
 	if (strPath.Right(1) != "\\") strPath += "\\";
 	strPath += "*.*";
@@ -371,32 +420,123 @@ void CFileView::OnEditCut()
 	CFileFind filefind;
 	BOOL bContinue;
 	bContinue = filefind.FindFile(strPath);
-	
-	CString strFilePath;
+
 	// 디렉토리 탐색
-
+	int count = 0;
+	memset(copyPath, NULL,sizeof(copyPath));
+	memset(copyName, NULL, sizeof(copyName));
 	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
-		bContinue = filefind.FindNextFile();
-
-		if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
-			FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
-			GetListCtrl().DeleteItem(nItem);
-			CString path = item->strFilePath;
-			CFile::Remove(path);
+		if (filefind.FindNextFile()){
+			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
+				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+				copyPath[count] = &item->strFilePath;
+				copyName[count] = &item->strFileName;
+				count++;
+				continue;
+			}
+			else continue;
 		}
-		else continue;
 	}
 	filefind.Close();
-}
-
-
-void CFileView::OnEditCopy()
-{
-	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if(count==0) MessageBox("파일을 찾을 수 없습니다.", "실패", MB_ICONSTOP);
 }
 
 
 void CFileView::OnEditPaste()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+
+	//if (copyPath[0] == NULL || copyName[0] == NULL){
+	//	MessageBox("복사 할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
+	//	return;
+	//}
+	CString strPath = "C:\\";
+	if (strPath.Right(1) != "\\") strPath += "\\";
+	strPath += "*.*";
+
+	// 지정된 디렉토리의 파일을 차례로 읽어옴
+	CFileFind filefind;
+	BOOL bContinue;
+	bContinue = filefind.FindFile(strPath);
+	int count = 0;
+	// 디렉토리 탐색
+	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
+		if (filefind.FindNextFile()){
+			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){				
+				if (copyPath[count] == NULL || copyName[count] == NULL){
+					MessageBox("복사 할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
+					return;
+				}
+				// 배열 넣기 수정 필요
+				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+				CString pastePath = item->strFilePath + "\\" + *copyName[count];
+
+				BOOL res = CopyFile(*copyPath[count], pastePath, FALSE);// TRUE : 같은 파일 있으면 fail, FALSE : 덮어쓰기
+				count++;
+				if (!res) MessageBox("파일 복사 실패.", "실패!", MB_ICONSTOP);
+			}
+			else continue;
+		}
+		else MessageBox("파일을 찾을 수 없습니다.", "실패", MB_ICONSTOP); break;
+	}
+	memset(copyPath, NULL, sizeof(copyPath));
+	memset(copyName, NULL, sizeof(copyName));
+	filefind.Close();
+	if (count==0) MessageBox("복사 할 폴더를 선택해주세요.", "실패", MB_ICONSTOP);
+}
+
+
+void CFileView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
+{
+	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	POSITION pos = GetListCtrl().GetFirstSelectedItemPosition();
+	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
+	if (index == -1) return; // 공백 선택 시 종료
+	FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(index);
+
+	CString result = GetListCtrl().GetItemText(index, 0);
+	CString temp;
+	temp.Format(_T("index: %d, result: %s, path: %s\n"), index, result, item->strFilePath);
+
+	OutputDebugString(temp);
+	*pResult = 0;
+
+	CString path = item->strFilePath;
+	CFileFind filefind;
+	BOOL bContinue = filefind.FindFile(path);
+	// 이전에 표시되고 있던 데이터를 위한 메모리 해제
+	if (!bContinue) return;
+	filefind.FindNextFileA();
+	if (filefind.IsDirectory()){
+		FreeItemMemory();
+		// 이전에 표시되고 있던 내용 삭제
+		GetListCtrl().DeleteAllItems();
+		SetListData(path);
+	}
+	else{
+		::ShellExecuteA(NULL, _T("open"), _T(path), NULL, NULL, SW_SHOW);
+	}
+}
+
+void CFileView::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
+	int index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
+	if (index == -1) {
+		return;
+	}
+	else{
+		FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(index);
+		CMenu popup;
+		CMenu* pMenu;
+
+		popup.LoadMenu(IDR_POPUP);
+		pMenu = popup.GetSubMenu(0);
+
+		pMenu->TrackPopupMenu(TPM_LEFTALIGN || TPM_RIGHTBUTTON, point.x, point.y, this);
+	}
+
+
+
 }

@@ -67,6 +67,12 @@ public:
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
+	CString *copyPath[10];
+	CString *copyName[10];
+
+	afx_msg void OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult);
+	//FILEITEM* FindSelectFile(CString filePath);
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
 };
 
 #ifndef _DEBUG  // debug version in FileView.cpp

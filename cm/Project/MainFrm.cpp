@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	//}}AFX_MSG_MAP
 	ON_UPDATE_COMMAND_UI_RANGE(AFX_ID_VIEW_MINIMUM, AFX_ID_VIEW_MAXIMUM, OnUpdateViewStyles)
 	ON_COMMAND_RANGE(AFX_ID_VIEW_MINIMUM, AFX_ID_VIEW_MAXIMUM, OnViewStyle)
+
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -239,3 +240,4 @@ void CMainFrame::OnViewStyle(UINT nCommandID)
 			pView->ModifyStyle(LVS_TYPEMASK, dwStyle);
 	}
 }
+

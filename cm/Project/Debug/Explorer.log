@@ -1,10 +1,10 @@
-﻿빌드 시작: 2020-09-11 오후 5:06:36
-     1>2 노드의 "C:\Users\SM\Desktop\git\BITProject\sm\MFC\Project\Explorer.vcxproj" 프로젝트(Build 대상)입니다.
+﻿빌드 시작: 2020-09-14 오후 5:54:08
+     1>2 노드의 "C:\Users\SM\Desktop\git\BITProject\cm\Project\Explorer.vcxproj" 프로젝트(Build 대상)입니다.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _VC80_UPGRADE=0x0600 /D _MBCS /D _AFXDLL /Gm /EHsc /RTC1 /MDd /GS /Gy- /fp:precise /Zc:wchar_t /Zc:forScope /Yu"stdafx.h" /Fp".\Debug\Explorer.pch" /Fo".\Debug\\" /Fd".\Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt FileView.cpp
          FileView.cpp
-     1>c:\users\sm\desktop\git\bitproject\sm\mfc\project\fileview.cpp(249): warning C4244: '=' : 'ULONGLONG'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
-     1>c:\users\sm\desktop\git\bitproject\sm\mfc\project\fileview.cpp(359): warning C4715: 'CompareFunc' : 모든 제어 경로에서 값을 반환하지는 않습니다.
+     1>c:\users\sm\desktop\git\bitproject\cm\project\fileview.cpp(253): warning C4244: '=' : 'ULONGLONG'에서 'DWORD'(으)로 변환하면서 데이터가 손실될 수 있습니다.
+     1>c:\users\sm\desktop\git\bitproject\cm\project\fileview.cpp(362): warning C4715: 'CompareFunc' : 모든 제어 경로에서 값을 반환하지는 않습니다.
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:".\Debug\Explorer.exe" /INCREMENTAL /NOLOGO /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /manifestinput:"C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\Include\Manifest\dpiaware.manifest" /DEBUG /PDB:".\Debug\Explorer.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\Debug\Explorer.lib" /MACHINE:X86 /SAFESEH .\Debug\Explorer.res
          .\Debug\DriveView.obj
@@ -13,9 +13,9 @@
          .\Debug\FileView.obj
          .\Debug\MainFrm.obj
          .\Debug\StdAfx.obj
-         Explorer.vcxproj -> C:\Users\SM\Desktop\git\BITProject\sm\MFC\Project\.\Debug\Explorer.exe
-     1>"C:\Users\SM\Desktop\git\BITProject\sm\MFC\Project\Explorer.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
+         Explorer.vcxproj -> C:\Users\SM\Desktop\git\BITProject\cm\Project\.\Debug\Explorer.exe
+     1>"C:\Users\SM\Desktop\git\BITProject\cm\Project\Explorer.vcxproj" 프로젝트를 빌드했습니다(Build 대상).
 
 빌드했습니다.
 
-경과 시간: 00:00:00.48
+경과 시간: 00:00:00.46

@@ -117,6 +117,7 @@ protected:
 		// No message handlers
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+public:
 };
 
 CAboutDlg::CAboutDlg() : CDialog(CAboutDlg::IDD)
@@ -136,6 +137,7 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialog)
 	//{{AFX_MSG_MAP(CAboutDlg)
 		// No message handlers
 	//}}AFX_MSG_MAP
+	ON_WM_CONTEXTMENU()
 END_MESSAGE_MAP()
 
 // App command to run the dialog
@@ -147,4 +149,5 @@ void CExplorerApp::OnAppAbout()
 
 /////////////////////////////////////////////////////////////////////////////
 // CExplorerApp message handlers
+
 
