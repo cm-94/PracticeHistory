@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">BIT</string>
+
+    <!-- activity_Main -->
+    <string name="all_item">전체</string>
+    <string name="top_item">상위 20</string>
+    <string name="etc_item">기타</string>
+
+    <!-- ticker_item -->
+    <string name="item_Name">종목</string>
+
+    <string name="opening_price">시가</string>
+    <string name="max_price">고가</string>
+    <string name="min_price">저가</string>
+    <string name="closing_price">종가</string>
+
+</resources>
