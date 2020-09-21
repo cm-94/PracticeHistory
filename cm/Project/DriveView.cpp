@@ -346,6 +346,7 @@ void CDriveView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 
 	CString strPath = GetPathFromNode(pNMTreeView->itemNew.hItem);
 	GetDocument()->UpdateAllViews(this, (LPARAM)(LPCTSTR)strPath);
+	GetDocument()->SetPathName(strPath);
 }
 
 

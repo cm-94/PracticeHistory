@@ -7,7 +7,6 @@
 #define IDR_MAINFRAME                   128
 #define IDR_EXPLORTYPE                  129
 #define IDB_DRIVES                      131
-#define IDR_MENU1                       132
 #define IDR_POPUP                       132
 #define ID_BUTTON32771                  32771
 #define ID_32773                        32773

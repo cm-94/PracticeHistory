@@ -6,4 +6,8 @@ git commit -m cm
 git remote add origin https://github.com/agitated-deduction/elderlyCareSystem.git
 git push --set-upstream origin brch_cm
 
-+ git 들어가서 pull request
++ git 들어가서 pull reques
+
+★master 업데이트 반영하기
+git checkout master
+git pull

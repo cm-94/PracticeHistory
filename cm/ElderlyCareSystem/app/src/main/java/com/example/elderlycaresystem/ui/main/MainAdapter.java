@@ -27,7 +27,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
-    private List<ElderlyInfo> items = new ArrayList<ElderlyInfo>();
+    private List<ElderlyInfo> items = new ArrayList<>();
 
     @NonNull
     @Override
@@ -51,7 +51,6 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.ViewHolder>{
     public int getItemCount() {
         return items.size();
     }
-
 
     // TODO 외부에서 이 Adapter를 사용할 때 Elderly객체를 넣거나 가져갈 수 있도록 addItem(),setItems(),getItem(),setItem() 메서드 정의!!
     // addItem() : 들어온 item을 ArrayList<Elderly>에 추가!!

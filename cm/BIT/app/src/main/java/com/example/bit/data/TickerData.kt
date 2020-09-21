@@ -1,21 +1,7 @@
 package com.example.bit.data
 
-class TickerData (){
-    var opening_price:String?= null
-    var closing_price:String?= null
-    var min_price:String?= null
-    var max_price:String?= null
-    var units_traded:String?= null
-    var acc_trade_value:String?= null
-    var prev_closing_price:String?= null
-    var units_traded_24H:String?= null
-    var acc_trade_value_24H:String?= null
-    var fluctate_24H:String?= null
-    var fluctate_rate_24H:Int?= null
-    var date:String?= null
+import java.sql.Timestamp
 
-        get() {
-            TODO()
-        }
+data class TickerData (val order_currency:String, val opening_price:String, val closing_price:String,val min_price:String,val max_price:String){
 
 }

@@ -112,7 +112,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(1 /* ID of notification */, notificationBuilder.build());
     }
 
-
     public void sendNotification(String title, String text,String ekey) {
         Intent intent = new Intent(this, InfoActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |

@@ -9,6 +9,13 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+typedef struct tagFILEITEM
+{
+	CString		strFileName;
+	CString		strFilePath;
+	DWORD		nFileSize;
+	CTime		timeLastWriteTime;
+} FILEITEM;
 
 class CFileView : public CListView
 {
@@ -67,12 +74,12 @@ public:
 	afx_msg void OnEditCut();
 	afx_msg void OnEditCopy();
 	afx_msg void OnEditPaste();
-	CString *copyPath[10];
-	CString *copyName[10];
+	CString copyPath;
+	CString copyName;
 
 	afx_msg void OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult);
-	//FILEITEM* FindSelectFile(CString filePath);
-	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint /*point*/);
+	afx_msg void OnContextMenu(CWnd* /*pWnd*/, CPoint point);
+	FILEITEM* GetSelectItem(CString cPath);
 };
 
 #ifndef _DEBUG  // debug version in FileView.cpp
@@ -80,13 +87,7 @@ inline CExplorerDoc* CFileView::GetDocument()
    { return (CExplorerDoc*)m_pDocument; }
 #endif
 
-typedef struct tagFILEITEM
-{
-	CString		strFileName;
-	CString		strFilePath;
-	DWORD		nFileSize;
-	CTime		timeLastWriteTime;
-} FILEITEM;
+
 
 int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort);
 /////////////////////////////////////////////////////////////////////////////

@@ -162,10 +162,6 @@ public class BTCTemplateService extends Service {
         transaction.sendTransaction();
     }
 
-    /**
-     *
-     */
-
 
     /*****************************************************
      *	Public methods

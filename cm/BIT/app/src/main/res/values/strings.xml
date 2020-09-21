@@ -9,9 +9,12 @@
     <!-- ticker_item -->
     <string name="item_Name">종목</string>
 
+    <!-- String for View -->
     <string name="opening_price">시가</string>
-    <string name="max_price">고가</string>
-    <string name="min_price">저가</string>
     <string name="closing_price">종가</string>
+    <string name="min_price">저가</string>
+    <string name="max_price">고가</string>
+
+
 
 </resources>

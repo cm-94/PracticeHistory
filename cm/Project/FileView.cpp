@@ -180,7 +180,11 @@ void CFileView::InsertColumn()
 void CFileView::OnInitialUpdate()
 {
 	CListView::OnInitialUpdate();
-
+	// 이전에 표시되고 있던 데이터를 위한 메모리 해제
+	FreeItemMemory();
+	// 이전에 표시되고 있던 내용 삭제
+	GetListCtrl().DeleteAllItems();
+	// 지정된 디렉토리의 서브 디렉토리와 파일을 표시
 	SetListData("C:\\");
 }
 
@@ -311,9 +315,6 @@ void CFileView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			str = pItem->timeLastWriteTime.Format("%Y-%m-%d %H:%M");
 			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
 			break;
-		case 3: // 파일 경로
-			str = pItem->strFileName;
-			::lstrcpy(pDispInfo->item.pszText, (LPCTSTR)str);
 		}
 	}
 }
@@ -337,8 +338,7 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 	int nResult;
 	FILEITEM *pItem1 = (FILEITEM *)lParam1;
 	FILEITEM *pItem2 = (FILEITEM *)lParam2;
-	CString s = pItem1->strFilePath;
-	OutputDebugString("ss:" + s + "\n");
+
 	switch (nSubItem)
 	{
 	case 0:		// 파일명으로 정렬
@@ -362,48 +362,87 @@ int CALLBACK CompareFunc(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 }
 
 
+FILEITEM* CFileView::GetSelectItem(CString cPath)
+{
+	FILEITEM * items[10];
+	int index = 0;
+	int count = 0;
+	while (GetListCtrl().GetNextItem(-1, LVNI_SELECTED))
+	{
+		index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
+		if (index == -1)
+			return NULL;
+
+		FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(index);
+		items[count++] = item;
+	}
+	if (items != NULL)
+		return *items;
+	return NULL;
+}
+
+
 void CFileView::OnEditCut()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	CString strPath = "C:\\";
-	if (strPath.Right(1) != "\\") strPath += "\\";
-	strPath += "*.*";
-	// 지정된 디렉토리의 파일을 차례로 읽어옴
-	CFileFind filefind;
-	BOOL bContinue;
-	bContinue = filefind.FindFile(strPath);
-	if (!bContinue) return;
+	CString path = GetDocument()->GetPathName();
+	FILEITEM * item;
+	item = GetSelectItem(path);
+	CString fileName = _T("");
+	//int index = 0;
+	//int delCount = 0;
+	//int temp=0;
+	//while (GetListCtrl().GetNextItem(-1, LVNI_SELECTED))
+	//{
+	//	index = GetListCtrl().GetNextItem(-1, LVNI_SELECTED);
+	//	if (index == -1)
+	//		return;
+	//	FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(index);
+	//	OutputDebugString("EditCut Path : " + item->strFilePath+ "\n");
+	//	// 삭제 여부 재확인
+	//	fileName = item->strFileName;
+	//	fileName.Format("%s를 삭제하시겠습니까?", fileName);
+	//	temp = AfxMessageBox(fileName, MB_OKCANCEL);
+	//	if (temp != IDOK)
+	//		continue;
+	//	else
+	//	{
+	//		// 파일 삭제(리스트 & File)
+	//		GetListCtrl().DeleteItem(index);
+	//		CFile::Remove(fileName);
+	//	}
+	//}
+
 	// 디렉토리 탐색
-	int delCount = 0;
+	int nItem = GetListCtrl().GetItemCount();
+	int itemCount = 0;
+	for (itemCount; itemCount<nItem; itemCount++){
+		if (GetListCtrl().GetItemState(itemCount, LVIS_SELECTED) == LVIS_SELECTED){
+			FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(itemCount);
 
-	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
-		if (filefind.FindNextFile()){
-			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
-				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+			// 삭제 여부 재확인
+			CString fileName = item->strFileName;
+			fileName.Format("%s를 삭제하시겠습니까?", fileName);
+			int temp = AfxMessageBox(fileName, MB_OKCANCEL);
+			if (temp != 1) continue;
 
-				// 삭제 여부 재확인
-				CString fileName = item->strFileName;
-				fileName.Format("%s를 삭제하시겠습니까?", fileName);
-				int temp = AfxMessageBox(fileName, MB_OKCANCEL);
-				if (temp != 1) continue;
-
-				// 파일 삭제(리스트 & File)
-				GetListCtrl().DeleteItem(nItem);
-				CString path = item->strFilePath;
-				CFile::Remove(path);
-				nItem--;
-				delCount++;
-			}
-			else continue;
+			// 파일 삭제(리스트 & File)
+			GetListCtrl().DeleteItem(itemCount);
+			CString path = item->strFilePath;
+			CFile::Remove(path);
+			itemCount--;
 		}
+		else continue;
 	}
-	filefind.Close();
-	if (delCount == 0) MessageBox("삭제할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
-	else{
-		CString countStr; countStr.Format("파일 %d개 삭제 완료",delCount);
+	if (GetListCtrl().GetItemCount() != itemCount)
+	{
+		CString countStr; countStr.Format("파일 %d개 삭제 완료", GetListCtrl().GetItemCount()-itemCount);
 		MessageBox(countStr, "성공", MB_ICONSTOP);
-		
+	}
+	else
+	{
+		MessageBox("삭제할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
 	}
 }
 
@@ -412,78 +451,47 @@ void CFileView::OnEditCopy()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
 
-	CString strPath = "C:\\";
-	if (strPath.Right(1) != "\\") strPath += "\\";
-	strPath += "*.*";
-
-	// 지정된 디렉토리의 파일을 차례로 읽어옴
-	CFileFind filefind;
-	BOOL bContinue;
-	bContinue = filefind.FindFile(strPath);
-
 	// 디렉토리 탐색
-	int count = 0;
-	memset(copyPath, NULL,sizeof(copyPath));
-	memset(copyName, NULL, sizeof(copyName));
 	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
-		if (filefind.FindNextFile()){
-			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
-				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
-				copyPath[count] = &item->strFilePath;
-				copyName[count] = &item->strFileName;
-				count++;
-				continue;
-			}
-			else continue;
+		if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
+			FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+			copyPath = item->strFilePath;
+			copyName = item->strFileName;
+			break;
 		}
+		else continue;
 	}
-	filefind.Close();
-	if(count==0) MessageBox("파일을 찾을 수 없습니다.", "실패", MB_ICONSTOP);
 }
 
 
 void CFileView::OnEditPaste()
 {
 	// TODO: 여기에 명령 처리기 코드를 추가합니다.
+	if (copyPath == "" || copyName == ""){
+		MessageBox("복사 할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
+		return;
+	}
 
-	//if (copyPath[0] == NULL || copyName[0] == NULL){
-	//	MessageBox("복사 할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
-	//	return;
-	//}
-	CString strPath = "C:\\";
-	if (strPath.Right(1) != "\\") strPath += "\\";
-	strPath += "*.*";
-
-	// 지정된 디렉토리의 파일을 차례로 읽어옴
-	CFileFind filefind;
-	BOOL bContinue;
-	bContinue = filefind.FindFile(strPath);
-	int count = 0;
 	// 디렉토리 탐색
 	for (int nItem = 0; nItem < GetListCtrl().GetItemCount(); nItem++){
-		if (filefind.FindNextFile()){
-			if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){				
-				if (copyPath[count] == NULL || copyName[count] == NULL){
-					MessageBox("복사 할 파일을 선택해주세요.", "실패", MB_ICONSTOP);
-					return;
-				}
-				// 배열 넣기 수정 필요
-				FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
-				CString pastePath = item->strFilePath + "\\" + *copyName[count];
+		if (GetListCtrl().GetItemState(nItem, LVIS_SELECTED) == LVIS_SELECTED){
+			FILEITEM *item = (FILEITEM *)GetListCtrl().GetItemData(nItem);
+			CString pastePath = item->strFilePath + "\\" + copyName;
+			BOOL res = CopyFile(copyPath, pastePath, FALSE);
+			// TRUE : 같은 파일 있으면 fail, FALSE : 덮어쓰기
+			CString openPath = GetDocument()->GetPathName();
+			OutputDebugString("Get Document Path : " + openPath + "\n");
 
-				BOOL res = CopyFile(*copyPath[count], pastePath, FALSE);// TRUE : 같은 파일 있으면 fail, FALSE : 덮어쓰기
-				count++;
-				if (!res) MessageBox("파일 복사 실패.", "실패!", MB_ICONSTOP);
-			}
-			else continue;
+			if (!res) MessageBox("파일 복사 실패.", "실패!", MB_ICONSTOP);
+			else copyPath = ""; copyName = ""; return;
 		}
-		else MessageBox("파일을 찾을 수 없습니다.", "실패", MB_ICONSTOP); break;
+		else continue;
 	}
-	memset(copyPath, NULL, sizeof(copyPath));
-	memset(copyName, NULL, sizeof(copyName));
-	filefind.Close();
-	if (count==0) MessageBox("복사 할 폴더를 선택해주세요.", "실패", MB_ICONSTOP);
+	CString openPath = GetDocument()->GetPathName();
+	OutputDebugString("Get Document Path : " + openPath+"\n");
+	MessageBox("복사 할 폴더를 선택해주세요.", "실패", MB_ICONSTOP);
 }
+
 
 
 void CFileView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
@@ -497,24 +505,29 @@ void CFileView::OnNMDblclk(NMHDR *pNMHDR, LRESULT *pResult)
 
 	CString result = GetListCtrl().GetItemText(index, 0);
 	CString temp;
-	temp.Format(_T("index: %d, result: %s, path: %s\n"), index, result, item->strFilePath);
+	temp.Format(_T("index: %d, path: %s\n"), index,item->strFilePath);
 
 	OutputDebugString(temp);
 	*pResult = 0;
-
+	// 클릭한 
 	CString path = item->strFilePath;
 	CFileFind filefind;
 	BOOL bContinue = filefind.FindFile(path);
-	// 이전에 표시되고 있던 데이터를 위한 메모리 해제
 	if (!bContinue) return;
-	filefind.FindNextFileA();
-	if (filefind.IsDirectory()){
+
+	filefind.FindNextFile();
+	if (filefind.IsDirectory()){ // 디렉터리일 때
+		GetDocument()->SetPathName(path);
+		OutputDebugString("DBClick Document Path : " + path + "\n");
+		
+		// 이전에 표시되고 있던 데이터를 위한 메모리 해제
 		FreeItemMemory();
 		// 이전에 표시되고 있던 내용 삭제
 		GetListCtrl().DeleteAllItems();
+		// 새 경로로 FileView 설정
 		SetListData(path);
 	}
-	else{
+	else{// 파일일 때
 		::ShellExecuteA(NULL, _T("open"), _T(path), NULL, NULL, SW_SHOW);
 	}
 }
@@ -534,9 +547,9 @@ void CFileView::OnContextMenu(CWnd* /*pWnd*/, CPoint point)
 		popup.LoadMenu(IDR_POPUP);
 		pMenu = popup.GetSubMenu(0);
 
-		pMenu->TrackPopupMenu(TPM_LEFTALIGN || TPM_RIGHTBUTTON, point.x, point.y, this);
+		pMenu->TrackPopupMenu(TPM_LEFTALIGN || TPM_RIGHTBUTTON, point.x, point.y, GetParent());
 	}
-
-
-
 }
+
+
+

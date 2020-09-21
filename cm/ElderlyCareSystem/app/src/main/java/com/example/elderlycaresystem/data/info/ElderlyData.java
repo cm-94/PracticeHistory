@@ -9,13 +9,13 @@ import java.sql.Timestamp;
 
 public class ElderlyData {
     private String measuredtime;
-    private Integer ekey;
-    private Integer estep;
-    private Integer epulse;
-    private Double ekcal;
-    private Double ealtitude;
-    private Double elongitude;
-    private Integer stat;
+    private int ekey;
+    private int estep;
+    private int epulse;
+    private double ekcal;
+    private double ealtitude;
+    private double elongitude;
+    private int stat;
     private float humid;
     private float temp;
 
@@ -25,59 +25,57 @@ public class ElderlyData {
         this.measuredtime = measuredtime;
     }
 
-    public Integer getEkey() {
+    public int getEkey() {
         return ekey;
     }
 
-    public void setEkey(Integer ekey) {
+    public void setEkey(int ekey) {
         this.ekey = ekey;
     }
 
-    public Integer getEstep() {
+    public int getEstep() {
         return estep;
     }
 
-    public void setEstep(Integer estep) {
+    public void setEstep(int estep) {
         this.estep = estep;
     }
 
-    public Integer getEpulse() {
+    public int getEpulse() {
         return epulse;
     }
 
-    public void setEpulse(Integer epulse) {
+    public void setEpulse(int epulse) {
         this.epulse = epulse;
     }
 
-    public Double getEkcal() {
+    public double getEkcal() {
         return ekcal;
     }
 
-    public void setEkcal(Double ekcal) {
+    public void setEkcal(double ekcal) {
         this.ekcal = ekcal;
     }
 
-    public Double getEaltitude() {
+    public double getEaltitude() {
         return ealtitude;
     }
 
-    public void setEaltitude(Double ealtitude) {
+    public void setEaltitude(double ealtitude) {
         this.ealtitude = ealtitude;
     }
 
-    public Double getElongitude() {
+    public double getElongitude() {
         return elongitude;
     }
 
-    public void setElongitude(Double elongitude) {
+    public void setElongitude(double elongitude) {
         this.elongitude = elongitude;
     }
 
-    public Integer getStat() {
-        return stat;
-    }
+    public int getStat() { return stat; }
 
-    public void setStat(Integer stat) {
+    public void setStat(int stat) {
         this.stat = stat;
     }
 
