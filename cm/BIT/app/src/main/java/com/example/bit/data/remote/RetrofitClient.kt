@@ -19,11 +19,12 @@ object RetrofitClient {
          * @param context
          * @return retrofit : Retrofit
          *  - 통신을 위한 retrofit 객체를 return
-         *  - context를 param으로 받는 것은 추후 builder의 interceptor를 활용하기 위함이다
-         *     builder.addNetworkInterceptor(new AddCookiesInterceptor(context));
-         *     builder.addInterceptor(new ReceivedCookiesInterceptor(context));
+         *  - context를 param으로 받는 것은 추후 builder의 interceptor를 활용하려고..!
+         *     builder.addNetworkInterceptor(new AddCookiesInterceptor(context)); => java..
+         *     builder.addInterceptor(new ReceivedCookiesInterceptor(context)); => java..
          */
         fun getClient(context: Context?): Retrofit {
+
             // client : OkHttp 클라이언트 생성
             client = builder.build()
             // retrofit에 기본 URL 등록

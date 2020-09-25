@@ -2,18 +2,24 @@
     <string name="app_name">BIT</string>
 
     <!-- activity_Main -->
-    <string name="all_item">전체</string>
-    <string name="top_item">상위 20</string>
-    <string name="etc_item">기타</string>
+    <string name="all_item">현재가</string>
+    <string name="payment_currency">환율</string>
+    <string name="top_item">검색</string>
 
     <!-- ticker_item -->
-    <string name="item_Name">종목</string>
+    <string name="exchange_current">%s</string>
+    <string name="ticker_name">종목</string>
+    <string name="ticker_date">20%1$2d.%2$2d.%3$2d. %4$2d시 %5$2d분 %6$2d초</string>
 
     <!-- String for View -->
     <string name="opening_price">시가</string>
     <string name="closing_price">종가</string>
     <string name="min_price">저가</string>
     <string name="max_price">고가</string>
+    <string name="fluctate_24H">%s</string>
+    <string name="fluctate_rate_24H">%s(%)</string>
+    <string name="fluctate">변동</string>
+    <string name="fluctate_rate">변동률(%)</string>
 
 
 
