@@ -69,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         getExchangeRate()
         timer(period=200){
 //            getExchangeRate() // => Throwing OutOfMemoryError : 매번 client를 생성하므로 onCreate()에서만 실행..
-            showTickerData(Constants.ALL_CURRENCY)
+            getTickerData(Constants.ALL_CURRENCY)
         }
     }
 
@@ -90,7 +90,7 @@ class MainActivity : AppCompatActivity() {
         /** 전체 버튼 클릭 리스너 등록 **/
         tickerButton.setOnClickListener {
             // TODO : 통화 화폐 설정값(paymentCurrency)  showAllTickerData의 두번째 인자로 넣어주기!!
-            showTickerData(Constants.ALL_CURRENCY)
+            getTickerData(Constants.ALL_CURRENCY)
         }
 
         //TODO : 2. 환율 버튼(paymentButton) => payment_currency 변경
@@ -126,13 +126,7 @@ class MainActivity : AppCompatActivity() {
 
             //TODO : 3. orderbook 데이터 수신(orderbook/{order_currency}_{payment_currency})
             searchButton.setOnClickListener {
-
-
             }
-
-
-            // 환율 변경됐으니까 새로 데이터 요청!!
-            showTickerData(Constants.ALL_CURRENCY)
         }
     }
 
@@ -143,12 +137,12 @@ class MainActivity : AppCompatActivity() {
      *  - 전체(110개) Ticker(현재 시세) 데이터 수신
      *  - myAdapter에 110개 데이터를 담아 recycler view에 표시
      */
-    private fun showTickerData(order:String){
+    private fun getTickerData(order:String){
         // RetrofitUtils.getBitService(applicationContext) -> 톹신에 사용될 client 생성 및 BitService return
-        // BTCTicker().BTCTicker() -> BTC 종목에 대한 Ticker 데이터를 받아온다. => @GET, URI : .../ticker/BTC_KRW.
+        //  -> BTC 종목에 대한 Ticker 데이터를 받아온다. => @GET, URI : .../ticker/BTC_KRW.
         // enqueue( ... ) -> 해당 URL로 요청을 보낸다
         // object : retrofit2.Callback<ResponseBody> { ... } -> 전달 받은 응답(CallBack)에 대한 처리
-        RetrofitUtils.getBitService(applicationContext).showTicker(order)?.enqueue(object : retrofit2.Callback<HashMap<String, Any>> {
+        RetrofitUtils.getBitService(applicationContext).getAllTicker(order)?.enqueue(object : retrofit2.Callback<HashMap<String, Any>> {
             // 요청이 성공했을 경우(서버에 요청이 전달 된 상태)
             override fun onResponse(call: Call<HashMap<String, Any>?>?,response: Response<HashMap<String, Any>?>) {
                 // 정상 Callback을 받은 경우 ( status == 0000 )
