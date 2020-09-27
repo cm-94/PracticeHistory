@@ -75,12 +75,12 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
         // TODO: View에 표현할 item의 데이터(종목명,시가,종가,저가,고가) 세팅하기
         fun setItem(item: TickerMain) {
             itemView.tickerName.text = item.order_currency        // 종목명
-            itemView.opening_Price.text = item.opening_price      // 시가
-            itemView.closing_Price.text = item.closing_price      // 종가
-            itemView.min_Price.text = item.min_price              // 저가
-            itemView.max_Price.text = item.max_price              // 고가
-            itemView.fluctate.text = item.fluctate_24H            // 변동
-            itemView.fluctate_rate.text = item.fluctate_rate_24H  // 변동률
+            itemView.opening_Price.inputText(item.opening_price)      // 시가
+            itemView.closing_Price.inputText(item.closing_price)      // 종가
+            itemView.min_Price.inputText(item.min_price)              // 저가
+            itemView.max_Price.inputText(item.max_price)              // 고가
+            itemView.fluctate.inputText(item.fluctate_24H)            // 변동
+            itemView.fluctate_rate.inputText(item.fluctate_rate_24H)  // 변동률
 
             // 변동률 -> (%) 붙이기!
             itemView.fluctate_rate.append("%")

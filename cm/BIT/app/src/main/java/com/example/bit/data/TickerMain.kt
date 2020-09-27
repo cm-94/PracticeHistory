@@ -30,7 +30,7 @@ class TickerMain (){
 
     val dataFormat = DecimalFormat("#,###.#")
 
-    // 보조 생성자 : 입력받은 값을 각 맴버변수에 초기화 ( 가격 데이터 -> 천 단위 표시)
+    // 보조 생성자 : 입력받은 값을 각 맴버변수에 초기화 ( 가격 데이터 -> 환율 적용)
     constructor(exchange_rate:Float, payment_currency:String,order_currency:String,
                 opening_price:String,closing_price:String,min_price:String,max_price:String,
                 fluctate_24H:String,fluctate_rate_24H:String) : this() {
@@ -52,7 +52,7 @@ class TickerMain (){
      * 클래스의 String 맴버(property)에 대해 화페 format으로 변경된 값을 반환한다
      */
     private fun String.setData(exchange_rate:Float) : String{
-        return dataFormat.format(this.toFloat()/exchange_rate).toString()
+        return (this.toFloat()/exchange_rate).toString()
     }
 }
 

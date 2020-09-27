@@ -13,6 +13,9 @@ import com.example.bit.utils.Constants
 import com.example.bit.utils.RetrofitUtils
 import com.google.gson.internal.LinkedTreeMap
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
@@ -67,10 +70,13 @@ class MainActivity : AppCompatActivity() {
 
         // 환율 정보 가져오기
         getExchangeRate()
-        timer(period=200){
+
 //            getExchangeRate() // => Throwing OutOfMemoryError : 매번 client를 생성하므로 onCreate()에서만 실행..
+//            getTickerData(Constants.ALL_CURRENCY)
+        timer(period=1000){
             getTickerData(Constants.ALL_CURRENCY)
-        }
+    }
+
     }
 
     override fun onDestroy() {
