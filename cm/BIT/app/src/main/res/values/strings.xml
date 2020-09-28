@@ -13,13 +13,16 @@
 
     <!-- String for View -->
     <string name="opening_price">시가</string>
-    <string name="closing_price">종가</string>
+    <string name="closing_price">현재가</string>
     <string name="min_price">저가</string>
     <string name="max_price">고가</string>
-    <string name="fluctate_24H">%s</string>
-    <string name="fluctate_rate_24H">%s(%)</string>
+    <string name="units_traded_24H">거래량</string>
+    <string name="acc_trade_value_24H">거래금액</string>
     <string name="fluctate">변동</string>
     <string name="fluctate_rate">변동률(%)</string>
+
+    <string name="fluctate_24H">%s</string>
+    <string name="fluctate_rate_24H">%s(%)</string>
 
 
 

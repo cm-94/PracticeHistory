@@ -16,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
         //  -> R.string에 R.string을 넣으려고 하면 에러.. => Constants 클래스 사용!!
         tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.KRW)
 
-
         buttonSetting() // 버튼(3개) 세팅하기
     }
 
@@ -73,9 +73,9 @@ class MainActivity : AppCompatActivity() {
 
 //            getExchangeRate() // => Throwing OutOfMemoryError : 매번 client를 생성하므로 onCreate()에서만 실행..
 //            getTickerData(Constants.ALL_CURRENCY)
-        timer(period=1000){
+        timer(period=1500){
             getTickerData(Constants.ALL_CURRENCY)
-    }
+        }
 
     }
 
@@ -178,6 +178,8 @@ class MainActivity : AppCompatActivity() {
                                             data["closing_price"].toString(),
                                             data["min_price"].toString(),
                                             data["max_price"].toString(),
+                                            data["units_traded_24H"].toString(),
+                                            data["acc_trade_value_24H"].toString(),
                                             data["fluctate_24H"].toString(),
                                             data["fluctate_rate_24H"].toString()// data[R.string.max_price].toString() 안됨..ㅠ
                                         )
@@ -197,6 +199,7 @@ class MainActivity : AppCompatActivity() {
                     myAdapter.addItems(arr)
                     // Adapter로 화면 내 데이터 새로고침
                     myAdapter.notifyDataSetChanged()
+
                 }
                 // 정상 Callback을 받지 못한 경우( ex. 404 error )
                 else {

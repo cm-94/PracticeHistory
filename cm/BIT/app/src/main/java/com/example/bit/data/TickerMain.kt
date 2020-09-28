@@ -25,6 +25,10 @@ class TickerMain (){
     var closing_price:String = ""
     var min_price:String = ""
     var max_price:String = ""
+
+    var units_traded_24H:String = ""
+    var acc_trade_value_24H:String = ""
+
     var fluctate_24H:String = ""
     var fluctate_rate_24H:String = ""
 
@@ -33,6 +37,7 @@ class TickerMain (){
     // 보조 생성자 : 입력받은 값을 각 맴버변수에 초기화 ( 가격 데이터 -> 환율 적용)
     constructor(exchange_rate:Float, payment_currency:String,order_currency:String,
                 opening_price:String,closing_price:String,min_price:String,max_price:String,
+                units_traded_24H:String, acc_trade_value_24H:String,
                 fluctate_24H:String,fluctate_rate_24H:String) : this() {
         this.exchange_rate = exchange_rate
         this.payment_currency = payment_currency
@@ -41,6 +46,10 @@ class TickerMain (){
         this.closing_price = closing_price.setData(exchange_rate)
         this.min_price = min_price.setData(exchange_rate)
         this.max_price = max_price.setData(exchange_rate)
+
+        this.units_traded_24H = units_traded_24H
+        this.acc_trade_value_24H = acc_trade_value_24H.setAccData(exchange_rate)
+
         this.fluctate_24H = fluctate_24H.setData(exchange_rate)
         this.fluctate_rate_24H = fluctate_rate_24H
     }
@@ -54,6 +63,11 @@ class TickerMain (){
     private fun String.setData(exchange_rate:Float) : String{
         return (this.toFloat()/exchange_rate).toString()
     }
+
+    private fun String.setAccData(exchange_rate:Float) : String{
+        return ((this.toFloat()/exchange_rate)/10000).toString()
+    }
+
 }
 
 // String Formatting 연습1 //
