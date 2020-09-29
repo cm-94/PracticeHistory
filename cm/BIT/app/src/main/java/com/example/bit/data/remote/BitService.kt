@@ -1,8 +1,7 @@
 package com.example.bit.data.remote
 
-import com.example.bit.data.ExchangeRate
+import com.example.bit.data.ExchangeData
 import com.example.bit.data.RootTickerData
-import com.example.bit.data.TickerInfo
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -21,6 +20,6 @@ interface BitService {
 
     // 환율 데이터 수신 URL
     @GET("exchange/rate/KRW/KRW,USD,JPY.json")
-    fun getExchangeRate(): Call<List<ExchangeRate>>?
+    fun getExchangeRate(): Call<List<ExchangeData>>?
 
 }

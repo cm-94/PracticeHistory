@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.example.bit.R
 import com.example.bit.data.Exchange
+import com.example.bit.data.ExchangeData
 
-class ExchangeAdapter(context: Context, resource: ArrayList<Exchange>) :
+class ExAdapter(context: Context, resource: ArrayList<Exchange>) :
     ArrayAdapter<Exchange>(context, 0,resource) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {

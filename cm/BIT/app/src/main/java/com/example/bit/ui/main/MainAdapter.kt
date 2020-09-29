@@ -66,7 +66,6 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
          */
         val item:TickerMain =items.get(position)
 
-
         // TODO : 환율 변동 case 추가하기
 //        if(prevItems.get(position).fluctate_24H.toFloat()==items.get(position).fluctate_24H.toFloat()){
 ////            Log.d("MainAdapter_back","Change Exchange Rate  => "+holder.itemView.fluctate.text.toString() +", "+ item.fluctate_rate_24H )

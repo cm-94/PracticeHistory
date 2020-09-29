@@ -1,6 +1,6 @@
 package com.example.bit.data
 
-class ExchangeRate (
+class ExchangeData (
     val date : String,      // "date":"2020-09-24 09:20:00"
     val name : String,      // "name":"KRW=X"
     val rate : Float,       // "rate":1

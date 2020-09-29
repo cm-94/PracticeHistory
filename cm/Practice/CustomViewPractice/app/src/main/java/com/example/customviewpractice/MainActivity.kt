@@ -41,17 +41,12 @@ class MainActivity : AppCompatActivity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
                 Toast.makeText(applicationContext,"아무것도 클릭 안됨",Toast.LENGTH_SHORT).show()
             }
-
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 var clickedItem : ExchangeRate = parent?.getItemAtPosition(position) as ExchangeRate
                 var exchangeRate :String = clickedItem.exchange_text.toString()
                 Toast.makeText(applicationContext,exchangeRate+" 클릭됨",Toast.LENGTH_SHORT).show()
             }
-
         }
-
-
-
 
     }
     fun initList(){

@@ -7,17 +7,14 @@ import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bit.R
-import com.example.bit.data.ExchangeRate
+import com.example.bit.data.Exchange
+import com.example.bit.data.ExchangeData
 import com.example.bit.data.TickerMain
 import com.example.bit.data.remote.BitService
 import com.example.bit.utils.Constants
 import com.example.bit.utils.RetrofitUtils
 import com.google.gson.internal.LinkedTreeMap
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Response
@@ -45,8 +42,9 @@ class MainActivity : AppCompatActivity() {
     private var exchangeRateJPY : Float = 0.0F    // 엔화
 
     // spinner data
-    private var mExchangeList : ArrayList<ExchangeRate> = arrayListOf()
-    private lateinit var mExchangeAdapter: ExchangeAdapter
+    private var mExchangeList : ArrayList<ExchangeData> = arrayListOf()
+    private lateinit var mExchangeAdapter: ExAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -135,11 +133,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun initList(){
-        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_KRW,R.drawable.dollar))
-        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_USD,R.drawable.))
-        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_JPY,R.drawable.yen))
+        mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_KRW,R.drawable.dollar))
+        mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_USD,R.drawable.))
+        mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_JPY,R.drawable.yen))
 
-        mExchangeAdapter = ExchangeAdapter(this, mExchangeList)
+        mExchangeAdapter = ExAdapter(this, mExchangeList)
 
         // TODO 3. Spinner.adpater 초기화
         var spinner : Spinner = findViewById(R.id.spinner)
@@ -247,17 +245,17 @@ class MainActivity : AppCompatActivity() {
             // retrofit client build
             .build()
 
-        retrofit.create(BitService::class.java).getExchangeRate()?.enqueue(object : retrofit2.Callback<List<ExchangeRate>>{
+        retrofit.create(BitService::class.java).getExchangeRate()?.enqueue(object : retrofit2.Callback<List<ExchangeData>>{
             override fun onResponse(
-                call: Call<List<ExchangeRate>>,
-                response: Response<List<ExchangeRate>>
+                call: Call<List<ExchangeData>>,
+                response: Response<List<ExchangeData>>
             ) {
                 response.body()?.get(1)?.rate?.let { exchangeRateUSD = it }
                 response.body()?.get(2)?.rate?.let { exchangeRateJPY = it }
 //                Log.d("MainActivity","Exchange "+ response.body()!![1].rate)
             }
 
-            override fun onFailure(call: Call<List<ExchangeRate>>, t: Throwable) {
+            override fun onFailure(call: Call<List<ExchangeData>>, t: Throwable) {
                 Log.d("MainActivity","Exchange err"+t.message)
             }
         })
