@@ -3,6 +3,7 @@ package com.example.bit.ui.main
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bit.R
@@ -43,10 +44,13 @@ class MainActivity : AppCompatActivity() {
     private var exchangeRateUSD : Float = 0.0F    // 달러
     private var exchangeRateJPY : Float = 0.0F    // 엔화
 
+    // spinner data
+    private var mExchangeList : ArrayList<ExchangeRate> = arrayListOf()
+    private lateinit var mExchangeAdapter: ExchangeAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("MainActivity_LifeCycle","onCreate() called!")
         myAdapter = MainAdapter(applicationContext,arr)
 
         // Recycler View 초기화
@@ -66,75 +70,82 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        Log.d("MainActivity_LifeCycle","onResume() called!")
-
         // 환율 정보 가져오기
         getExchangeRate()
 
 //            getExchangeRate() // => Throwing OutOfMemoryError : 매번 client를 생성하므로 onCreate()에서만 실행..
 //            getTickerData(Constants.ALL_CURRENCY)
-        timer(period=1500){
+        /**
+         * - 데이터(All -> 110개) 수신요청
+         * - 주기 : 1.2초
+         */
+        timer(period=1200){
             getTickerData(Constants.ALL_CURRENCY)
         }
 
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.d("MainActivity_LifeCycle","onDestroy() called!")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.d("MainActivity_LifeCycle","onStop() called!")
     }
 
     private fun buttonSetting(){
         //TODO : 1. Ticker & Orderbook 데이터 수신
         // Ticker : ticker/{order_currency}_{payment_currency}
         // OrderBook : orderbook/{order_currency}_{payment_currency}
-        /** 전체 버튼 클릭 리스너 등록 **/
+        /** 버튼(3개) 클릭 리스너 등록 **/
         tickerButton.setOnClickListener {
             // TODO : 통화 화폐 설정값(paymentCurrency)  showAllTickerData의 두번째 인자로 넣어주기!!
             getTickerData(Constants.ALL_CURRENCY)
         }
 
-        //TODO : 2. 환율 버튼(paymentButton) => payment_currency 변경
-        paymentButton.setOnClickListener {
-            /** 현재 환율 가져오기 */
-            getExchangeRate()
-            when(paymentCurrency){
-                /** 한화 일 때 */
-                Constants.PAYMENT_CURRENCY_KRW->{
-                    /** 달러로 Text 변경 */
-                    paymentCurrency = Constants.PAYMENT_CURRENCY_USD
-                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.USD)
-                    /** 현재 환율(currentExchangeRate) 변경 */
-                    currentExchangeRate = exchangeRateUSD
-                }
-                /** 달러 일 때 */
-                Constants.PAYMENT_CURRENCY_USD->{
-                    /** 엔화로 Text 변경 */
-                    paymentCurrency = Constants.PAYMENT_CURRENCY_JPY
-                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.JPY)
-                    /** 현재 환율(currentExchangeRate) 변경 */
-                    currentExchangeRate = exchangeRateJPY
-                }
-                /** 엔화 일 때 */
-                Constants.PAYMENT_CURRENCY_JPY->{
-                    /** 엔화로 Text 변경 */
-                    paymentCurrency = Constants.PAYMENT_CURRENCY_KRW
-                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.KRW)
-                    /** 현재 환율(currentExchangeRate) 변경 */
-                    currentExchangeRate = exchangeRateKRW
-                }
-            }
+        //TODO : 2.1 환율 spinner(spinner) => payment_currency 변경
 
-            //TODO : 3. orderbook 데이터 수신(orderbook/{order_currency}_{payment_currency})
-            searchButton.setOnClickListener {
-            }
-        }
+
+        //TODO : 2.2 환율 버튼(paymentButton) => payment_currency 변경
+//        paymentButton.setOnClickListener {
+//            /** 현재 환율 가져오기 */
+////            getExchangeRate()
+//            when(paymentCurrency){
+//                /** 한화 일 때 */
+//                Constants.PAYMENT_CURRENCY_KRW->{
+//                    /** 달러로 Text 변경 */
+//                    paymentCurrency = Constants.PAYMENT_CURRENCY_USD
+//                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.USD)
+//                    /** 현재 환율(currentExchangeRate) 변경 */
+//                    currentExchangeRate = exchangeRateUSD
+//                }
+//                /** 달러 일 때 */
+//                Constants.PAYMENT_CURRENCY_USD->{
+//                    /** 엔화로 Text 변경 */
+//                    paymentCurrency = Constants.PAYMENT_CURRENCY_JPY
+//                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.JPY)
+//                    /** 현재 환율(currentExchangeRate) 변경 */
+//                    currentExchangeRate = exchangeRateJPY
+//                }
+//                /** 엔화 일 때 */
+//                Constants.PAYMENT_CURRENCY_JPY->{
+//                    /** 엔화로 Text 변경 */
+//                    paymentCurrency = Constants.PAYMENT_CURRENCY_KRW
+//                    tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.KRW)
+//                    /** 현재 환율(currentExchangeRate) 변경 */
+//                    currentExchangeRate = exchangeRateKRW
+//                }
+//            }
+//            //TODO : 3. orderbook 데이터 검색(orderbook/{order_currency}_{payment_currency})
+//            searchButton.setOnClickListener {
+//            }
+//        }
     }
+
+    fun initList(){
+        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_KRW,R.drawable.dollar))
+        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_USD,R.drawable.))
+        mExchangeList.add(ExchangeRate(Constants.PAYMENT_CURRENCY_JPY,R.drawable.yen))
+
+        mExchangeAdapter = ExchangeAdapter(this, mExchangeList)
+
+        // TODO 3. Spinner.adpater 초기화
+        var spinner : Spinner = findViewById(R.id.spinner)
+        spinner.adapter = mExchangeAdapter
+    }
+
 
     /**
      * showAllData()
@@ -188,7 +199,7 @@ class MainActivity : AppCompatActivity() {
                                         arr.add(ticker)
                                     }else{
                                         /** timeSet(data) => 화면에 시간 표시하기 */
-                                        Log.d("MainActivity_it","any1: "+order_currency+", data: "+data)
+//                                        Log.d("MainActivity_it","any1: "+order_currency+", data: "+data)
                                         setTime()
                                     }
                                 }

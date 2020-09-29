@@ -3,6 +3,7 @@ package com.example.customviewpractice
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -23,29 +24,35 @@ class MyTextView : androidx.appcompat.widget.AppCompatTextView{
      * @return Unit
      */
     fun inputText(currentText:String) {
-        when(this.Compare(this.prevText,currentText)){
-            /** 데이터의 증,감에 따른 background color 변경 */
-            /** coroutine GlobalScope.launch를 통한 비동기 처리 */
-            1-> {
-                GlobalScope.launch {
-                    super.setBackgroundColor(Color.BLUE)
-                    delay(1000)
-                    super.setBackgroundColor(Color.WHITE)
+        // TODO : currentText -> toFloat 확인
+        try {
+            when(this.Compare(this.prevText,currentText)){
+                /** 데이터의 증,감에 따른 background color 변경 */
+                /** coroutine GlobalScope.launch를 통한 비동기 처리 */
+                1-> {
+                    GlobalScope.launch {
+                        super.setBackgroundColor(Color.BLUE)
+                        delay(1000) // -> View에서 지양해야 될 행동..
+                        super.setBackgroundColor(Color.WHITE)
+                    }
                 }
-            }
-            -1->{
+                -1->{
                     GlobalScope.launch {
                         super.setBackgroundColor(Color.RED)
                         delay(1000)
                         super.setBackgroundColor(Color.WHITE)
                     }
-            }
-            0->{
+                }
+                0->{
 
+                }
             }
+            this.prevText = currentText
+            this.setText(currentText)
         }
-        this.prevText = currentText
-        this.setText(currentText)
+        catch (e:Exception){
+            Log.d("MyTextView", e.message.toString())
+        }
     }
 
     /**

@@ -9,7 +9,10 @@ import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
 class MyTextView : androidx.appcompat.widget.AppCompatTextView{
+    /** 비교연산을 위한 이전 데이터 */
     private var prevText :String = "0.0"
+
+    /** Default constructor */
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
@@ -25,6 +28,8 @@ class MyTextView : androidx.appcompat.widget.AppCompatTextView{
      * @return Int
      */
     fun inputText(currentText:String) {
+        /** MyTextView 배경색 바꾸기(실패1) */
+        // CoroutineScope(Dispatchers.Default).launch를 통한 비동기 처리
 //        when(this.Compare(this.prevText,currentText)){
 //            1->{
 //                CoroutineScope(Dispatchers.Default).launch {
@@ -39,13 +44,12 @@ class MyTextView : androidx.appcompat.widget.AppCompatTextView{
 //            }
 //            0->{
 //                super.setBackgroundColor(Color.WHITE)
-//
 //            }
 //        }
 
+        /** MyTextView 배경색 바꾸기(실패2) */
+        // coroutine GlobalScope.launch를 통한 비동기 처리
 //        when(this.Compare(this.prevText,currentText)){
-//            /** 데이터의 증,감에 따른 background color 변경 */
-//            /** coroutine GlobalScope.launch를 통한 비동기 처리 */
 //            1-> {
 //                GlobalScope.launch(Dispatchers.Default) {
 //                    super.setBackgroundColor(Color.BLUE)
@@ -99,28 +103,23 @@ class MyTextView : androidx.appcompat.widget.AppCompatTextView{
     }
 
 
-
-
-
-    fun changBackground(i : Int){
-        when(i){
-            1-> {
-                super.setBackgroundColor(Color.BLUE)
-                Thread.sleep(200)
-                super.setBackgroundColor(Color.WHITE)
-            }
-            -1->{
-                super.setBackgroundColor(Color.RED)
-                Thread.sleep(200)
-                super.setBackgroundColor(Color.WHITE)
-            }
-            0->{
-
-            }
-        }
-
-    }
-
-
+    /**
+     * MyTextView 배경색 바꾸기(실패3)
+     */
+//    fun changBackground(i : Int){
+//        when(i){
+//            1-> {
+//                super.setBackgroundColor(Color.BLUE)
+//                Thread.sleep(200)
+//                super.setBackgroundColor(Color.WHITE)
+//            }
+//            -1->{
+//                super.setBackgroundColor(Color.RED)
+//                Thread.sleep(200)
+//                super.setBackgroundColor(Color.WHITE)
+//            }
+//            0->{ }
+//        }
+//    }
 }
 

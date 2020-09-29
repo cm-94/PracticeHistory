@@ -28,7 +28,7 @@
                 android:gravity="center"
                 android:text="@string/ticker_name"
                 android:textSize="20dp"
-                android:textStyle="bold" />
+                android:textColor="@color/Dark" />
 
 
             <com.example.bit.MyTextView
@@ -36,12 +36,13 @@
                 android:layout_width="120dp"
                 android:layout_height="30dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/tickerName"
-                android:gravity="right"
+                android:layout_marginEnd="5dp"
+                android:layout_toStartOf="@+id/units_traded_24H"
+                android:gravity="center"
                 android:paddingTop="9dp"
                 android:text="@string/closing_price"
                 android:textSize="15dp"
+                android:textColor="@color/Dark"
                 android:textStyle="bold" />
 
             <com.example.bit.MyTextView
@@ -49,8 +50,8 @@
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_below="@+id/closing_Price"
-                android:layout_marginStart="5dp"
-                android:layout_toEndOf="@+id/tickerName"
+                android:layout_toStartOf="@+id/max_Price"
+                android:layout_marginEnd="10dp"
                 android:gravity="right"
                 android:paddingTop="2dp"
                 android:text="@string/min_price"
@@ -63,8 +64,8 @@
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_below="@+id/closing_Price"
-                android:layout_toEndOf="@+id/min_Price"
-                android:gravity="right"
+                android:layout_toStartOf="@+id/acc_trade_value_24H"
+                android:gravity="left"
                 android:paddingTop="2dp"
                 android:text="@string/max_price"
                 android:textColor="@color/highPrice"
@@ -73,7 +74,7 @@
 
             <com.example.bit.MyTextView
                 android:id="@+id/units_traded_24H"
-                android:layout_width="50dp"
+                android:layout_width="65dp"
                 android:layout_height="15dp"
                 android:layout_alignParentTop="true"
                 android:layout_toStartOf="@+id/fluctate"
@@ -87,7 +88,7 @@
 
             <com.example.bit.MyTextView
                 android:id="@+id/acc_trade_value_24H"
-                android:layout_width="50dp"
+                android:layout_width="65dp"
                 android:layout_height="15dp"
                 android:layout_below="@+id/units_traded_24H"
                 android:layout_toStartOf="@+id/fluctate"
@@ -102,7 +103,7 @@
 
             <com.example.bit.MyTextView
                 android:id="@+id/fluctate"
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="15sp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
@@ -115,16 +116,13 @@
 
             <com.example.bit.MyTextView
                 android:id="@+id/fluctate_rate"
-                android:layout_width="50dp"
+                android:layout_width="60dp"
                 android:layout_height="15sp"
-
                 android:layout_below="@+id/fluctate"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="4dp"
                 android:layout_marginEnd="5dp"
-
                 android:textStyle="bold"
-
                 android:gravity="right"
                 android:text="@string/fluctate_rate"
                 android:textSize="11dp"/>

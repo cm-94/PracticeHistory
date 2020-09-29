@@ -17,12 +17,17 @@
     <string name="min_price">저가</string>
     <string name="max_price">고가</string>
     <string name="units_traded_24H">거래량</string>
-    <string name="acc_trade_value_24H">거래금액</string>
+    <string name="acc_trade_value_24H">거래금액(만)</string>
     <string name="fluctate">변동</string>
     <string name="fluctate_rate">변동률(%)</string>
+<!--    <string name="fluctate_24H">%s</string>-->
+<!--    <string name="fluctate_rate_24H">%s(%)</string>-->
 
-    <string name="fluctate_24H">%s</string>
-    <string name="fluctate_rate_24H">%s(%)</string>
+
+    <!-- Spinner String -->
+    <string name="KRW">KRW</string>
+    <string name="USD">USD</string>
+    <string name="JPY">JPY</string>
 
 
 
