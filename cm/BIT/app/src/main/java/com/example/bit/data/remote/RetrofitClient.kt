@@ -38,5 +38,4 @@ object RetrofitClient {
             // 생성된 retrofit client 반환
             return retrofit
         }
-
 }

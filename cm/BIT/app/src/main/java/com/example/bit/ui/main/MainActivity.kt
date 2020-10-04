@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
     private var exchangeRateJPY : Float = 0.0F    // 엔화
 
     // spinner data
-    private var mExchangeList : ArrayList<ExchangeData> = arrayListOf()
+    private var mExchangeList : ArrayList<Exchange> = arrayListOf()
     private lateinit var mExchangeAdapter: ExAdapter
 
 
@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
         /** tickerName( 종목명(달러/$) ) -> 현재 통화화폐 기본값(=KRW)으로 설정 */
         // tickerName.text = applicationContext.getString(R.string.ticker_name,R.string.KRW)
         //  -> R.string에 R.string을 넣으려고 하면 에러.. => Constants 클래스 사용!!
-        tickerName.text = applicationContext.getString(R.string.exchange_current,Constants.KRW)
+        tickerName.text = getString(R.string.exchange_current,Constants.KRW)
 
         buttonSetting() // 버튼(3개) 세팅하기
     }
@@ -88,10 +88,10 @@ class MainActivity : AppCompatActivity() {
         // Ticker : ticker/{order_currency}_{payment_currency}
         // OrderBook : orderbook/{order_currency}_{payment_currency}
         /** 버튼(3개) 클릭 리스너 등록 **/
-        tickerButton.setOnClickListener {
+//        tickerButton.setOnClickListener {
             // TODO : 통화 화폐 설정값(paymentCurrency)  showAllTickerData의 두번째 인자로 넣어주기!!
-            getTickerData(Constants.ALL_CURRENCY)
-        }
+//            getTickerData(Constants.ALL_CURRENCY)
+//        }
 
         //TODO : 2.1 환율 spinner(spinner) => payment_currency 변경
 
@@ -132,9 +132,14 @@ class MainActivity : AppCompatActivity() {
 //        }
     }
 
+    /**
+     * @param
+     * @return none
+     *  - 환율 spinner 초기화
+     */
     fun initList(){
         mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_KRW,R.drawable.dollar))
-        mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_USD,R.drawable.))
+        mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_USD,R.drawable.won))
         mExchangeList.add(Exchange(Constants.PAYMENT_CURRENCY_JPY,R.drawable.yen))
 
         mExchangeAdapter = ExAdapter(this, mExchangeList)
