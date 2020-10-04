@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">Bithumb</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_date">20%1$2d.%2$2d.%3$2d %4$2d시 %5$2d분 %6$2d초</string>
+
+    <!-- activity_Main -->
+    <string name="all_item">현재가</string>
+    <string name="payment_currency">환율</string>
+    <string name="search_item">검색</string>
+
+    <!-- ticker_item -->
+    <string name="exchange_current">%s</string>
+    <string name="ticker_name">종목</string>
+
+
+    <!-- String for View -->
+    <string name="opening_price">시가</string>
+    <string name="closing_price">현재가</string>
+    <string name="min_price">저가</string>
+    <string name="max_price">고가</string>
+    <string name="units_traded_24H">거래량</string>
+    <string name="acc_trade_value_24H">거래금액(만)</string>
+    <string name="fluctate">변동</string>
+    <string name="fluctate_rate">변동률(%)</string>
+    <!--    <string name="fluctate_24H">%s</string>-->
+    <!--    <string name="fluctate_rate_24H">%s(%)</string>-->
+
+
+    <!-- Spinner String -->
+    <string name="KRW">KRW</string>
+    <string name="USD">USD</string>
+    <string name="JPY">JPY</string>
+
+</resources>
