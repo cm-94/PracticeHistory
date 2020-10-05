@@ -67,7 +67,10 @@ class SecondFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTextView()
-        getOrder(searchOrder,dataCount)
+        if(getOrder(searchOrder,dataCount)){
+            setData()
+        }
+
 
     }
 
@@ -151,7 +154,8 @@ class SecondFragment : Fragment() {
 
 
 
-    private fun getOrder(order:String,count:Int){
+    private fun getOrder(order:String,count:Int):Boolean{
+        var bResult = false
         RetrofitUtils.getBitService(context).getOrder(order,count)?.enqueue(object : retrofit2.Callback<OrderResponse> {
             // 요청이 성공했을 경우(서버에 요청이 전달 된 상태)
             override fun onResponse(call: Call<OrderResponse>?, response: Response<OrderResponse>) {
@@ -162,12 +166,13 @@ class SecondFragment : Fragment() {
                         order_currency.text = item.order_currency
                         item.bids.let { bidArray = it }
                         item.asks.let { askArray = it }
-                        setData()
+                        bResult = true
                     }
                 }
                 // 정상 response 받지 못한 경우( ex. 404 error )
                 else {
                     Log.d("Second_Fragment", "Not Successful or Empty Response")
+                    bResult = false
                 }
             }
             // 요청이 실패했을 경우(서버에 요청이 전달되지 못한 상태)
@@ -175,8 +180,10 @@ class SecondFragment : Fragment() {
                 call: Call<OrderResponse>?, t: Throwable ) {
                 Log.d("MainActivity", "Connect_Error "+t.message)
                 t.printStackTrace()
+                bResult = false
             }
         })
+        return bResult
     }
 
     fun setData (){

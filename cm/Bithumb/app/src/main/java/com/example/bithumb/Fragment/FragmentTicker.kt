@@ -38,7 +38,7 @@ class TickerFragment : Fragment() {
     // arr(Data)를 Recycler View에 표시해줄 Adapter
     private lateinit var myAdapter : TickerAdapter
     // Adapter에서 View를 구성하는데 쓰일 ArrayList
-    private var arr : ArrayList<TickerData> = ArrayList()
+    private var arrTicker : ArrayList<TickerData> = ArrayList()
 
     // TickerMain Data
     private var paymentCurrency : String = Constants.PAYMENT_CURRENCY_KRW
@@ -64,7 +64,7 @@ class TickerFragment : Fragment() {
 
         // Context, RecyclerView
         var view = inflater.inflate(R.layout.fragment_ticker, container, false)
-        myAdapter = TickerAdapter(view.context,arr)
+        myAdapter = TickerAdapter(view.context,arrTicker)
 
         return view
     }
@@ -95,6 +95,10 @@ class TickerFragment : Fragment() {
 
     private fun updateDisplay() {
         getTickerData(Constants.ALL_CURRENCY)
+        // TODO : 1.1 응답받은 전체 데이터를 MainAdapter에 담아 화면에 보여주기
+        myAdapter.addItems(arrTicker)
+        // Adapter로 화면 내 데이터 새로고침
+        myAdapter.notifyDataSetChanged()
     }
 
     val handler = Handler()
@@ -125,7 +129,7 @@ class TickerFragment : Fragment() {
                             items.let {
                                 it as LinkedTreeMap<*, *>
                                 var ticker : TickerData
-                                arr.clear() // data 꺼내기 전에 arr 비워두기!!
+                                arrTicker.clear() // data 꺼내기 전에 arr 비워두기!!
                                 it.forEach { (order_currency, data) ->
                                     /** order_currency = 종목명, data = { 시가 = ..., 종가 = ..., 저가 = ... } */
 
@@ -149,7 +153,7 @@ class TickerFragment : Fragment() {
                                         )
 
                                         // arr에 Ticker 데이터 추가!!
-                                        arr.add(ticker)
+                                        arrTicker.add(ticker)
                                     }else{
                                         /** timeSet(data) => 화면에 시간 표시하기 */
 //                                        Log.d("MainActivity_it","any1: "+order_currency+", data: "+data)
@@ -158,10 +162,7 @@ class TickerFragment : Fragment() {
                             }
                         }
                     }
-                    // TODO : 1.1 응답받은 전체 데이터를 MainAdapter에 담아 화면에 보여주기
-                    myAdapter.addItems(arr)
-                    // Adapter로 화면 내 데이터 새로고침
-                    myAdapter.notifyDataSetChanged()
+
 
                 }
                 // 정상 Callback을 받지 못한 경우( ex. 404 error )
@@ -172,7 +173,7 @@ class TickerFragment : Fragment() {
             // 요청이 실패했을 경우(서버에 요청이 전달되지 못한 상태)
             override fun onFailure(
                 call: Call<HashMap<String, Any>?>?, t: Throwable ) {
-                Log.d("MainActivity", "Connect_Error "+t.cause)
+                Log.d("MainActivity", "Connect_Error "+t.message)
                 t.printStackTrace()
             }
         })
