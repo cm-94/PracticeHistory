@@ -8,30 +8,28 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 
 class ExchangeAdapter(context: Context, resource: ArrayList<ExchangeRate>) :
     ArrayAdapter<ExchangeRate>(context, 0,resource) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         Log.d("Adpater","getView Called")
-        return initView(position,convertView,parent)
+        return initView(position, parent)
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
         Log.d("Adpater","getDropDownView Called")
-        return initView(position,convertView,parent)
+        return initView(position, parent)
     }
 
-
-    fun initView(position:Int,convertView:View?,parent:ViewGroup) :View{
+    fun initView(position: Int, parent: ViewGroup) :View{
         val inflater = LayoutInflater.from(parent.context)
-        var view = inflater.inflate(R.layout.custom_textview,parent,false)
+        val view = inflater.inflate(R.layout.custom_textview,parent,false)
         Log.d("Adpater","init Called")
-        var imageViewFlag : ImageView = view.findViewById(R.id.exchange_rate)
-        var textView : TextView = view.findViewById(R.id.exchange_text)
+        val imageViewFlag : ImageView = view.findViewById(R.id.exchange_rate)
+        val textView : TextView = view.findViewById(R.id.exchange_text)
 
-        var currentItem : ExchangeRate? = getItem(position)
+        val currentItem : ExchangeRate? = getItem(position)
         imageViewFlag.setImageResource(currentItem?.exchange_rate?:0)
         textView.setText(currentItem?.exchange_text)
         return view

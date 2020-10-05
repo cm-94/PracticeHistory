@@ -3,21 +3,17 @@ package com.example.bit.ui.main
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.TransitionDrawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bit.MyTextView
 import com.example.bit.R
 import com.example.bit.data.TickerMain
 import com.example.bit.ui.info.InfoActivity
 import com.example.bit.utils.Constants
 import kotlinx.android.synthetic.main.ticker_item.view.*
-import kotlinx.coroutines.*
 import kotlin.collections.ArrayList
 
 /** MainAdapter( context, item )
@@ -51,7 +47,7 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
     }
 
     /**
-     * @param (holder,positio)
+     * @param (holder,position)
      * @return none
      *  - items의 position번째 데이터를 MyViewHolder에 세팅한다
      *  - ViewHolder 객체가 재사용될 때 자동 호출
@@ -64,42 +60,40 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
          * 감소 -> Color.BLUE
          * 동일 -> Color.White
          */
-        val item:TickerMain =items.get(position)
-
-        // TODO : 환율 변동 case 추가하기
-//        if(prevItems.get(position).fluctate_24H.toFloat()==items.get(position).fluctate_24H.toFloat()){
-////            Log.d("MainAdapter_back","Change Exchange Rate  => "+holder.itemView.fluctate.text.toString() +", "+ item.fluctate_rate_24H )
-//            return
-//        }
         // 변동값 -> 감소
-        if (prevItems.get(position).fluctate_24H.toFloat()>items.get(position).fluctate_24H.toFloat()){
-            holder.itemView.setBackgroundColor(Color.BLUE)
-        }// 변동값 -> 증가
-        else if (prevItems.get(position).fluctate_24H.toFloat()<items.get(position).fluctate_24H.toFloat()){
-            holder.itemView.setBackgroundColor(Color.RED)
-        }// 변동값 -> 일정
-        else{
-            holder.itemView.setBackgroundColor(Color.WHITE)
-        }// holder.itemView.setBackgroundColor(Color.argb(20,0,100,100))
+        items[position].let{item:TickerMain->
+            if (item.exchange_rate!=prevItems[position].exchange_rate){
+                holder.itemView.setBackgroundColor(Color.WHITE)
+            }
+            else if (prevItems[position].fluctate_24H.toFloat()> item.fluctate_24H.toFloat()) {
+                holder.itemView.setBackgroundColor(Color.BLUE)
+            }
+            else if (prevItems[position].fluctate_24H.toFloat()< item.fluctate_24H.toFloat()){
+                holder.itemView.setBackgroundColor(Color.RED)
+            }// 변동값 -> 일정
+            else{
+                holder.itemView.setBackgroundColor(Color.WHITE)
+            }// holder.itemView.setBackgroundColor(Color.argb(20,0,100,100))
 
-        holder.order_currency.text = item.order_currency
-        holder.closing_price.inputText(item.closing_price)             // 종가
-        holder.min_price.inputText(item.min_price)                     // 저가
-        holder.max_price.inputText(item.max_price)                     // 고가
-        holder.units_traded_24H.inputText(item.units_traded_24H)       // 거래량
-        holder.acc_trade_value_24H.inputText(item.acc_trade_value_24H) // 거래금액
-        holder.fluctate.inputText(item.fluctate_24H)                   // 변동
-        holder.fluctate_24H.inputText(item.fluctate_rate_24H)          // 변동률
+            holder.order_currency.text = item.order_currency
+            holder.closing_price.inputText(item.closing_price)             // 종가
+            holder.min_price.inputText(item.min_price)                     // 저가
+            holder.max_price.inputText(item.max_price)                     // 고가
+            holder.units_traded_24H.inputText(item.units_traded_24H)       // 거래량
+            holder.acc_trade_value_24H.inputText(item.acc_trade_value_24H) // 거래금액
+            holder.fluctate.inputText(item.fluctate_24H)                   // 변동
+            holder.fluctate_24H.inputText(item.fluctate_rate_24H)          // 변동률
+            // 변동률 -> (%) 붙이기!
+            holder.fluctate_24H.append("%")
 
-        // 변동률 -> (%) 붙이기!
-        holder.fluctate_24H.append("%")
+            // 변동 & 변동률 => 증,감에 따라 TextColor 다르게!! => '-'로 구분
+            if(holder.fluctate.text[0] =='-'){ holder.fluctate.setTextColor(Color.BLUE)}
+            else holder.fluctate.setTextColor(Color.RED)
 
-        // 변동 & 변동률 => 증,감에 따라 TextColor 다르게!! => '-'로 구분
-        if(holder.fluctate.text[0] =='-'){ holder.fluctate.setTextColor(Color.BLUE)}
-        else holder.fluctate.setTextColor(Color.RED)
+            if(holder.fluctate_24H.text[0]=='-') holder.fluctate_24H.setTextColor(Color.BLUE)
+            else holder.fluctate_24H.setTextColor(Color.RED)
 
-        if(holder.fluctate_24H.text[0]=='-') holder.fluctate_24H.setTextColor(Color.BLUE)
-        else holder.fluctate_24H.setTextColor(Color.RED)
+        }
 
         holder.itemView.setOnClickListener {
             // context(MainActivity) ~> InfoActivity

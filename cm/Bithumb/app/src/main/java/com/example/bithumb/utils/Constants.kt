@@ -18,5 +18,5 @@ object Constants {
     const val JPY = "엔화/￥"
 
     /** timer interval */
-    const val TICKER_TIMER = 1000L
+    const val TICKER_TIMER = 1500L
 }

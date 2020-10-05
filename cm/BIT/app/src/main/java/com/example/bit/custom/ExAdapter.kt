@@ -1,4 +1,4 @@
-package com.example.bit.ui.main
+package com.example.bit.custom
 
 import android.content.Context
 import android.util.Log
@@ -9,8 +9,6 @@ import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.bit.R
-import com.example.bit.data.Exchange
-import com.example.bit.data.ExchangeData
 
 class ExAdapter(context: Context, resource: ArrayList<Exchange>) :
     ArrayAdapter<Exchange>(context, 0,resource) {
@@ -26,16 +24,20 @@ class ExAdapter(context: Context, resource: ArrayList<Exchange>) :
     }
 
 
+    /**
+     * @param
+     * @return
+     */
     fun initView(position:Int,convertView:View?,parent:ViewGroup) :View{
         val inflater = LayoutInflater.from(parent.context)
-        var view = inflater.inflate(R.layout.spinner_item,parent,false)
+        val view = inflater.inflate(R.layout.spinner_item,parent,false)
         Log.d("Adpater","init Called")
-        var imageViewFlag : ImageView = view.findViewById(R.id.exchange_rate)
-        var textView : TextView = view.findViewById(R.id.exchange_text)
+        val imageViewFlag : ImageView = view.findViewById(R.id.exchange_rate)
+        val textView : TextView = view.findViewById(R.id.exchange_text)
 
-        var currentItem : Exchange? = getItem(position)
+        val currentItem : Exchange? = getItem(position)
         imageViewFlag.setImageResource(currentItem?.exchange_rate?:0)
-        textView.setText(currentItem?.exchange_text)
+        textView.text = currentItem?.exchange_text
         return view
     }
 

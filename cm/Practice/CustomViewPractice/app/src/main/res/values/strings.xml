@@ -5,7 +5,7 @@
     <string name="result">결과</string>
     <string name="inputButon">입력</string>
 
-    <string name="KRW">한화</string>
+    <string name="KRW">원</string>
     <string name="USD">달러</string>
     <string name="JPY">엔</string>
 </resources>

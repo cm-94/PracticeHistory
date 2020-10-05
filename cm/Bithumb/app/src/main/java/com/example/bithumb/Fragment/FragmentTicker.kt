@@ -1,15 +1,12 @@
 package com.example.bithumb.Fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.os.Handler
-import android.os.Message
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.postDelayed
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bit.utils.Constants
 import com.example.bit.utils.RetrofitUtils
@@ -17,15 +14,11 @@ import com.example.bithumb.R
 import com.example.bithumb.TickerAdapter
 import com.example.bithumb.data.TickerData
 import com.google.gson.internal.LinkedTreeMap
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_ticker.*
-import kotlinx.android.synthetic.main.ticker_item.*
 import retrofit2.Call
 import retrofit2.Response
-import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
-import kotlin.concurrent.timer
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -85,7 +78,6 @@ class TickerFragment : Fragment() {
         tickerRecyclerView.adapter = myAdapter
 
         payment.text = Constants.KRW
-
     }
 
 

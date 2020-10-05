@@ -1,4 +1,4 @@
-package com.example.bit.data
+package com.example.bit.custom
 
 class Exchange (
     val exchange_text: String,

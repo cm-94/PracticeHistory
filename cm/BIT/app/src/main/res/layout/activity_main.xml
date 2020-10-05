@@ -33,61 +33,30 @@
             android:textSize="14dp"
             android:visibility="invisible" />
 
-
-        <TextView
-            android:id="@+id/tickerName"
-            android:layout_width="65dp"
-            android:layout_height="40dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="5dp"
-            android:layout_toStartOf="@+id/spinner"
-            android:gravity="right"
-            android:paddingTop="8dp"
-            android:text="@string/ticker_name"
-            android:textColor="@color/Dark"
-            android:textSize="16dp" />
-
-        <Spinner
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/spinner"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_alignParentTop="true"
             android:layout_marginStart="100dp"
-            android:layout_marginLeft="100dp"
             android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/searchButton" />
-
-        
-<!--        <Button-->
-<!--            android:id="@+id/paymentButton"-->
-<!--            android:layout_width="50dp"-->
-<!--            android:layout_height="40dp"-->
-<!--            android:layout_alignParentTop="true"-->
-<!--            android:layout_marginEnd="5dp"-->
-<!--            android:layout_marginRight="10dp"-->
-<!--            android:layout_toStartOf="@+id/searchButton"-->
-<!--            android:text="@string/payment_currency"-->
-<!--            android:textSize="14dp" />-->
-
 
         <Button
             android:id="@+id/searchButton"
             android:layout_width="50dp"
             android:layout_height="40dp"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="10dp"
             android:text="@string/top_item"
             android:textSize="14dp"/>
-
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:layout_below="@+id/tickerTime"
-            android:background="@drawable/test">
+            android:background="@drawable/tickermain">
 
             <TextView
                 android:layout_width="60dp"
@@ -101,7 +70,7 @@
                 android:textColor="@color/Dark"
                 android:textSize="28dp" />
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/closing_Price"
                 android:layout_width="120dp"
                 android:layout_height="30dp"
@@ -115,7 +84,7 @@
                 android:textColor="@color/Dark"
                 android:textStyle="bold" />
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/min_Price"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
@@ -129,7 +98,7 @@
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/max_Price"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
@@ -142,7 +111,7 @@
                 android:textSize="14dp"
                 android:textStyle="bold" />
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/units_traded_24H"
                 android:layout_width="65dp"
                 android:layout_height="15dp"
@@ -155,7 +124,7 @@
                 android:text="@string/units_traded_24H"
                 android:textSize="12dp"/>
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/acc_trade_value_24H"
                 android:layout_width="65dp"
                 android:layout_height="15dp"
@@ -168,7 +137,7 @@
                 android:text="@string/acc_trade_value_24H"
                 android:textSize="12dp"/>
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/fluctate"
                 android:layout_width="60dp"
                 android:layout_height="15sp"
@@ -181,7 +150,7 @@
                 android:text="@string/fluctate"
                 android:textSize="12dp"/>
 
-            <com.example.bit.MyTextView
+            <com.example.bit.custom.MyTextView
                 android:id="@+id/fluctate_rate"
                 android:layout_width="60dp"
                 android:layout_height="15sp"
@@ -205,26 +174,6 @@
         android:layout_weight="1"
 
         android:background="#90ABFA" >
-
     </androidx.recyclerview.widget.RecyclerView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="0dp">
-
-
-        <Button
-            android:id="@+id/tickerButton"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_weight="1"
-            android:text="@string/all_item" />
-
-    </LinearLayout>
 
 </LinearLayout>

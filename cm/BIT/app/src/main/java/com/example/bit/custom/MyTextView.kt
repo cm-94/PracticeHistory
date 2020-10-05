@@ -1,11 +1,8 @@
-package com.example.bit
+package com.example.bit.custom
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.util.Log
-import kotlinx.android.synthetic.main.ticker_item.view.*
-import kotlinx.coroutines.*
 import java.text.DecimalFormat
 
 class MyTextView : androidx.appcompat.widget.AppCompatTextView{
