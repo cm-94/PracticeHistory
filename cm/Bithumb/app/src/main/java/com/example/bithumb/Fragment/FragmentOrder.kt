@@ -26,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [SecondFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SecondFragment : Fragment() {
+class FragmentOrder : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -67,7 +67,10 @@ class SecondFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setTextView()
-        if(getOrder(searchOrder,dataCount)){
+        bidArray.clear()
+        askArray.clear()
+        getOrder(searchOrder,dataCount)
+        if(bidArray.size!=0&&askArray.size!=0){
             setData()
         }
 
@@ -154,8 +157,7 @@ class SecondFragment : Fragment() {
 
 
 
-    private fun getOrder(order:String,count:Int):Boolean{
-        var bResult = false
+    private fun getOrder(order:String,count:Int){
         RetrofitUtils.getBitService(context).getOrder(order,count)?.enqueue(object : retrofit2.Callback<OrderResponse> {
             // 요청이 성공했을 경우(서버에 요청이 전달 된 상태)
             override fun onResponse(call: Call<OrderResponse>?, response: Response<OrderResponse>) {
@@ -166,13 +168,11 @@ class SecondFragment : Fragment() {
                         order_currency.text = item.order_currency
                         item.bids.let { bidArray = it }
                         item.asks.let { askArray = it }
-                        bResult = true
                     }
                 }
                 // 정상 response 받지 못한 경우( ex. 404 error )
                 else {
                     Log.d("Second_Fragment", "Not Successful or Empty Response")
-                    bResult = false
                 }
             }
             // 요청이 실패했을 경우(서버에 요청이 전달되지 못한 상태)
@@ -180,10 +180,8 @@ class SecondFragment : Fragment() {
                 call: Call<OrderResponse>?, t: Throwable ) {
                 Log.d("MainActivity", "Connect_Error "+t.message)
                 t.printStackTrace()
-                bResult = false
             }
         })
-        return bResult
     }
 
     fun setData (){
@@ -261,7 +259,7 @@ class SecondFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SecondFragment().apply {
+            FragmentOrder().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

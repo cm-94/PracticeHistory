@@ -13,19 +13,16 @@ class ExchangeAdapter(context: Context, resource: ArrayList<ExchangeRate>) :
     ArrayAdapter<ExchangeRate>(context, 0,resource) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d("Adpater","getView Called")
         return initView(position, parent)
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        Log.d("Adpater","getDropDownView Called")
         return initView(position, parent)
     }
 
     fun initView(position: Int, parent: ViewGroup) :View{
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.custom_textview,parent,false)
-        Log.d("Adpater","init Called")
         val imageViewFlag : ImageView = view.findViewById(R.id.exchange_rate)
         val textView : TextView = view.findViewById(R.id.exchange_text)
 

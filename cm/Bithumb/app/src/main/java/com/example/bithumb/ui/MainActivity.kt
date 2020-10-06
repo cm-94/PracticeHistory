@@ -3,10 +3,7 @@ package com.example.bithumb.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.viewpager.widget.ViewPager
-import com.example.bithumb.Fragment.FragmentManager
-import com.example.bithumb.Fragment.SecondFragment
-import com.example.bithumb.Fragment.ThirdFragment
-import com.example.bithumb.Fragment.TickerFragment
+import com.example.bithumb.Fragment.*
 import com.example.bithumb.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -27,8 +24,8 @@ class MainActivity : AppCompatActivity() {
 
     /** Tab( fragment ) setting */
     fun setupViewPager(viewPager: ViewPager){
-        adapter.addFragment(TickerFragment(), "현재가");
-        adapter.addFragment(SecondFragment(), "거래 현황");
+        adapter.addFragment(FragmentTicker(), "현재가");
+        adapter.addFragment(FragmentOrder(), "거래 현황");
         adapter.addFragment(ThirdFragment(), "etc");
         viewPager.setAdapter(adapter);
     }

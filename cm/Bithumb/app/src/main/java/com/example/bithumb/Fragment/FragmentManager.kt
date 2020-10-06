@@ -38,9 +38,4 @@ class FragmentManager(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         return mFragmentTitleList[position]
     }
 
-
-    fun SectionPageAdapter(fm: FragmentManager?) {
-
-    }
-
 }

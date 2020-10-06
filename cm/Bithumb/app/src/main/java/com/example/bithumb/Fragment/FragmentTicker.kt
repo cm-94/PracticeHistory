@@ -31,7 +31,7 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 
-class TickerFragment : Fragment() {
+class FragmentTicker : Fragment() {
     // View & Adapter
     // Recycler View 초기화 할 LinearLayoutManager
     private lateinit var linearLayoutManager: LinearLayoutManager
@@ -106,7 +106,7 @@ class TickerFragment : Fragment() {
         override fun run() {
             // do task
             updateDisplay()
-            handler.postDelayed(this, Constants.TICKER_TIMER)
+            handler.postDelayed(this, 2000)
         }
     }
 
@@ -162,8 +162,6 @@ class TickerFragment : Fragment() {
                             }
                         }
                     }
-
-
                 }
                 // 정상 Callback을 받지 못한 경우( ex. 404 error )
                 else {
@@ -191,7 +189,7 @@ class TickerFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            TickerFragment().apply {
+            FragmentTicker().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)

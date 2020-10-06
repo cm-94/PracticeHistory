@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:id="@+id/topLayout">
 
     <EditText
         android:id="@+id/inputText"
@@ -27,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:hint="@string/result"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,11 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="10dp"
         android:text="@string/inputButon"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.102"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/myTextView" />
 
@@ -59,5 +60,13 @@
         app:layout_constraintStart_toEndOf="@+id/myTextView"
         app:layout_constraintTop_toBottomOf="@+id/inputText" />
 
+
+    <LinearLayout
+        android:id="@+id/mBarText"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/inputButton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
