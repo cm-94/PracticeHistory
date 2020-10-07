@@ -1,10 +1,12 @@
 package com.example.bithumb.Fragment
 
+import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import androidx.fragment.app.FragmentStatePagerAdapter
 
-class FragmentManager(fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()   // fragment
     private val mFragmentTitleList: MutableList<String> = ArrayList()// fragment title
 
@@ -20,15 +22,26 @@ class FragmentManager(fm: FragmentManager) : FragmentPagerAdapter(fm) {
         mFragmentTitleList.add(title)
     }
 
+    fun setFragmentExchange(bundle:Bundle) {
+        mFragmentList.forEach {
+            it.arguments = bundle
+        }
+    }
+
+    fun replaceFragment(position:Int,fragment:Fragment) {
+        mFragmentList[position] = fragment
+    }
+
     /**
      * 필수 override method
      * getItem : return fragment[i]
      * getCount : return fragment.size
      */
-
     override fun getItem(position: Int): Fragment {
         return mFragmentList[position]
     }
+
+
 
     override fun getCount(): Int {
         return mFragmentList.size
@@ -37,5 +50,7 @@ class FragmentManager(fm: FragmentManager) : FragmentPagerAdapter(fm) {
     override fun getPageTitle(position: Int): CharSequence? {
         return mFragmentTitleList[position]
     }
+
+
 
 }

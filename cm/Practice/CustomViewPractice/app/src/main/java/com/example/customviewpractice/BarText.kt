@@ -1,11 +1,16 @@
 package com.example.customviewpractice
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.LinearLayout
+import java.util.jar.Attributes
 
-class BarText(context: Context) :  ViewGroup(context) {
+class BarText(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     data class Bar(
         val nameView : View,
@@ -44,7 +49,7 @@ class BarText(context: Context) :  ViewGroup(context) {
             bar.labelView.measure(labelMeasureSpec, labelMeasureSpec)
         }
 
-        // maxCaptionHeight 가장 긴 이름
+        // 가장 높은 Height 기준으로 layout_height 지정
         val maxCaptionHeight = bars.map{it.nameView.measuredHeight}.max() ?: 0
 
         setMeasuredDimension(
@@ -58,8 +63,10 @@ class BarText(context: Context) :  ViewGroup(context) {
             return
         }
 
+        /** 1.itemHeight : item의 개별 높이 */
         val itemHeight = (bottom - top) / bars.size
 
+        /** 2.itemHeight : item의 개별 높이 */
         val nameRight = bars.map{it.nameView.measuredWidth}.max() ?: 0
         val maxValue = bars.map{it.value}.max() ?: 0.0
 
@@ -113,11 +120,14 @@ class BarText(context: Context) :  ViewGroup(context) {
             )
         }
     }
+
+    override fun onDraw(canvas: Canvas?) {
+        super.onDraw(canvas)
+
+    }
 //    var myData:Float = 0F
 //    var maxData:Float = 0F
-//
 //    var count = 0
-//
 //
 //    init {
 //        inflate(context,0,this)

@@ -3,13 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.TickerFragment"
+    tools:context=".Fragment.FragmentTicker"
     android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_below="@+id/tickerTime"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"
         android:background="@drawable/cardviewbackground">
 
         <TextView
@@ -19,12 +20,13 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
-            android:text="@string/payment_currency"
+            android:text="@string/ticker_name"
             android:textColor="@color/Dark"
             android:textSize="28dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp" />
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginStart="5dp" />
 
         <TextView
             android:id="@+id/closing_Price"
@@ -39,7 +41,7 @@
             android:textColor="@color/Dark"
             android:textStyle="bold"
             android:layout_toLeftOf="@+id/units_traded_24H"
-            android:layout_marginEnd="5dp"
+            android:layout_marginEnd="8dp"
             android:layout_toStartOf="@+id/units_traded_24H" />
 
         <TextView
@@ -56,7 +58,7 @@
             android:textSize="14dp"
             android:textStyle="bold"
             android:layout_toLeftOf="@+id/max_Price"
-            android:layout_marginRight="10dp" />
+            android:layout_marginRight="5dp" />
 
         <TextView
             android:id="@+id/max_Price"
@@ -70,7 +72,9 @@
             android:textColor="@color/highPrice"
             android:textSize="14dp"
             android:textStyle="bold"
-            android:layout_toLeftOf="@+id/acc_trade_value_24H" />
+            android:layout_toLeftOf="@+id/acc_trade_value_24H"
+            android:layout_marginEnd="3dp"
+            android:layout_marginRight="3dp" />
 
         <TextView
             android:id="@+id/units_traded_24H"

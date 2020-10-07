@@ -30,11 +30,11 @@ class MainActivity : AppCompatActivity() {
     )
 
     val items = mutableListOf(
-        Item("April", 20.0),
-        Item("May", 25.0),
-        Item("June", 18.0),
-        Item("July", 1.0),
-        Item("August", 0.0),
+        Item("AAAAAAA", 20.0),
+        Item("BBBB", 25.0),
+        Item("CCCC", 16.0),
+        Item("DDDD", 0.0),
+        Item("EEEE", 5.0),
         Item("Data", 0.0)
     )
 
@@ -43,11 +43,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
         // BarText View Class 동적 생성
-        var barchart = BarText(this)
-        // mBarText(LinearLayout)에 addView
-        findViewById<ViewGroup>(R.id.mBarText).addView(barchart)
+//        var barchart = BarText(this)
+//        mBarLayout.addView(barchart)
+//        // mBarText(LinearLayout)에 addView
+//        findViewById<ViewGroup>(R.id.mBarLayout).addView(barchart)
 
         // 입력 버튼
         inputButton.setOnClickListener{
@@ -55,9 +55,9 @@ class MainActivity : AppCompatActivity() {
                 items[5].value = inputText.text.toString().toDouble()
                 myTextView.inputText(inputText.text.toString())
                 // 차트 비우기
-                barchart.clear()
+                mBarLayout.clear()
                 // 차트 초기화
-                initChart(barchart)
+                initChart(mBarLayout)
 //                myBarChart.setDrawData(inputText.text.toString().toFloat(),13F)
             }
         }
@@ -110,12 +110,12 @@ class MainActivity : AppCompatActivity() {
         // TODO 4. Spinner.onItemSelectedListener 정의
         spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Toast.makeText(applicationContext,"아무것도 클릭 안됨",Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext,"아무것도 클릭 안됨",Toast.LENGTH_SHORT).show()
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 var clickedItem : ExchangeRate = parent?.getItemAtPosition(position) as ExchangeRate
                 var exchangeRate :String = clickedItem.exchange_text
-                Toast.makeText(applicationContext,exchangeRate+" 클릭됨",Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext,exchangeRate,Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.TextView
 
 class ExchangeAdapter(context: Context, resource: ArrayList<ExchangeRate>) :
-    ArrayAdapter<ExchangeRate>(context, 0,resource) {
+    ArrayAdapter<ExchangeRate>(context, 0, resource) {
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         return initView(position, parent)

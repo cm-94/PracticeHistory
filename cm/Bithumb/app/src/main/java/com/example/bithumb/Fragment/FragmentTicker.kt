@@ -3,6 +3,7 @@ package com.example.bithumb.Fragment
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
+import android.view.ContextMenu
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,8 +23,8 @@ import kotlin.collections.HashMap
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+private const val PAYMENT_CURRENCY = "param1"
+private const val EXCHANGE_RATE = "param2"
 
 /**
  * A simple [Fragment] subclass.
@@ -40,19 +41,17 @@ class FragmentTicker : Fragment() {
     // Adapter에서 View를 구성하는데 쓰일 ArrayList
     private var arrTicker : ArrayList<TickerData> = ArrayList()
 
-    // TickerMain Data
-    private var paymentCurrency : String = Constants.PAYMENT_CURRENCY_KRW
-    private var currentExchangeRate : Float = 1F  // 현재 적용 환율
-
     // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    // TickerMain Data
+    var paymentCurrency : String? = null// 현재 적용 환율
+    private var currentExchangeRate : Float? = null// 현재 적용 환율
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            paymentCurrency = it.getString(PAYMENT_CURRENCY) ?: Constants.PAYMENT_CURRENCY_KRW
+            currentExchangeRate = it.getString(EXCHANGE_RATE)?.toFloat() ?: 1F
+            Log.d("Fragment1_onCreate","currency: "+paymentCurrency+", rate: "+currentExchangeRate)
         }
     }
 
@@ -77,14 +76,20 @@ class FragmentTicker : Fragment() {
         // adapter
         tickerRecyclerView.adapter = myAdapter
 
-        payment.text = Constants.KRW
+
     }
 
-
+    //TODO : ticker 데이터 수신
     override fun onResume() {
         super.onResume()
-
-        //TODO : ticker 데이터 수신
+        val handler = Handler()
+        val handlerTask = object : Runnable {
+            override fun run() {
+                // do task
+                updateDisplay()
+                    handler.postDelayed(this, 500)
+            }
+        }
         /** timer */
 //        timer(period=Constants.TICKER_TIMER){
 //            getTickerData(Constants.ALL_CURRENCY)
@@ -94,22 +99,17 @@ class FragmentTicker : Fragment() {
     }
 
     private fun updateDisplay() {
+        val bundle = arguments
+        paymentCurrency = bundle?.getString(PAYMENT_CURRENCY)?:Constants.PAYMENT_CURRENCY_KRW
+        currentExchangeRate = bundle?.getString(EXCHANGE_RATE)?.toFloat()?:1F
+        Log.d("Fragment1_updateDisplay","param1: "+paymentCurrency+", param2: "+currentExchangeRate)
+
         getTickerData(Constants.ALL_CURRENCY)
         // TODO : 1.1 응답받은 전체 데이터를 MainAdapter에 담아 화면에 보여주기
         myAdapter.addItems(arrTicker)
         // Adapter로 화면 내 데이터 새로고침
         myAdapter.notifyDataSetChanged()
     }
-
-    val handler = Handler()
-    val handlerTask = object : Runnable {
-        override fun run() {
-            // do task
-            updateDisplay()
-            handler.postDelayed(this, 2000)
-        }
-    }
-
 
     private fun getTickerData(order:String){
         // RetrofitUtils.getBitService(applicationContext) -> 톹신에 사용될 client 생성 및 BitService return
@@ -139,8 +139,8 @@ class FragmentTicker : Fragment() {
                                             // data["key"] => Any 타입 데이터들..
                                             // String으로 캐스팅 해서 TickerData 초기화!!
                                             //  + Number로 캐스팅이 안됨..ㅠㅠ => java.lang.String cannot be cast to java.lang.Number
-                                            currentExchangeRate,
-                                            paymentCurrency,
+                                            currentExchangeRate?:1F,
+                                            paymentCurrency?:Constants.PAYMENT_CURRENCY_KRW,
                                             order_currency.toString(),
                                             data["opening_price"].toString(),
                                             data["closing_price"].toString(),
@@ -151,12 +151,11 @@ class FragmentTicker : Fragment() {
                                             data["fluctate_24H"].toString(),
                                             data["fluctate_rate_24H"].toString()// data[R.string.max_price].toString() 안됨..ㅠ
                                         )
-
                                         // arr에 Ticker 데이터 추가!!
                                         arrTicker.add(ticker)
                                     }else{
                                         /** timeSet(data) => 화면에 시간 표시하기 */
-//                                        Log.d("MainActivity_it","any1: "+order_currency+", data: "+data)
+                                        Log.d("FragmentTicker","rate: "+currentExchangeRate+", payment: "+paymentCurrency)
                                     }
                                 }
                             }
@@ -191,9 +190,15 @@ class FragmentTicker : Fragment() {
         fun newInstance(param1: String, param2: String) =
             FragmentTicker().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString(PAYMENT_CURRENCY, param1)
+                    putString(EXCHANGE_RATE, param2)
+                    Log.d("Fragment1_newInstance","param1: "+param1+", param2: "+param2)
+                    paymentCurrency = param1
+                    currentExchangeRate = param2.toFloat()
                 }
             }
     }
+
+
 }
+

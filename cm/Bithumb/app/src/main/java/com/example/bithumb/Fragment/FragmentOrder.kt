@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.TextView
+import com.example.bit.utils.Constants
 import com.example.bit.utils.RetrofitUtils
 import com.example.bithumb.R
 import com.example.bithumb.data.order.Order
@@ -20,6 +21,10 @@ import retrofit2.Response
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
+
+// TickerMain Data
+var paymentCurrency : String? = null// 현재 적용 환율
+private var currentExchangeRate : Float? = null// 현재 적용 환율
 
 /**
  * A simple [Fragment] subclass.
@@ -51,10 +56,12 @@ class FragmentOrder : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            var paymentCurrency = it.getString("param1") ?: Constants.PAYMENT_CURRENCY_KRW
+            var currentExchangeRate = it.getString("param2")?.toFloat() ?: 1F
+            Log.d("Fragment2_onCreate","currency: "+paymentCurrency+", rate: "+currentExchangeRate)
         }
     }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -152,9 +159,6 @@ class FragmentOrder : Fragment() {
         priceTextView.add(price19)
         priceTextView.add(price20)
     }
-
-
-
 
 
     private fun getOrder(order:String,count:Int){
@@ -261,8 +265,11 @@ class FragmentOrder : Fragment() {
         fun newInstance(param1: String, param2: String) =
             FragmentOrder().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString("param1", param1)
+                    putString("param2", param2)//putString(ARG_PARAM2, param2)
+                    Log.d("Fragment2_newInstance","param1: "+param1+", param1: "+param2)
+                    paymentCurrency = param1
+                    currentExchangeRate = param2.toFloat()
                 }
             }
     }

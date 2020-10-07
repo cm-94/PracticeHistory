@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.SecondFragment"
+    tools:context=".Fragment.FragmentOrder"
     android:orientation="vertical">
 
     <LinearLayout
@@ -23,16 +23,10 @@
 
         <ImageButton
             android:id="@+id/searchButton"
-            android:layout_width="30dp"
+            android:layout_width="50dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:src="@android:drawable/ic_menu_search" />
 
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <RelativeLayout

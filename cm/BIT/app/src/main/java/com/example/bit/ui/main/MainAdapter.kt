@@ -60,17 +60,16 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
          * 감소 -> Color.BLUE
          * 동일 -> Color.White
          */
-        // 변동값 -> 감소
         items[position].let{item:TickerMain->
             if (item.exchange_rate!=prevItems[position].exchange_rate){
                 holder.itemView.setBackgroundColor(Color.WHITE)
-            }
+            }// 증가
             else if (prevItems[position].fluctate_24H.toFloat()> item.fluctate_24H.toFloat()) {
                 holder.itemView.setBackgroundColor(Color.BLUE)
-            }
+            }// 감소
             else if (prevItems[position].fluctate_24H.toFloat()< item.fluctate_24H.toFloat()){
                 holder.itemView.setBackgroundColor(Color.RED)
-            }// 변동값 -> 일정
+            }// 일정
             else{
                 holder.itemView.setBackgroundColor(Color.WHITE)
             }// holder.itemView.setBackgroundColor(Color.argb(20,0,100,100))
@@ -92,7 +91,6 @@ class MainAdapter(private val context : Context, private var items: ArrayList<Ti
 
             if(holder.fluctate_24H.text[0]=='-') holder.fluctate_24H.setTextColor(Color.BLUE)
             else holder.fluctate_24H.setTextColor(Color.RED)
-
         }
 
         holder.itemView.setOnClickListener {
