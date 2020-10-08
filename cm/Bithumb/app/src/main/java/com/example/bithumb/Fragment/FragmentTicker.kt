@@ -41,6 +41,7 @@ class FragmentTicker : Fragment() {
     // Adapter에서 View를 구성하는데 쓰일 ArrayList
     private var arrTicker : ArrayList<TickerData> = ArrayList()
 
+
     // TODO: Rename and change types of parameters
     // TickerMain Data
     var paymentCurrency : String? = null// 현재 적용 환율
@@ -51,7 +52,7 @@ class FragmentTicker : Fragment() {
         arguments?.let {
             paymentCurrency = it.getString(PAYMENT_CURRENCY) ?: Constants.PAYMENT_CURRENCY_KRW
             currentExchangeRate = it.getString(EXCHANGE_RATE)?.toFloat() ?: 1F
-            Log.d("Fragment1_onCreate","currency: "+paymentCurrency+", rate: "+currentExchangeRate)
+            Log.d("Fragment1_onCreate", "currency: $paymentCurrency, rate: $currentExchangeRate")
         }
     }
 
@@ -62,8 +63,9 @@ class FragmentTicker : Fragment() {
         // Inflate the layout for this fragment
 
         // Context, RecyclerView
-        var view = inflater.inflate(R.layout.fragment_ticker, container, false)
+        val view = inflater.inflate(R.layout.fragment_ticker, container, false)
         myAdapter = TickerAdapter(view.context,arrTicker)
+        myAdapter.notifyDataSetChanged()
 
         return view
     }
@@ -72,7 +74,7 @@ class FragmentTicker : Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         linearLayoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
-        tickerRecyclerView.setLayoutManager(linearLayoutManager)
+        tickerRecyclerView.layoutManager = linearLayoutManager
         // adapter
         tickerRecyclerView.adapter = myAdapter
 
@@ -87,7 +89,7 @@ class FragmentTicker : Fragment() {
             override fun run() {
                 // do task
                 updateDisplay()
-                    handler.postDelayed(this, 500)
+                handler.postDelayed(this, 500)
             }
         }
         /** timer */
@@ -102,21 +104,25 @@ class FragmentTicker : Fragment() {
         val bundle = arguments
         paymentCurrency = bundle?.getString(PAYMENT_CURRENCY)?:Constants.PAYMENT_CURRENCY_KRW
         currentExchangeRate = bundle?.getString(EXCHANGE_RATE)?.toFloat()?:1F
-        Log.d("Fragment1_updateDisplay","param1: "+paymentCurrency+", param2: "+currentExchangeRate)
+        Log.d("Fragment1_updateDisplay", "param1: $paymentCurrency, param2: $currentExchangeRate")
 
-        getTickerData(Constants.ALL_CURRENCY)
-        // TODO : 1.1 응답받은 전체 데이터를 MainAdapter에 담아 화면에 보여주기
-        myAdapter.addItems(arrTicker)
-        // Adapter로 화면 내 데이터 새로고침
-        myAdapter.notifyDataSetChanged()
+        getTickerData()
     }
 
-    private fun getTickerData(order:String){
+    private fun getTickerData(){
         // RetrofitUtils.getBitService(applicationContext) -> 톹신에 사용될 client 생성 및 BitService return
         //  -> BTC 종목에 대한 Ticker 데이터를 받아온다. => @GET, URI : .../ticker/BTC_KRW.
         // enqueue( ... ) -> 해당 URL로 요청을 보낸다
         // object : retrofit2.Callback<ResponseBody> { ... } -> 전달 받은 응답(CallBack)에 대한 처리
-        RetrofitUtils.getBitService(context).getAllTicker(order)?.enqueue(object : retrofit2.Callback<HashMap<String, Any>> {
+        var prevTicker : ArrayList<TickerData> = ArrayList()
+        arrTicker.forEach {tickerData ->
+            prevTicker.add(tickerData)
+        }
+//        Log.d("getTickerData",
+//            "prevTicker:${prevTicker[0].order_currency}"
+//        )
+
+        RetrofitUtils.getBitService(context).getAllTicker(Constants.ALL_CURRENCY)?.enqueue(object : retrofit2.Callback<HashMap<String, Any>> {
             // 요청이 성공했을 경우(서버에 요청이 전달 된 상태)
             override fun onResponse(call: Call<HashMap<String, Any>?>?, response: Response<HashMap<String, Any>?>) {
                 // 정상 Callback을 받은 경우 ( status == 0000 )
@@ -155,14 +161,47 @@ class FragmentTicker : Fragment() {
                                         arrTicker.add(ticker)
                                     }else{
                                         /** timeSet(data) => 화면에 시간 표시하기 */
-                                        Log.d("FragmentTicker","rate: "+currentExchangeRate+", payment: "+paymentCurrency)
+                                        Log.d("FragmentTicker",
+                                            "rate: $currentExchangeRate, payment: $paymentCurrency"
+                                        )
                                     }
                                 }
                             }
                         }
+                        // todo: 데이터 추가 완료 후 adpater 갱신!!
+                        /** 초기 데이터 or 환율 변경 직후 */
+                        if (prevTicker.size==0||arrTicker[0].payment_currency!=prevTicker[0].payment_currency){
+                            Log.d("getTickerData","prevTicker size = 0")
+                            Log.d("getTickerData","arrTicker size ${arrTicker.size}")
+                            // adapter 데이터 변경
+                            myAdapter.addItems(arrTicker)
+                            // 전체 데이터 갱신(view)
+                            myAdapter.notifyDataSetChanged()
+                        }
+                        /** 일반 데이터 수신 */
+                        else {
+                            // 전체 데이터 갱신(view)
+                            myAdapter.addItems(arrTicker)
+                            // 데이터 갱신(view)
+                            prevTicker.forEachIndexed { i, prevTicker ->
+                                // 데이터가 증가한 종목 => 해당 데이터 변경(i번째,"increase"-> binding에서 처리할 payload)
+                                if (arrTicker[i].fluctate_24H > prevTicker.fluctate_24H) {
+                                    myAdapter.notifyItemChanged(i, "increase")
+                                }
+                                // 데이터가 감소한 종목 => 해당 데이터 변경(i번째,"decrease"-> binding에서 처리할 payload)
+                                else if (arrTicker[i].fluctate_24H < prevTicker.fluctate_24H) {
+                                    myAdapter.notifyItemChanged(i, "decrease")
+                                }
+                                // 데이터 변동 없는 종목 => 아무것도 하지않음
+                                else {
+                                    Log.d("Ticker_Fragment","same!!" + arrTicker[i].fluctate_24H + ", " + prevTicker.fluctate_24H)
+                                }
+                            }
+                        }
                     }
+
                 }
-                // 정상 Callback을 받지 못한 경우( ex. 404 error )
+                // 정상 Callback을 받지 못한 경우(ex.404 error)
                 else {
                     Log.d("MainActivity", "Not Successful or Empty Response")
                 }
@@ -174,6 +213,7 @@ class FragmentTicker : Fragment() {
                 t.printStackTrace()
             }
         })
+
     }
 
     companion object {

@@ -46,33 +46,29 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /** Tab( fragment ) setting */
+    /** TabLayout( fragment ) setting */
     fun setupViewPager(){
         mFragmentAdapter.addFragment(FragmentTicker(), "현재가")
         mFragmentAdapter.addFragment(FragmentOrder(), "거래 현황")
         mFragmentAdapter.addFragment(ThirdFragment(), "etc")
         container.adapter = mFragmentAdapter
-        container?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-            override fun onPageSelected(position: Int) {
-                val fragment = mFragmentAdapter.getItem(position)
-
-//                val bundle = Bundle()
-//                bundle.putString("param1",payment_currency)
-//                bundle.putString("param2",exchange_rate.toString())
-//                fragment.arguments = bundle
-//                mFragmentAdapter.replaceFragment(position,fragment)
-
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-
-
-            }
-        })
+//        container?.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+//
+//            }
+//            override fun onPageSelected(position: Int) {
+//                val fragment = mFragmentAdapter.getItem(position)
+//
+//            }
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//
+//
+//            }
+//        })
     }
+
+
 
     fun initSpinner(){
         // TODO 1. spinner에서 표현할 데이터(mExchangeList : ArrayList<ExchangeRate>) 초기화
@@ -91,16 +87,15 @@ class MainActivity : AppCompatActivity() {
         // TODO 4. Spinner.onItemSelectedListener 정의
         exSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                Toast.makeText(applicationContext,"아무것도 클릭 안됨", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext,"아무것도 클릭 안됨", Toast.LENGTH_SHORT).show()
             }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val clickedItem : ExchangeSpinner = parent?.getItemAtPosition(position) as ExchangeSpinner
                 payment_currency = clickedItem.exchangeText // => Exchange Instance!!
                 /** 변경된 환율 데이터 요청 */
-                /* 통신: 비동기 => spinner에서 fragment로 환율 데이터 전달x => 데이터 수신부에서 처리 */
+                /* 통신: 비동기 => spinner에서 fragment로 환율 데이터 전달x => 데이터 수신부분에서 처리 */
                 getExchangeRate(payment_currency)
-
-                Toast.makeText(applicationContext, "$payment_currency 클릭됨", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(applicationContext, "$payment_currency 클릭됨", Toast.LENGTH_SHORT).show()
             }
         }
     }

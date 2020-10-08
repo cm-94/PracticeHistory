@@ -1,19 +1,26 @@
 package com.example.bithumb
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.TransitionDrawable
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.NonNull
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import com.example.bit.utils.Constants
 import com.example.bithumb.data.TickerData
+import kotlinx.android.synthetic.main.fragment_order.view.*
 import kotlinx.android.synthetic.main.ticker_item.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
-class TickerAdapter(private var context :Context,private var items: ArrayList<TickerData>) : RecyclerView.Adapter<TickerAdapter.MainViewHolder>() {
+
+class TickerAdapter(private var context: Context, private var items: ArrayList<TickerData>) : RecyclerView.Adapter<TickerAdapter.MainViewHolder>() {
     private var prevItems : ArrayList<TickerData> = arrayListOf()
 
     /** onCreateViewHolder()
@@ -52,28 +59,21 @@ class TickerAdapter(private var context :Context,private var items: ArrayList<Ti
          * 감소 -> Color.BLUE
          * 동일 -> Color.White
          */
-        val item:TickerData =items.get(position)
-
-        // TODO : 환율 변동 case 추가하기
-//        if(prevItems.get(position).fluctate_24H.toFloat()==items.get(position).fluctate_24H.toFloat()){
-////            Log.d("MainAdapter_back","Change Exchange Rate  => "+holder.itemView.fluctate.text.toString() +", "+ item.fluctate_rate_24H )
-//            return
-//        }
-        if(prevItems.size>0) {
-
-            // 변동값 -> 감소
+        // TODO : 환율 변동 case 추가하기( =>onBindViewHolder(...payload)에서 처리!! )
+//        if(prevItems.size>0) {
+//            // 변동값 -> 감소
             items[position].let { item: TickerData ->
-                if (item.exchange_rate != prevItems[position].exchange_rate) {
-                    holder.itemView.setBackgroundColor(Color.WHITE)
-                } else if (prevItems[position].fluctate_24H.toFloat() > item.fluctate_24H.toFloat()) {
-                    holder.itemView.setBackgroundColor(Color.BLUE)
-                } else if (prevItems[position].fluctate_24H.toFloat() < item.fluctate_24H.toFloat()) {
-                    holder.itemView.setBackgroundColor(Color.RED)
-                }// 변동값 -> 일정
-                else {
-                    holder.itemView.setBackgroundColor(Color.WHITE)
-                }// holder.itemView.setBackgroundColor(Color.argb(20,0,100,100))
-
+//                if (item.exchange_rate != prevItems[position].exchange_rate) {
+//                    holder.itemView.setBackgroundColor(Color.WHITE)
+//                } else if (prevItems[position].fluctate_24H.toFloat() > item.fluctate_24H.toFloat()) {
+//                    holder.itemView.setBackgroundColor(Color.BLUE)
+//                } else if (prevItems[position].fluctate_24H.toFloat() < item.fluctate_24H.toFloat()) {
+//                    holder.itemView.setBackgroundColor(Color.RED)
+//                }// 변동값 -> 일정
+//                else {
+//                    holder.itemView.setBackgroundColor(Color.WHITE)
+//                }// holder.itemView.setBackgroundColor(Color.argb(20,0,100,100))
+//
                 holder.order_currency.text = item.order_currency
                 holder.closing_price.inputText(item.closing_price)             // 종가
                 holder.min_price.inputText(item.min_price)                     // 저가
@@ -93,7 +93,7 @@ class TickerAdapter(private var context :Context,private var items: ArrayList<Ti
                 if (holder.fluctate_24H.text[0] == '-') holder.fluctate_24H.setTextColor(Color.BLUE)
                 else holder.fluctate_24H.setTextColor(Color.RED)
 
-            }
+//            }
 
             holder.itemView.setOnClickListener {
 //                // context(MainActivity) ~> InfoActivity
@@ -104,13 +104,54 @@ class TickerAdapter(private var context :Context,private var items: ArrayList<Ti
 //                // startActivity -> intent에 세팅한대로 Activity 실행.
 //                // TODO : startActivity option값 살펴보기
 //                ContextCompat.startActivity(holder.itemView.context, intent, null)
+                Toast.makeText(context, "${items[position].order_currency}클릭됨!", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    override fun onBindViewHolder(holder: MainViewHolder, position: Int, payloads: MutableList<Any>) {
+        Log.d("Ticker_Adapter", "Payload!!")
+        if(payloads.isEmpty()){
+            super.onBindViewHolder(holder, position, payloads)
+        }else{
+            payloads.forEach {
+                when(it.toString()){
+                    "increase" -> {
+//                        val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.RED)))
+//                        holder.itemView.background = transitionDrawable
+//                        transitionDrawable.startTransition(500)
+                        // TODO : 배경색 변경 => Thread ~> animation으로 바꾸기
+                        GlobalScope.launch {
+                            holder.itemView.setBackgroundColor(Color.RED)
+                            delay(200)
+                            holder.itemView.setBackgroundColor(Color.WHITE)
+                        }
+                        Log.d("Ticker_Adapter", "Increase!!" + items[position].order_currency)
+                    }
+                    "decrease" -> {
+                        GlobalScope.launch {
+                            holder.itemView.setBackgroundColor(Color.BLUE)
+                            delay(200)
+                            holder.itemView.setBackgroundColor(Color.WHITE)
+                        }
+                        Log.d("Ticker_Adapter", "Decrease!!" + items[position].order_currency)
+                    }
+                    else->{
+                        Log.d("Ticker_Adapter", "same!!" + items[position].order_currency)
+                        return
+                    }
+                }
+
+                onBindViewHolder(holder, position)
+            }
+        }
+
+
+    }
+
     // TODO Item을 담아둘 ViewHolder Class 정의!!
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val order_currency = itemView.tickerName
+        val order_currency: TextView = itemView.tickerName
         val closing_price = itemView.closing_Price
         val min_price = itemView.min_Price
         val max_price = itemView.max_Price
@@ -126,11 +167,10 @@ class TickerAdapter(private var context :Context,private var items: ArrayList<Ti
      *  - 서버로부터 MutableList<TickerMain> 데이터를 받으면 해당 리스트로 RecyclerView 초기화
      *  - MainActivity에서 데이터를 수신에 성공하면
      */
-    fun addItems(items:ArrayList<TickerData>){
+    fun addItems(newItems: ArrayList<TickerData>){
         // items 비우기
-        prevItems =  this.items
         this.items = arrayListOf()
         // 전달받은 items로 다시 세팅
-        this.items.addAll(items)
+        this.items.addAll(newItems)
     }
 }
