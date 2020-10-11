@@ -1,9 +1,8 @@
-package com.example.bithumb.Fragment
+package com.example.uip.Fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -22,7 +21,7 @@ class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         mFragmentTitleList.add(title)
     }
 
-    fun setFragmentExchange(bundle:Bundle) {
+    fun setFragmentExchange(bundle: Bundle) {
         mFragmentList.forEach {
             it.arguments = bundle
         }
@@ -37,7 +36,7 @@ class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
      * getItem : return fragment[i]
      * getCount : return fragment.size
      */
-    override fun getItem(position: Int): Fr agment {
+    override fun getItem(position: Int): Fragment {
         return mFragmentList[position]
     }
 

@@ -5,8 +5,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.AdapterView
-import android.widget.Toast
-import androidx.viewpager.widget.ViewPager
 import com.example.bit.utils.Constants
 import com.example.bithumb.Fragment.*
 import com.example.bithumb.R
