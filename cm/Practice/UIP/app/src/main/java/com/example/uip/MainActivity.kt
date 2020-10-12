@@ -19,22 +19,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
 //        setupViewPager()
-        var th = findViewById<TabHost>(R.id.tabHost)
-        th.setup();
-
-        var b = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
-
-        if(b){
-            val tw = tabHost.tabWidget
-            tw.orientation = LinearLayout.VERTICAL
-        }
-
-        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_first))
-        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_second))
-        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_third))
-
-
-
+//        var th = findViewById<TabHost>(R.id.tabHost)
+//        th.setup();
+//
+//        var b = resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
+//
+//        if(b){
+//            val tw = tabHost.tabWidget
+//            tw.orientation = LinearLayout.VERTICAL
+//        }
+//
+//        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_first))
+//        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_second))
+//        th.addTab(tabHost.newTabSpec("tab name").setIndicator("title").setContent(R.layout.fragment_third))
+//
+//
+//
 
     }
 
