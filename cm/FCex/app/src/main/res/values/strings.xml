@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">FCex</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="sellText">壳</string>
+    <string name="callText">買</string>
+    <string name="opening_price">始値比</string>
+
+    <string name="setting">設定</string>
+    <string name="spread">利益率\n%d</string>
+
+    <string name="ordertype">USD\n/JPY</string>
+
+
+    <!-- TabTitle -->
+    <string name="new_order">新規注文</string>
+    <string name="new_appointment_order">新規注文(指値·逆指値·OCO)</string>
+</resources>
