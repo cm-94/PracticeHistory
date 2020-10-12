@@ -1,4 +1,4 @@
-package com.example.fcex
+package com.example.fx
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

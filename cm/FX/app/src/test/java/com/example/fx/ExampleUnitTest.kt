@@ -1,4 +1,4 @@
-package com.example.fcex
+package com.example.fx
 
 import org.junit.Test
 
