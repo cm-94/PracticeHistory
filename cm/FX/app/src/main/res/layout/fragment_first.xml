@@ -1,14 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".FragmentFirst">
+    tools:context=".fragment.FragmentFirst"
+    android:orientation="vertical"
+    android:background="#000000">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/max_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/max_quantity"
+                android:textColor="#FFFFFF"
+                android:textAlignment="textEnd"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/call_quantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/call_quantity"
+                android:layout_below="@+id/max_quantity"
+                android:layout_marginTop="10dp"
+                android:textColor="#FFFFFF"
+                android:textAlignment="textEnd"/>
+
+
+            <TextView
+                android:id="@+id/call_quant"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_below="@+id/call_quantity"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/radio_group2"
+                android:gravity="center"
+                android:text="@string/call_quant"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/radio_group2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/call_button"
+                android:layout_below="@+id/call_quantity"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb21"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+                    android:checked="true"
+
+                    android:button="@null"
+                    android:text="x1,000"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"/>
+
+                <RadioButton
+                    android:id="@+id/rb22"
+                    android:layout_width="75dp"
+                    android:layout_height="50dp"
+
+                    android:button="@null"
+                    android:text="x 10,000"
+                    android:textSize="15dp"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"/>
+
+            </RadioGroup>
+
+            <com.example.fx.SPButton
+                android:id="@+id/call_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/call_quant"
+                android:layout_marginTop="10dp"
+                android:layout_alignParentEnd="true"/>
+
+            <Button
+                android:id="@+id/imageButton"
+                android:layout_width="75dp"
+                android:layout_height="45dp"
+                android:layout_below="@+id/call_quant"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/call_button"
+                android:background="@drawable/layoutbutton"
+                android:text="MAX"
+                android:textColor="#8CDCD6"
+                android:textSize="25dp"/>
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>

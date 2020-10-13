@@ -1,9 +1,8 @@
-package com.example.bithumb.Fragment
+package com.example.fx.fragment
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import androidx.fragment.app.FragmentStatePagerAdapter
 
 class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
@@ -22,13 +21,16 @@ class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         mFragmentTitleList.add(title)
     }
 
-    fun setFragmentExchange(bundle:Bundle) {
+    /**
+     * 각 fragment에 argument를 전달한다
+     */
+    fun setFragmentBundle(bundle: Bundle) {
         mFragmentList.forEach {
             it.arguments = bundle
         }
     }
 
-    fun replaceFragment(position:Int,fragment:Fragment) {
+    fun replaceFragment(position:Int,fragment: Fragment) {
         mFragmentList[position] = fragment
     }
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FCex</string>
+    <string name="app_name">FX</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
@@ -13,7 +13,19 @@
     <string name="ordertype">USD\n/JPY</string>
 
 
+    <!-- Radio Button -->
+    <string name="radio1">リ\nア\nル\nタ\nイ\nム</string>
+    <string name="radio2">指\n値\n·\n逆\n指\n値</string>
+    <string name="radio3">I\nF\nD\n·\nI\nF\nO</string>
+
+
     <!-- TabTitle -->
     <string name="new_order">新規注文</string>
     <string name="new_appointment_order">新規注文(指値·逆指値·OCO)</string>
+
+    <!-- FirstFragment -->
+    <string name="max_quantity">發注可能數量: %10s</string>
+    <string name="call_quantity">注文數量: %10s</string>
+    <string name="call_quant">注文數量</string>
+
 </resources>

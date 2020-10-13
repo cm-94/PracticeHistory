@@ -10,20 +10,20 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="#000000">
 
         <ImageView
-            android:id="@+id/menuImage"
+            android:id="@+id/imageView"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/ic_navigaction_apps"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:src="@drawable/ic_navigaction_apps" />
 
         <TextView
             android:id="@+id/tabTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/new_order"
@@ -41,16 +41,14 @@
             android:clickable="true"
             android:focusable="true"
             android:background="@drawable/layoutbutton"
-            >
+            android:gravity="center">
 <!--        android:background="?attr/selectableItemBackground"    -->
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:background="@drawable/ic_settings"
-                android:layout_marginTop="5dp"
                 android:layout_marginStart="5dp"
-                android:layout_marginLeft="5dp"
                 android:clickable="false"/>
             <Button
                 android:id="@+id/settingButton"
@@ -59,16 +57,18 @@
                 android:text="@string/setting"
                 android:background="@null"
                 android:layout_marginEnd="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginStart="3dp"
                 android:textSize="15dp"
                 android:textColor="#FFFFFF"
                 android:clickable="false"/>
         </LinearLayout>
     </LinearLayout>
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:paddingTop="3dp"
         android:background="#000000">
 
         <LinearLayout
@@ -225,12 +225,12 @@
         android:orientation="horizontal">
 
         <RelativeLayout
+            android:id="@+id/sellLayout"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="3dp"
+            android:layout_toStartOf="@+id/second_center"
             android:background="@drawable/ic_order_sell"
             android:gravity="left">
 
@@ -239,10 +239,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="4dp"
                 android:text="@string/sellText"
                 android:textColor="#FFFFFF" />
@@ -253,9 +251,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sellText"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
                 android:layout_marginTop="2dp"
                 android:text="TextView"
                 android:textColor="#FFFFFF" />
@@ -263,23 +259,31 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/spread"
+            android:id="@+id/spread_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
             android:gravity="center"
+            android:layout_centerHorizontal="true"
             android:text="@string/spread"
             android:textColor="#FFFFFF" />
 
+        <View
+            android:id="@+id/second_center"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true"/>
+
         <RelativeLayout
+            android:id="@+id/callLayout"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+
+            android:layout_marginEnd="3dp"
+            android:layout_toEndOf="@+id/second_center"
             android:background="@drawable/ic_order_buy"
             android:gravity="right">
 
@@ -302,10 +306,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/callText"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:text="TextView"
                 android:textColor="#FFFFFF" />
         </RelativeLayout>
@@ -317,21 +319,60 @@
         android:layout_height="0dp"
         android:orientation="horizontal"
         android:layout_weight="1"
+
         android:background="#000000">
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/container"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent">
+            android:id="@+id/viewpager"
+            android:layout_marginTop="10dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1">
         </androidx.viewpager.widget.ViewPager>
 
-        <TextView
-            android:id="@+id/test1"
-            android:layout_width="wrap_content"
+        <RadioGroup
+            android:id="@+id/radio_group1"
+            android:layout_width="55dp"
             android:layout_height="match_parent"
-            android:text="test"
-            android:textColor="#999999"
-        />
+            android:layout_marginTop="10dp"
+            android:paddingStart="23dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/rb1"
+                android:layout_width="35dp"
+                android:layout_height="110dp"
+                android:checked="true"
+                android:background="@drawable/ic_radio1_state"
+                android:button="@null"
+                android:text="@string/radio1"
+                android:textAlignment="center"
+                android:textSize="12dp"
+                android:textColor="#FFFFFF"/>
+
+            <RadioButton
+                android:id="@+id/rb2"
+                android:layout_width="35dp"
+                android:layout_height="110dp"
+                android:background="@drawable/ic_radio2_state"
+                android:button="@null"
+                android:text="@string/radio2"
+                android:textAlignment="center"
+                android:textSize="12dp"
+                android:textColor="#FFFFFF"/>
+
+            <RadioButton
+                android:id="@+id/rb3"
+                android:layout_width="35dp"
+                android:layout_height="110dp"
+                android:background="@drawable/ic_radio3_state"
+                android:button="@null"
+                android:text="@string/radio3"
+                android:textAlignment="center"
+                android:textSize="12dp"
+                android:textColor="#FFFFFF"/>
+
+        </RadioGroup>
 
     </LinearLayout>
 
