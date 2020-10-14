@@ -8,9 +8,12 @@
     <string name="opening_price">始値比</string>
 
     <string name="setting">設定</string>
-    <string name="spread">利益率\n%d</string>
+    <string name="spread">スプレッド\n%.1f</string>
 
-    <string name="ordertype">USD\n/JPY</string>
+    <!-- Order FX Type -->
+    <string name="orderUSD_JPY">USD\n/JPY</string>
+    <string name="orderKRW_JPY">KRW\nJPY</string>
+    <string name="orderCNY_JPY">CNY\nJPY</string>
 
 
     <!-- Radio Button -->
@@ -24,8 +27,23 @@
     <string name="new_appointment_order">新規注文(指値·逆指値·OCO)</string>
 
     <!-- FirstFragment -->
-    <string name="max_quantity">發注可能數量: %10s</string>
-    <string name="call_quantity">注文數量: %10s</string>
-    <string name="call_quant">注文數量</string>
+    <string name="max_quantity">發注可能數量:</string>
+    <string name="call_quantity">注文數量:</string>
+    <string name="call_quantity_text">注文數量</string>
+
+    <string name="callData">%d</string>
+    <string name="pipData">%.1fpips</string>
+    <string name="limitData">%.3f</string>
+
+    <!-- pipTitle -->
+    <string name="pipLeverage">スリッペ一ヅ</string>
+    <string name="pipAuto">自動利食い損切り</string>
+
+    <!-- pipSettingData -->
+    <string name="pipAutoSell">利食い:</string>
+    <string name="pipAutoSellValue">%10.1fpips</string>
+
+    <string name="pipAutoBuy">損切り:</string>
+    <string name="pipAutoBuyValue">%10.1fpips</string>
 
 </resources>

@@ -10,44 +10,181 @@
 
 
     <ScrollView
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="match_parent">
 
-        <RelativeLayout
+<!--        <RelativeLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical" >-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/max_quantity"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/max_quantity"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textAlignment="textEnd"-->
+<!--                android:layout_marginTop="10dp"/>-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/call_quantity"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="@string/call_quantity"-->
+<!--                android:layout_below="@+id/max_quantity"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textAlignment="textEnd"/>-->
+
+
+<!--            <TextView-->
+<!--                android:id="@+id/call_textview"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="50dp"-->
+<!--                android:layout_below="@+id/call_quantity"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:layout_toStartOf="@+id/radio_group2"-->
+<!--                android:gravity="center"-->
+<!--                android:text="@string/call_quant"-->
+<!--                android:textColor="#FFFFFF"-->
+<!--                android:textSize="15dp" />-->
+
+<!--            <RadioGroup-->
+<!--                android:id="@+id/radio_group2"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_toStartOf="@+id/call_button"-->
+<!--                android:layout_below="@+id/call_quantity"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_alignParentEnd="true"-->
+<!--                android:orientation="horizontal">-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/rb21"-->
+<!--                    android:layout_width="75dp"-->
+<!--                    android:layout_height="50dp"-->
+<!--                    android:checked="true"-->
+
+<!--                    android:button="@null"-->
+<!--                    android:text="x1,000"-->
+<!--                    android:textSize="15dp"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="#FFFFFF"/>-->
+
+<!--                <RadioButton-->
+<!--                    android:id="@+id/rb22"-->
+<!--                    android:layout_width="75dp"-->
+<!--                    android:layout_height="50dp"-->
+
+<!--                    android:button="@null"-->
+<!--                    android:text="x 10,000"-->
+<!--                    android:textSize="15dp"-->
+<!--                    android:textAlignment="center"-->
+<!--                    android:textColor="#FFFFFF"/>-->
+
+<!--            </RadioGroup>-->
+
+<!--            <com.example.fx.SPButton-->
+<!--                android:id="@+id/call_button"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_below="@+id/call_textview"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_alignParentEnd="true"/>-->
+
+<!--            <Button-->
+<!--                android:id="@+id/imageButton"-->
+<!--                android:layout_width="35dp"-->
+<!--                android:layout_height="25dp"-->
+<!--                android:layout_below="@+id/call_textview"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:layout_toStartOf="@+id/call_button"-->
+<!--                android:background="@drawable/layoutbutton"-->
+<!--                android:text="MAX"-->
+<!--                android:textColor="#8CDCD6"-->
+<!--                android:textSize="12dp"/>-->
+
+<!--        </RelativeLayout>-->
+
+        <GridLayout
+            android:id="@+id/firstGrid"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/test"
+                android:layout_width="10dp"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:text="test"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/max_quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="fill"
+                android:gravity="right"
+                android:text="@string/max_quantity"
+                android:textColor="#FFFFFF"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/call_quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_gravity="fill"
+                android:gravity="right"
+                android:text="@string/call_quantity"
+                android:layout_marginTop="10dp"
+                android:textColor="#FFFFFF"/>
+
 
             <TextView
                 android:id="@+id/max_quantity"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/max_quantity"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_gravity="fill"
+                android:gravity="right"
+
                 android:textColor="#FFFFFF"
-                android:textAlignment="textEnd"
                 android:layout_marginTop="10dp"/>
 
             <TextView
                 android:id="@+id/call_quantity"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/call_quantity"
-                android:layout_below="@+id/max_quantity"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_gravity="fill"
+                android:gravity="right"
                 android:layout_marginTop="10dp"
-                android:textColor="#FFFFFF"
-                android:textAlignment="textEnd"/>
+                android:textColor="#FFFFFF"/>
 
 
             <TextView
-                android:id="@+id/call_quant"
-                android:layout_width="wrap_content"
+                android:id="@+id/call_textview"
+                android:layout_width="90dp"
                 android:layout_height="50dp"
-                android:layout_below="@+id/call_quantity"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/radio_group2"
                 android:gravity="center"
-                android:text="@string/call_quant"
+                android:text="@string/call_quantity_text"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp" />
 
@@ -55,59 +192,173 @@
                 android:id="@+id/radio_group2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/call_button"
-                android:layout_below="@+id/call_quantity"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:gravity="center"
                 android:layout_marginTop="10dp"
-                android:layout_alignParentEnd="true"
+
                 android:orientation="horizontal">
 
                 <RadioButton
                     android:id="@+id/rb21"
-                    android:layout_width="75dp"
+                    android:layout_width="70dp"
                     android:layout_height="50dp"
                     android:checked="true"
-
+                    android:layout_gravity="fill"
+                    android:gravity="center"
+                    android:background="@drawable/ic_radio_horizontal_first_state"
                     android:button="@null"
+                    android:layout_weight="1"
                     android:text="x1,000"
                     android:textSize="15dp"
-                    android:textAlignment="center"
                     android:textColor="#FFFFFF"/>
 
                 <RadioButton
                     android:id="@+id/rb22"
-                    android:layout_width="75dp"
+                    android:layout_width="70dp"
                     android:layout_height="50dp"
-
+                    android:layout_gravity="fill"
+                    android:gravity="center"
+                    android:background="@drawable/ic_radio_horizontal_last_state"
                     android:button="@null"
+                    android:layout_weight="1"
                     android:text="x 10,000"
                     android:textSize="15dp"
-                    android:textAlignment="center"
                     android:textColor="#FFFFFF"/>
 
             </RadioGroup>
+
+            <Button
+                android:id="@+id/maxCallButton"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/layoutbutton"
+                android:text="MAX"
+                android:textColor="#8CDCD6"
+                android:textSize="12dp"/>
+
 
             <com.example.fx.SPButton
                 android:id="@+id/call_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/call_quant"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentEnd="true"/>
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp" />
 
-            <Button
-                android:id="@+id/imageButton"
-                android:layout_width="75dp"
-                android:layout_height="45dp"
-                android:layout_below="@+id/call_quant"
+            <TextView
+                android:id="@+id/pipLeverage"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/call_button"
-                android:background="@drawable/layoutbutton"
-                android:text="MAX"
-                android:textColor="#8CDCD6"
-                android:textSize="25dp"/>
+                android:text="@string/pipLeverage"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"/>
 
-        </RelativeLayout>
+            <com.example.fx.SPButton
+                android:id="@+id/pips_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/pipAuto"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="6"
+                android:layout_column="0"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pipAuto"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp"/>
+
+            <Switch
+                android:id="@+id/pipAutoSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="6"
+                android:layout_column="1"
+                android:layout_gravity="right"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="#FFFFFF"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+            <TextView
+                android:id="@+id/pipAutoSellText"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="8"
+                android:layout_column="1"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pipAutoSell"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/pipAutoBuyText"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="9"
+                android:layout_column="1"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pipAutoBuy"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/pipAutoSell"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="8"
+                android:layout_column="2"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pipAutoSellValue"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"/>
+
+            <TextView
+                android:id="@+id/pipAutoBuy"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="9"
+                android:layout_column="2"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/pipAutoBuyValue"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"/>
+
+
+        </GridLayout>
     </ScrollView>
 
 </LinearLayout>

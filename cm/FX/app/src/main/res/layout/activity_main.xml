@@ -41,6 +41,7 @@
             android:clickable="true"
             android:focusable="true"
             android:background="@drawable/layoutbutton"
+            android:layout_marginTop="3dp"
             android:gravity="center">
 <!--        android:background="?attr/selectableItemBackground"    -->
 
@@ -93,7 +94,7 @@
                 android:id="@+id/orderButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:text="@string/ordertype"
+                android:text="@string/orderUSD_JPY"
                 android:background="@null"
                 android:layout_marginEnd="3dp"
                 android:layout_marginRight="3dp"
@@ -117,7 +118,7 @@
             android:background="@drawable/ic_high" />
 
         <TextView
-            android:id="@+id/highPrice"
+            android:id="@+id/high_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -137,12 +138,12 @@
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/highPrice"
-            android:layout_toRightOf="@+id/highPrice"
+            android:layout_toEndOf="@+id/high_price"
+            android:layout_toRightOf="@+id/high_price"
             android:background="@drawable/ic_low" />
 
         <TextView
-            android:id="@+id/lowPrice"
+            android:id="@+id/low_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -158,7 +159,7 @@
             android:id="@+id/opening_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/highPrice"
+            android:layout_below="@+id/high_price"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
@@ -170,21 +171,20 @@
 
         <ImageView
             android:id="@+id/pmImage"
-            android:layout_width="wrap_content"
-            android:layout_height="13dp"
-            android:layout_below="@+id/highPrice"
+            android:layout_width="20dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/high_price"
             android:layout_marginStart="3dp"
-            android:layout_marginLeft="3dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/opening_price"
-            android:layout_toRightOf="@+id/opening_price"
             app:srcCompat="@drawable/ic_minus" />
 
         <TextView
-            android:id="@+id/opening_value"
+            android:id="@+id/fluctate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/highPrice"
+            android:layout_below="@+id/high_price"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="1dp"
@@ -241,20 +241,24 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="10dp"
                 android:text="@string/sellText"
                 android:textColor="#FFFFFF" />
 
+
             <TextView
-                android:id="@+id/sellValue"
+                android:id="@+id/sell_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sellText"
                 android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="4dp"
                 android:text="TextView"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
 
         </RelativeLayout>
 
@@ -262,12 +266,13 @@
             android:id="@+id/spread_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
-            android:gravity="center"
+            android:gravity="top|center"
             android:layout_centerHorizontal="true"
             android:text="@string/spread"
+            android:textSize="12dp"
             android:textColor="#FFFFFF" />
 
         <View
@@ -281,7 +286,6 @@
             android:layout_width="150dp"
             android:layout_height="100dp"
             android:layout_alignParentEnd="true"
-
             android:layout_marginEnd="3dp"
             android:layout_toEndOf="@+id/second_center"
             android:background="@drawable/ic_order_buy"
@@ -293,23 +297,24 @@
                 android:layout_height="20dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
                 android:text="@string/callText"
                 android:textColor="#FFFFFF" />
 
             <TextView
-                android:id="@+id/callValue"
+                android:id="@+id/call_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/callText"
                 android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="3dp"
                 android:text="TextView"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
         </RelativeLayout>
 
     </RelativeLayout>
@@ -343,7 +348,7 @@
                 android:layout_width="35dp"
                 android:layout_height="110dp"
                 android:checked="true"
-                android:background="@drawable/ic_radio1_state"
+                android:background="@drawable/ic_radio_vertical_first_state"
                 android:button="@null"
                 android:text="@string/radio1"
                 android:textAlignment="center"
@@ -354,7 +359,7 @@
                 android:id="@+id/rb2"
                 android:layout_width="35dp"
                 android:layout_height="110dp"
-                android:background="@drawable/ic_radio2_state"
+                android:background="@drawable/ic_radio_vertical_middle_state"
                 android:button="@null"
                 android:text="@string/radio2"
                 android:textAlignment="center"
@@ -365,7 +370,7 @@
                 android:id="@+id/rb3"
                 android:layout_width="35dp"
                 android:layout_height="110dp"
-                android:background="@drawable/ic_radio3_state"
+                android:background="@drawable/ic_radio_vertical_last_state"
                 android:button="@null"
                 android:text="@string/radio3"
                 android:textAlignment="center"

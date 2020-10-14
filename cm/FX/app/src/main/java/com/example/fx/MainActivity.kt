@@ -1,6 +1,10 @@
 package com.example.fx
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.AbsoluteSizeSpan
 import android.view.View
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentTabHost
@@ -17,10 +21,49 @@ class MainActivity : FragmentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO 통신 연결
+
+        // TODO 데이터 세팅(NewOrder Object)
+        setNewOrderData()
+
+        // TODO View 세팅
         initView()
 
+
     }
-    fun initView(){
+
+
+    fun setNewOrderData(){
+
+        NewOrder.callAmount = 1000
+    }
+
+    /**
+     * - activity_main의 각 View들을 초기화 한다
+     * - NewOrder object property 사용
+     * TODO 사전에 데이터를 수신해 NewOrder를 초기화 해주는 작업이 필요하다
+     */
+    private fun initView(){
+        /** callprice,sellprice => call_price,sell_price */
+        val callStr = SpannableStringBuilder(NewOrder.callprice.toString())
+        callStr.setSpan(AbsoluteSizeSpan(250),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        call_price.text = callStr
+
+        val sellStr = SpannableStringBuilder(NewOrder.sellprice.toString())
+        sellStr.setSpan(AbsoluteSizeSpan(250),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        sell_price.text = sellStr
+
+        high_price.text = NewOrder.maxprice.toString()
+        low_price.text = NewOrder.minprice.toString()
+        fluctate.text = NewOrder.fluctate.toString()
+
+        val spreadStr = SpannableStringBuilder(resources.getString(R.string.spread,NewOrder.spread))
+        spreadStr.setSpan(AbsoluteSizeSpan(80),5,9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spread_text.text = spreadStr
+
+//        spread_text.text = resources.getString(R.string.spread,NewOrder.spread)
+
+
         /** Viewpager & adpater */
         // fragment adapter instance 생성
         val mFragmentAdapter = FragmentAdapter(supportFragmentManager)
@@ -59,21 +102,39 @@ class MainActivity : FragmentActivity() {
                 /** position번째 => check */
                 when(position){
                     0->{
-                        radio_group1.check(R.id.rb1)
-                        sellLayout.setBackgroundResource(R.drawable.ic_order_sell)
-                        callLayout.setBackgroundResource(R.drawable.ic_order_buy)
-                        chartButton.visibility = View.VISIBLE
+                        radio_group1.check(R.id.rb1)                                /** Radio button check 변경 */
+                        sellLayout.setBackgroundResource(R.drawable.ic_order_sell)  /** Order(sell) 배경 변경 */
+                        callLayout.setBackgroundResource(R.drawable.ic_order_buy)   /** Order(call) 배경 변경 */
+
+                        sellText.setTextColor(Color.WHITE)                           /** Order(sell) Text색 변경 */
+                        sell_price.setTextColor(Color.WHITE)
+                        callText.setTextColor(Color.WHITE)                          /** Order(call) Text색 변경 */
+                        call_price.setTextColor(Color.WHITE)
+
+                        chartButton.visibility = View.VISIBLE                       /** chart 버튼 안보이게 */
                     }
                     1->{
                         radio_group1.check(R.id.rb2)
                         sellLayout.setBackgroundResource(R.drawable.ic_order_sell_under)
                         callLayout.setBackgroundResource(R.drawable.ic_order_buy_under)
+
+                        sellText.setTextColor(Color.BLUE)
+                        sell_price.setTextColor(Color.BLUE)
+                        callText.setTextColor(Color.RED)
+                        call_price.setTextColor(Color.RED)
+
                         chartButton.visibility = View.GONE
                     }
                     2->{
                         radio_group1.check(R.id.rb3)
                         sellLayout.setBackgroundResource(R.drawable.ic_order_sell_under)
                         callLayout.setBackgroundResource(R.drawable.ic_order_buy_under)
+
+                        sellText.setTextColor(Color.BLUE)
+                        sell_price.setTextColor(Color.BLUE)
+                        callText.setTextColor(Color.RED)
+                        call_price.setTextColor(Color.RED)
+
                         chartButton.visibility = View.GONE
                     }
                 }
