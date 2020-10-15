@@ -2,11 +2,15 @@ package com.example.fx.fragment
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.example.fx.R
+import com.example.fx.data.NewOrder
+import com.example.fx.utils.Constants
+import kotlinx.android.synthetic.main.button_item.view.*
+import kotlinx.android.synthetic.main.fragment_second.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -39,6 +43,63 @@ class FragmentSecond : Fragment() {
         Log.d("Fragment", "Second Fragment")
 
         return inflater.inflate(R.layout.fragment_second, container, false)
+    }
+
+
+    override fun onStart() {
+        super.onStart()
+        /** 발주가능수량  & 주문 수량 TextView*/
+        val maxAmount :String =formatter.format(NewOrder.balance)
+        max_quantity.text = maxAmount
+        NewOrder.callAmount = NewOrder.callUnit*NewOrder.callUnitCount
+        call_quantity.text = formatter.format(NewOrder.callAmount)
+
+        /** 주문 수량 SPButton */
+        call_button.setDataType(NewOrder.callUnitCount, Constants.CALL_QUANTITY)
+//        Log.d("Fragment1","call_button data:"+call_button.dataEditText.text.toString())
+
+
+
+        /** Max 버튼 리스너 */
+        maxCallButton.setOnClickListener {
+            /** 주문 수량 */
+            NewOrder.callUnitCount = NewOrder.balance/ NewOrder.callUnit
+            call_button.setDataType(NewOrder.callUnitCount,Constants.CALL_QUANTITY)
+            call_quantity.text = maxAmount
+        }
+
+        /** 주문수량 증감(+,-) 버튼 리스너 */
+        call_button.minusButton.setOnClickListener {
+//            Log.d("Fragment1","minus button"+resources.getString(R.string.call_quantity,call_button.calcData(Constants.SUB_NUMBER)))
+            NewOrder.callUnitCount = call_button.calcData(Constants.SUB_NUMBER).toInt()
+            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit
+            call_quantity.text = formatter.format(NewOrder.callAmount)
+        }
+        call_button.plusButton.setOnClickListener {
+//            Log.d("Fragment1","plus button"+resources.getString(R.string.call_quantity,call_button.calcData(Constants.ADD_NUMBER)))
+            NewOrder.callUnitCount = call_button.calcData(Constants.ADD_NUMBER).toInt() // 주문 개별 수량
+            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
+            call_quantity.text = formatter.format(NewOrder.callAmount)
+        }
+
+        /** 주문수량 Radio Button */
+        radio_group_call.setOnCheckedChangeListener { _, i ->
+            when(i){
+                R.id.radio_button_1000-> NewOrder.callUnit = 1000
+                R.id.radio_button_10000-> NewOrder.callUnit = 10000
+            }
+//            // 주문 개별 수량 변경( = 총 주문 수량 / 변경된 주문 단위)
+//            NewOrder.callUnitCount = NewOrder.callAmount/NewOrder.callUnit
+//            call_button.setDataType(NewOrder.callUnitCount, Constants.CALL_QUANTITY)
+//
+//            // 총 주문 수량 변경( = 변경된 주문 개별 수량 X 변경된 주문 단위)
+//            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit // 총 수량 = 개별 수량 x 단위(단가?)
+//            call_quantity.text = formatter.format(NewOrder.callAmount)
+
+            NewOrder.callAmount = call_button.getData().toInt()*NewOrder.callUnit
+            call_quantity.text = formatter.format(NewOrder.callAmount)
+
+        }
     }
 
     companion object {

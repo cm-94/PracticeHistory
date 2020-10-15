@@ -15,7 +15,7 @@
             android:textAlignment="gravity"
             android:paddingTop="0dp"
             android:text="ㅡ"
-            android:textColor="#327070"
+            android:textColor="#8CDCD6"
             android:textSize="16dp"
             android:textStyle="bold"/>
 
@@ -27,7 +27,6 @@
             android:inputType="number"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:text="0000"
             android:textAlignment="textEnd"
             android:textSize="16dp"
             android:background="@drawable/roundcorner"
@@ -41,8 +40,8 @@
             android:gravity="center"
             android:textAlignment="gravity"
             android:paddingTop="0dp"
-            android:text="+"
-            android:textColor="#327070"
+            android:text="┼"
+            android:textColor="#8CDCD6"
             android:textSize="16dp"
             android:textStyle="bold"/>
     </LinearLayout>

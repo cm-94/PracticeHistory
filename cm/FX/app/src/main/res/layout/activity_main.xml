@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity"
+    tools:context=".ui.MainActivity"
     android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+
         android:background="#000000">
 
         <ImageView
@@ -19,6 +20,8 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
             android:src="@drawable/ic_navigaction_apps" />
 
         <TextView
@@ -26,9 +29,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
             android:text="@string/new_order"
             android:textColor="#FFFFFF"
-            android:textSize="20dp"
+            android:textSize="18dp"
             android:layout_gravity="center"
             />
 
@@ -42,18 +47,19 @@
             android:focusable="true"
             android:background="@drawable/layoutbutton"
             android:layout_marginTop="3dp"
+            android:layout_marginBottom="5dp"
             android:gravity="center">
 <!--        android:background="?attr/selectableItemBackground"    -->
 
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
-                android:background="@drawable/ic_settings"
                 android:layout_marginStart="5dp"
-                android:clickable="false"/>
+                android:background="@drawable/ic_settings"
+                android:clickable="false" />
             <Button
                 android:id="@+id/settingButton"
-                android:layout_width="30dp"
+                android:layout_width="35dp"
                 android:layout_height="30dp"
                 android:text="@string/setting"
                 android:background="@null"
@@ -171,14 +177,14 @@
 
         <ImageView
             android:id="@+id/pmImage"
-            android:layout_width="20dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/high_price"
             android:layout_marginStart="3dp"
             android:layout_marginEnd="5dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/opening_price"
-            app:srcCompat="@drawable/ic_minus" />
+            android:src="@drawable/ic_minus" />
 
         <TextView
             android:id="@+id/fluctate"
@@ -220,14 +226,14 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+
         android:background="#000000"
         android:orientation="horizontal">
 
         <RelativeLayout
             android:id="@+id/sellLayout"
             android:layout_width="150dp"
-            android:layout_height="100dp"
+            android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_marginStart="3dp"
             android:layout_toStartOf="@+id/second_center"
@@ -237,13 +243,14 @@
             <TextView
                 android:id="@+id/sellText"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/sellText"
-                android:textColor="#FFFFFF" />
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
 
 
             <TextView
@@ -252,15 +259,62 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/sellText"
                 android:layout_alignParentStart="true"
-                android:layout_alignParentBottom="true"
+                android:gravity="bottom"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="1dp"
                 android:layout_marginBottom="4dp"
-                android:text="TextView"
+                android:text="test"
                 android:textColor="#FFFFFF"
                 android:textSize="25dp" />
 
         </RelativeLayout>
+
+        <View
+            android:id="@+id/second_center"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true"/>
+
+
+        <RelativeLayout
+            android:id="@+id/callLayout"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="3dp"
+            android:layout_toEndOf="@+id/second_center"
+            android:background="@drawable/ic_order_buy"
+            android:gravity="right">
+
+            <TextView
+                android:id="@+id/callText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/callText"
+                android:textColor="#FFFFFF"
+                android:textSize="20dp"/>
+
+            <TextView
+                android:id="@+id/call_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/callText"
+                android:layout_alignParentEnd="true"
+                android:gravity="bottom"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="3dp"
+
+                android:text="test"
+                android:textColor="#FFFFFF"
+                android:textSize="25dp" />
+
+        </RelativeLayout>
+
 
         <TextView
             android:id="@+id/spread_text"
@@ -275,47 +329,6 @@
             android:textSize="12dp"
             android:textColor="#FFFFFF" />
 
-        <View
-            android:id="@+id/second_center"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
-            android:layout_centerInParent="true"/>
-
-        <RelativeLayout
-            android:id="@+id/callLayout"
-            android:layout_width="150dp"
-            android:layout_height="100dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="3dp"
-            android:layout_toEndOf="@+id/second_center"
-            android:background="@drawable/ic_order_buy"
-            android:gravity="right">
-
-            <TextView
-                android:id="@+id/callText"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:text="@string/callText"
-                android:textColor="#FFFFFF" />
-
-            <TextView
-                android:id="@+id/call_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/callText"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="3dp"
-                android:text="TextView"
-                android:textColor="#FFFFFF"
-                android:textSize="25dp" />
-        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -336,7 +349,7 @@
         </androidx.viewpager.widget.ViewPager>
 
         <RadioGroup
-            android:id="@+id/radio_group1"
+            android:id="@+id/radio_group_tab"
             android:layout_width="55dp"
             android:layout_height="match_parent"
             android:layout_marginTop="10dp"
@@ -344,7 +357,7 @@
             android:orientation="vertical">
 
             <RadioButton
-                android:id="@+id/rb1"
+                android:id="@+id/radio_button_tab1"
                 android:layout_width="35dp"
                 android:layout_height="110dp"
                 android:checked="true"
@@ -356,7 +369,7 @@
                 android:textColor="#FFFFFF"/>
 
             <RadioButton
-                android:id="@+id/rb2"
+                android:id="@+id/radio_button_tab2"
                 android:layout_width="35dp"
                 android:layout_height="110dp"
                 android:background="@drawable/ic_radio_vertical_middle_state"
@@ -367,7 +380,7 @@
                 android:textColor="#FFFFFF"/>
 
             <RadioButton
-                android:id="@+id/rb3"
+                android:id="@+id/radio_button_tab3"
                 android:layout_width="35dp"
                 android:layout_height="110dp"
                 android:background="@drawable/ic_radio_vertical_last_state"

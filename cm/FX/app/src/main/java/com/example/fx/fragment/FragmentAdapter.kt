@@ -1,9 +1,12 @@
 package com.example.fx.fragment
 
+import android.R
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
+import androidx.fragment.app.FragmentTransaction
+
 
 class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()   // fragment
@@ -30,8 +33,15 @@ class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
         }
     }
 
-    fun replaceFragment(position:Int,fragment: Fragment) {
+    fun replaceFragment(position: Int, fragment: Fragment) {
         mFragmentList[position] = fragment
+    }
+    fun changeFragment(fm:FragmentManager) {
+        val fragmentTransaction: FragmentTransaction =
+            fm.beginTransaction()
+        fragmentTransaction.add(R.id.viewpager, BlankFragment.newInstance())
+        fragmentTransaction.addToBackStack(null)
+        fragmentTransaction.commitAllowingStateLoss()
     }
 
     /**

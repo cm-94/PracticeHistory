@@ -1,16 +1,369 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.FragmentSecond">
+    tools:context=".fragment.FragmentSecond"
+    android:orientation="vertical"
+    android:background="#000000">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#000000"
-        android:text="hello_blank_fragment2"
-        android:textColor="#FFFFFF"/>
+        android:layout_height="match_parent">
 
-</FrameLayout>
+        <GridLayout
+            android:id="@+id/firstGrid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/max_quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="@string/max_quantity"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/call_quantity_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:text="@string/call_quantity"
+                android:textColor="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/max_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="0"
+                android:layout_column="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
+                android:gravity="right"
+                android:textColor="#FFFFFF" />
+
+
+            <TextView
+                android:id="@+id/call_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="1"
+                android:layout_column="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
+                android:gravity="right"
+                android:textColor="#FFFFFF" />
+
+            <TextView
+                android:id="@+id/call_textview"
+                android:layout_width="90dp"
+                android:layout_height="50dp"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/call_quantity_text"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_1000"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="fill"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_first_state"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="x1,000"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_10000"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="fill"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_last_state"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="x 10,000"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/maxCallButton"
+                android:layout_width="50dp"
+                android:layout_height="40dp"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/layoutbutton"
+                android:text="MAX"
+                android:textColor="#8CDCD6"
+                android:textSize="12dp" />
+
+
+            <com.example.fx.view.SPButton
+                android:id="@+id/call_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="3"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/pipLeverage"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="4"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/sellcallText"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <RadioGroup
+                android:id="@+id/radio_group_option_sb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="4"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radio_button_sell"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="fill"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_first_state"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/sellText"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_buy"
+                    android:layout_width="70dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="fill"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_last_state"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/callText"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/expireDateText"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="5"
+                android:layout_column="0"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/expiryText"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+
+            <RadioGroup
+                android:id="@+id/radio_group_expiry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="5"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:gravity="center"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+
+            <RadioButton
+                    android:id="@+id/radio_button_expiry_current"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_first_state"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/current_date"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_expiry_weekend"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_vertical_middle_state"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/weekend_date"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_expiry_indefinite"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_vertical_middle_state"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/indefinite_date"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+                <RadioButton
+                    android:id="@+id/radio_button_expiry_designated"
+                    android:layout_width="40dp"
+                    android:layout_height="50dp"
+
+                    android:layout_weight="1"
+                    android:background="@drawable/ic_radio_horizontal_last_state"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/designated_date"
+                    android:textColor="#FFFFFF"
+                    android:textSize="13dp" />
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/designated_date"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="6"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
+                android:text="date"
+                android:visibility="invisible"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/designation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="7"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="@string/designation_text"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <com.example.fx.view.SPButton
+                android:id="@+id/designation_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="7"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"/>
+
+            <TextView
+                android:id="@+id/designation_station_text"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_row="8"
+                android:layout_column="0"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/designation_station_text"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+            <com.example.fx.view.SPButton
+                android:id="@+id/designation_station_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_row="8"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="fill"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"/>
+
+            <Button
+                android:id="@+id/order_confirm"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_row="9"
+                android:layout_column="1"
+                android:layout_columnSpan="2"
+                android:layout_gravity="end"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="3dp"
+                android:background="@drawable/ic_order_confirm_button"
+                android:text="@string/order_confirm"
+                android:textColor="#FFFFFF"
+                android:textSize="15dp" />
+
+        </GridLayout>
+    </ScrollView>
+
+</LinearLayout>

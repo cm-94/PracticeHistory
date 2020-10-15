@@ -1,4 +1,4 @@
-package com.example.fx
+package com.example.fx.utils
 
 object Constants {
     /** SP Button option */

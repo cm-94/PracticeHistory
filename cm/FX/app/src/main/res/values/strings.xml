@@ -5,7 +5,16 @@
 
     <string name="sellText">壳</string>
     <string name="callText">買</string>
+    <string name="sellcallText">壳買</string>
+    <string name="expiryText">有効期限</string>
     <string name="opening_price">始値比</string>
+
+    <!-- Expire Radio Text -->
+    <string name="current_date">当日</string>
+    <string name="weekend_date">週末</string>
+    <string name="indefinite_date">無期限</string>
+    <string name="designated_date">指定\n日時</string>
+    <string name="designated_date_value">指定日時:%4$1d/%2$2d/%2$3d %2$4d:%2$5d</string>
 
     <string name="setting">設定</string>
     <string name="spread">スプレッド\n%.1f</string>
@@ -16,15 +25,16 @@
     <string name="orderCNY_JPY">CNY\nJPY</string>
 
 
-    <!-- Radio Button -->
+    <!-- Main Radio Button -->
     <string name="radio1">リ\nア\nル\nタ\nイ\nム</string>
     <string name="radio2">指\n値\n·\n逆\n指\n値</string>
     <string name="radio3">I\nF\nD\n·\nI\nF\nO</string>
 
 
     <!-- TabTitle -->
-    <string name="new_order">新規注文</string>
+    <string name="new_order">新規注文(リアルタイム)</string>
     <string name="new_appointment_order">新規注文(指値·逆指値·OCO)</string>
+    <string name="new_IFD_order">IFD·IFO(注文)</string>
 
     <!-- FirstFragment -->
     <string name="max_quantity">發注可能數量:</string>
@@ -39,11 +49,15 @@
     <string name="pipLeverage">スリッペ一ヅ</string>
     <string name="pipAuto">自動利食い損切り</string>
 
-    <!-- pipSettingData -->
+    <!-- pipDataSetting -->
     <string name="pipAutoSell">利食い:</string>
-    <string name="pipAutoSellValue">%10.1fpips</string>
-
     <string name="pipAutoBuy">損切り:</string>
-    <string name="pipAutoBuyValue">%10.1fpips</string>
+    <string name="pipAutoOff">OFF</string>
+
+
+    <string name="designation_text">指値</string>
+    <string name="designation_station_text">逆指値</string>
+
+    <string name="order_confirm">注文確認</string>
 
 </resources>
