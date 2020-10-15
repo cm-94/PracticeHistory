@@ -165,7 +165,7 @@
             <TextView
                 android:id="@+id/call_textview"
                 android:layout_width="90dp"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_row="2"
                 android:layout_column="0"
                 android:layout_gravity="fill"
@@ -193,7 +193,7 @@
                 <RadioButton
                     android:id="@+id/radio_button_1000"
                     android:layout_width="70dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:checked="true"
                     android:layout_gravity="fill"
                     android:gravity="center"
@@ -207,7 +207,7 @@
                 <RadioButton
                     android:id="@+id/radio_button_10000"
                     android:layout_width="70dp"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_gravity="fill"
                     android:gravity="center"
                     android:background="@drawable/ic_radio_horizontal_last_state"
@@ -222,7 +222,7 @@
             <Button
                 android:id="@+id/maxCallButton"
                 android:layout_width="50dp"
-                android:layout_height="40dp"
+                android:layout_height="35dp"
                 android:layout_row="3"
                 android:layout_column="0"
                 android:layout_gravity="center"
@@ -237,7 +237,7 @@
             <com.example.fx.view.SPButton
                 android:id="@+id/call_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_row="3"
                 android:layout_column="1"
                 android:layout_columnSpan="2"
@@ -247,7 +247,7 @@
             <TextView
                 android:id="@+id/pipLeverage"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="4"
                 android:layout_column="0"
                 android:layout_columnSpan="2"
@@ -261,7 +261,7 @@
             <com.example.fx.view.SPButton
                 android:id="@+id/pips_button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="35dp"
                 android:layout_row="5"
                 android:layout_column="1"
                 android:layout_columnSpan="2"
@@ -271,7 +271,7 @@
             <TextView
                 android:id="@+id/pipAuto"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="6"
                 android:layout_column="0"
                 android:layout_columnSpan="2"
@@ -285,7 +285,7 @@
             <Switch
                 android:id="@+id/pipAutoSwitch"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="20dp"
                 android:layout_row="6"
                 android:layout_column="2"
                 android:layout_gravity="end"
@@ -297,7 +297,7 @@
             <TextView
                 android:id="@+id/pipAutoSellText"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="8"
                 android:layout_column="1"
                 android:layout_gravity="end"
@@ -310,7 +310,7 @@
             <TextView
                 android:id="@+id/pipAutoBuyText"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="9"
                 android:layout_column="1"
                 android:layout_gravity="end"
@@ -322,7 +322,7 @@
             <TextView
                 android:id="@+id/pipAutoSellValue"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="8"
                 android:layout_column="2"
                 android:layout_gravity="end"
@@ -335,7 +335,7 @@
             <TextView
                 android:id="@+id/pipAutoBuyValue"
                 android:layout_width="wrap_content"
-                android:layout_height="25dp"
+                android:layout_height="20dp"
                 android:layout_row="9"
                 android:layout_column="2"
                 android:layout_gravity="end"

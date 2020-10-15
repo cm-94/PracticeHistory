@@ -88,7 +88,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        /** callprice, sellprice => call_price,sell_price */
+        /** 매도,매수 가격 & 차액(spread) => call_price, sell_price & spr */
         val callStr = SpannableStringBuilder(NewOrder.callprice.toString())
         callStr.setSpan(AbsoluteSizeSpan(250),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
         call_price.text = callStr

@@ -36,13 +36,13 @@ class FragmentAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
     fun replaceFragment(position: Int, fragment: Fragment) {
         mFragmentList[position] = fragment
     }
-    fun changeFragment(fm:FragmentManager) {
-        val fragmentTransaction: FragmentTransaction =
-            fm.beginTransaction()
-        fragmentTransaction.add(R.id.viewpager, BlankFragment.newInstance())
-        fragmentTransaction.addToBackStack(null)
-        fragmentTransaction.commitAllowingStateLoss()
-    }
+//    fun changeFragment(fm:FragmentManager) {
+//        val fragmentTransaction: FragmentTransaction =
+//            fm.beginTransaction()
+//        fragmentTransaction.add(R.id.viewpager, BlankFragment.newInstance())
+//        fragmentTransaction.addToBackStack(null)
+//        fragmentTransaction.commitAllowingStateLoss()
+//    }
 
     /**
      * 필수 override method
