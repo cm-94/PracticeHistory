@@ -98,7 +98,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
                         if (data.toInt()>0){
                             (data.toInt()-1).toString()
                         }else{
-                            "0"
+                            resources.getString(R.string.default_order)
                         }
                     }
             }
@@ -114,7 +114,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
                     if (data.substring(0,data.length-4).toFloat()>0.0){
                         resources.getString(R.string.pipData,(data.substring(0,data.length-4).toFloat()-0.1))
                     }else{
-                        "0.0pips"
+                        resources.getString(R.string.default_pips)
                     }
                 }
             }
@@ -129,7 +129,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
                     if (data.toFloat()>0.000){
                         (data.toFloat()-0.001).toString()
                     }else{
-                        "0.000"
+                        resources.getString(R.string.default_3f)
                     }
                 }
             }

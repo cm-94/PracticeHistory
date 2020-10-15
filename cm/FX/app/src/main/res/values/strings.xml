@@ -60,4 +60,10 @@
 
     <string name="order_confirm">注文確認</string>
 
+
+    <string name="default_order">0</string>
+    <string name="default_pips">0.0</string>
+    <string name="default_3f">0.000</string>
+
+
 </resources>
