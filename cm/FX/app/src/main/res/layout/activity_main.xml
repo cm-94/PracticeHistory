@@ -17,8 +17,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginTop="3dp"
             android:layout_marginBottom="5dp"
@@ -39,7 +39,7 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginEnd="5dp"
             android:layout_marginRight="5dp"
@@ -75,39 +75,40 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:paddingTop="3dp"
-        android:background="#000000">
+        android:background="#000000"
+        android:paddingTop="3dp">
 
         <LinearLayout
             android:id="@+id/orderCurrency"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:background="@drawable/imgbutton"
+            android:layout_height="35dp"
             android:layout_gravity="center"
-            android:orientation="horizontal"
             android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp">
+            android:layout_marginLeft="5dp"
+            android:background="@drawable/imgbutton"
+            android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="25dp"
                 android:layout_height="20dp"
-                android:background="@drawable/img_large_usd_jpy"
+                android:layout_gravity="center"
                 android:layout_marginStart="3dp"
                 android:layout_marginLeft="3dp"
-                android:layout_gravity="center"
-                android:layout_weight="1"/>
+                android:layout_weight="1"
+                android:background="@drawable/img_large_usd_jpy" />
+
             <Button
                 android:id="@+id/orderButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:text="@string/orderUSD_JPY"
-                android:background="@null"
+                android:layout_gravity="center"
                 android:layout_marginEnd="3dp"
                 android:layout_marginRight="3dp"
-                android:layout_gravity="center"
                 android:layout_weight="1"
-                android:textSize="13dp"
-                android:textColor="#FFFFFF"/>
+                android:background="@null"
+                android:text="@string/orderUSD_JPY"
+                android:textColor="#FFFFFF"
+                android:textSize="13dp" />
 
         </LinearLayout>
 
@@ -117,7 +118,6 @@
             android:layout_height="13dp"
             android:layout_alignParentTop="true"
             android:layout_marginStart="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/orderCurrency"
             android:layout_toRightOf="@+id/orderCurrency"
@@ -133,8 +133,8 @@
             android:layout_toEndOf="@+id/highImage"
             android:layout_toRightOf="@+id/highImage"
             android:text="highPrice"
-            android:textSize="13dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:textSize="13dp" />
 
         <ImageView
             android:id="@+id/lowImage"
@@ -158,8 +158,8 @@
             android:layout_toEndOf="@+id/lowImage"
             android:layout_toRightOf="@+id/lowImage"
             android:text="lowPrice"
-            android:textSize="13dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:textSize="13dp" />
 
         <TextView
             android:id="@+id/opening_price"
@@ -168,12 +168,11 @@
             android:layout_below="@+id/high_price"
             android:layout_marginStart="5dp"
             android:layout_marginLeft="5dp"
-            android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/orderCurrency"
             android:layout_toRightOf="@+id/orderCurrency"
             android:text="@string/opening_price"
-            android:textSize="13dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:textSize="13dp" />
 
         <ImageView
             android:id="@+id/pmImage"
@@ -181,8 +180,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/high_price"
             android:layout_marginStart="3dp"
+            android:layout_marginTop="2dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/opening_price"
             android:src="@drawable/ic_minus" />
 
@@ -193,35 +192,33 @@
             android:layout_below="@+id/high_price"
             android:layout_marginStart="3dp"
             android:layout_marginLeft="3dp"
-            android:layout_marginTop="1dp"
             android:layout_toEndOf="@+id/pmImage"
             android:layout_toRightOf="@+id/pmImage"
             android:text="@string/opening_price"
-            android:textSize="14dp"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            android:textSize="14dp" />
 
         <LinearLayout
             android:id="@+id/chartButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:background="@drawable/imgbutton"
-            android:gravity="center"
             android:layout_marginEnd="5dp"
-            android:layout_marginRight="5dp">
+            android:layout_marginRight="5dp"
+            android:background="@drawable/imgbutton"
+            android:gravity="center">
 
             <ImageView
                 android:id="@+id/chartImageView"
                 android:layout_width="25dp"
                 android:layout_height="25dp"
-                android:background="@drawable/ic_chart_plus_o"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"
+                android:background="@drawable/ic_chart_plus_o" />
 
         </LinearLayout>
 
     </RelativeLayout>
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -233,7 +230,7 @@
         <RelativeLayout
             android:id="@+id/sellLayout"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentStart="true"
             android:layout_marginStart="3dp"
             android:layout_toStartOf="@+id/second_center"
@@ -243,11 +240,11 @@
             <TextView
                 android:id="@+id/sellText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="25dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:text="@string/sellText"
                 android:textColor="#FFFFFF"
                 android:textSize="20dp"/>
@@ -257,15 +254,23 @@
                 android:id="@+id/sell_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/sellText"
                 android:layout_alignParentStart="true"
-                android:gravity="bottom"
+                android:layout_alignParentBottom="true"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="4dp"
+                android:gravity="bottom"
                 android:text="test"
                 android:textColor="#FFFFFF"
-                android:textSize="25dp" />
+                android:textSize="30dp" />
+
+            <ImageView
+                android:id="@+id/sell_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/sellText"
+                app:srcCompat="@drawable/ic_minus" />
 
         </RelativeLayout>
 
@@ -273,13 +278,13 @@
             android:id="@+id/second_center"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            android:layout_centerInParent="true"/>
+            android:layout_centerInParent="true" />
 
 
         <RelativeLayout
             android:id="@+id/callLayout"
             android:layout_width="150dp"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_alignParentEnd="true"
             android:layout_marginStart="3dp"
             android:layout_toEndOf="@+id/second_center"
@@ -292,7 +297,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="10dp"
                 android:text="@string/callText"
                 android:textColor="#FFFFFF"
@@ -302,16 +307,24 @@
                 android:id="@+id/call_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/callText"
                 android:layout_alignParentEnd="true"
-                android:gravity="bottom"
-                android:layout_marginTop="2dp"
+                android:layout_alignParentBottom="true"
                 android:layout_marginEnd="10dp"
-                android:layout_marginBottom="3dp"
 
+                android:gravity="bottom"
                 android:text="test"
                 android:textColor="#FFFFFF"
-                android:textSize="25dp" />
+                android:textSize="30dp" />
+
+            <ImageView
+                android:id="@+id/call_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/callText"
+                app:srcCompat="@drawable/ic_plus" />
 
         </RelativeLayout>
 
@@ -320,10 +333,9 @@
             android:id="@+id/spread_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="1dp"
             android:layout_centerHorizontal="true"
             android:gravity="top|center"
+            android:paddingTop="-10dp"
             android:text="@string/spread"
             android:textColor="#FFFFFF"
             android:textSize="12dp" />
@@ -392,6 +404,7 @@
         </RadioGroup>
 
     </LinearLayout>
+
 
 
     <LinearLayout

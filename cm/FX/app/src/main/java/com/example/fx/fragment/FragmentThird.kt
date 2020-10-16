@@ -58,4 +58,11 @@ class FragmentThird : Fragment() {
                 }
             }
     }
+
+    fun refresh(){
+
+        val tr = fragmentManager?.beginTransaction()
+        tr?.detach(this)?.attach(this)
+
+    }
 }

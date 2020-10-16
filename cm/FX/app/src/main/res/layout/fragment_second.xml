@@ -44,7 +44,7 @@
 
 
             <TextView
-                android:id="@+id/max_quantity"
+                android:id="@+id/max_quantity_value2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="0"
@@ -57,7 +57,7 @@
 
 
             <TextView
-                android:id="@+id/call_quantity"
+                android:id="@+id/call_quantity_value2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_row="1"
@@ -357,6 +357,7 @@
                 android:layout_marginEnd="3dp"
                 android:background="@drawable/ic_order_confirm_button"
                 android:text="@string/order_confirm"
+                android:enabled="false"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp" />
 

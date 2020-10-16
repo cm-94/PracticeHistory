@@ -50,57 +50,106 @@ class FragmentSecond : Fragment() {
         super.onStart()
         /** 발주가능수량  & 주문 수량 TextView*/
         val maxAmount :String =formatter.format(NewOrder.balance)
-        max_quantity.text = maxAmount
+        max_quantity_value2.text = maxAmount
         NewOrder.callAmount = NewOrder.callUnit*NewOrder.callUnitCount
-        call_quantity.text = formatter.format(NewOrder.callAmount)
+        call_quantity_value2.text = formatter.format(NewOrder.callAmount)
 
         /** 주문 수량 SPButton */
         call_button.setDataType(NewOrder.callUnitCount, Constants.CALL_QUANTITY)
 //        Log.d("Fragment1","call_button data:"+call_button.dataEditText.text.toString())
 
-
-
-        /** Max 버튼 리스너 */
-        maxCallButton.setOnClickListener {
-            /** 주문 수량 */
-            NewOrder.callUnitCount = NewOrder.balance/ NewOrder.callUnit
-            call_button.setDataType(NewOrder.callUnitCount,Constants.CALL_QUANTITY)
-            call_quantity.text = maxAmount
+        /** 주문수량 Radio Button ( x1,000 x10,000 )*/
+        // 초기 NewOrder.callUnit 값 (0 or 1,000 or 10,000) 에 따른 Radio Button 체크 상태 설정
+        when(NewOrder.callUnit){
+            0->radio_group_call.check(R.id.radio_button_1000)
+            1000->radio_group_call.check(R.id.radio_button_1000)
+            10000->radio_group_call.check(R.id.radio_button_10000)
         }
-
-        /** 주문수량 증감(+,-) 버튼 리스너 */
-        call_button.minusButton.setOnClickListener {
-//            Log.d("Fragment1","minus button"+resources.getString(R.string.call_quantity,call_button.calcData(Constants.SUB_NUMBER)))
-            NewOrder.callUnitCount = call_button.calcData(Constants.SUB_NUMBER).toInt()
-            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit
-            call_quantity.text = formatter.format(NewOrder.callAmount)
-        }
-        call_button.plusButton.setOnClickListener {
-//            Log.d("Fragment1","plus button"+resources.getString(R.string.call_quantity,call_button.calcData(Constants.ADD_NUMBER)))
-            NewOrder.callUnitCount = call_button.calcData(Constants.ADD_NUMBER).toInt() // 주문 개별 수량
-            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
-            call_quantity.text = formatter.format(NewOrder.callAmount)
-        }
-
-        /** 주문수량 Radio Button */
+        // call Radio Button 클릭 시 NewOrder.callUnit 변경 & 주문수량 TextView 변경
         radio_group_call.setOnCheckedChangeListener { _, i ->
             when(i){
                 R.id.radio_button_1000-> NewOrder.callUnit = 1000
                 R.id.radio_button_10000-> NewOrder.callUnit = 10000
             }
-//            // 주문 개별 수량 변경( = 총 주문 수량 / 변경된 주문 단위)
-//            NewOrder.callUnitCount = NewOrder.callAmount/NewOrder.callUnit
-//            call_button.setDataType(NewOrder.callUnitCount, Constants.CALL_QUANTITY)
-//
-//            // 총 주문 수량 변경( = 변경된 주문 개별 수량 X 변경된 주문 단위)
-//            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit // 총 수량 = 개별 수량 x 단위(단가?)
-//            call_quantity.text = formatter.format(NewOrder.callAmount)
-
+            // 주문 수량 데이터 변경( 수량 x 단위 )
             NewOrder.callAmount = call_button.getData().toInt()*NewOrder.callUnit
-            call_quantity.text = formatter.format(NewOrder.callAmount)
-
+            call_quantity_value2.text = formatter.format(NewOrder.callAmount)
         }
+
+        /** Max 버튼 리스너 */
+        maxCallButton.setOnClickListener {
+            /** 주문 수량 Data & TextView */
+            NewOrder.callUnitCount = NewOrder.balance/ NewOrder.callUnit            // 주문수량 계산
+            call_button.setDataType(NewOrder.callUnitCount,Constants.CALL_QUANTITY) // call 버튼(EditText) 새로 입력
+            call_quantity_value2.text = maxAmount                                          // 주문수량 표기(최상단)
+        }
+
+        /** 주문수량 증감(+,-) 버튼 리스너 */
+        call_button.minusButton.setOnClickListener { /** (ㅡ) 버튼!! */
+            NewOrder.callUnitCount = call_button.calcData(Constants.SUB_NUMBER).toInt()
+            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit
+            call_quantity_value2.text = formatter.format(NewOrder.callAmount)
+        }
+        call_button.plusButton.setOnClickListener { /** (+) 버튼!! */
+            NewOrder.callUnitCount = call_button.calcData(Constants.ADD_NUMBER).toInt() // 주문 개별 수량
+            NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
+            call_quantity_value2.text = formatter.format(NewOrder.callAmount)
+        }
+
+        /** 지정 & 역지정 SPButton 리스너!! */
+        // +,- 처음 클릭 시 -> 매수 호가로 세팅
+        // 이후 클릭 시 0.001씩 증감
+        /** 지정 */
+        designation_value.minusButton.setOnClickListener { // (-) 버튼!!
+            if(designation_value.getData().isEmpty()){
+                designation_value.setDataType(NewOrder.callprice,Constants.LIMIT_PRICE) // 매수 호가로 pips 설정
+                order_confirm.isEnabled = true                                          // 주문 확인버튼 비활성화
+            }else {
+                designation_value.setDataType(
+                    designation_value.calcData(Constants.SUB_NUMBER).toFloat()          //-> 뺄셈 계산 실행
+                    ,Constants.LIMIT_PRICE)                                             // 새로 데이터 세팅
+            }
+        }
+        designation_value.plusButton.setOnClickListener { // (+) 버튼!!
+            if (designation_value.getData().isEmpty()) {
+                designation_value.setDataType(NewOrder.callprice, Constants.LIMIT_PRICE) // 매수 호가로 pips 설정
+                order_confirm.isEnabled = true                                           // 주문 확인버튼 비활성화
+            } else {
+                designation_value.setDataType(
+                    designation_value.calcData(Constants.ADD_NUMBER).toFloat()           //-> 뺄셈 계산 실행
+                    , Constants.LIMIT_PRICE)                                             // 새로 데이터 세팅
+            }
+        }
+
+        /** 역지정 */
+        designation_station_value.minusButton.setOnClickListener { // (-) 버튼!!
+            if(designation_station_value.getData().isEmpty()){
+                designation_station_value.setDataType(NewOrder.callprice,Constants.LIMIT_PRICE) // 매수 호가로 pips 설정
+                order_confirm.isEnabled = true                                                  // 주문 확인버튼 비활성화
+            }else {
+                designation_station_value.setDataType(
+                    designation_station_value.calcData(Constants.SUB_NUMBER).toFloat()          //-> 뺄셈 계산 실행
+                    ,Constants.LIMIT_PRICE)                                                     // 새로 데이터 세팅
+            }
+        }
+        designation_station_value.plusButton.setOnClickListener { // (+) 버튼!!
+            if (designation_station_value.getData().isEmpty()) {
+                designation_station_value.setDataType(NewOrder.callprice, Constants.LIMIT_PRICE) // 매수 호가로 pips 설정
+                order_confirm.isEnabled = true                                                   // 주문 확인버튼 비활성화
+            } else {
+                designation_station_value.setDataType(
+                    designation_station_value.calcData(Constants.ADD_NUMBER).toFloat()           //-> 뺄셈 계산 실행
+                    , Constants.LIMIT_PRICE)                                                     // 새로 데이터 세팅
+            }
+        }
+
+        // TODO : 주문수량 == 0 / (역)지정 중 하나라도 0이면 order_confirm 버튼 비활성화 되도록 하기!!
+
     }
+
+
+
+
 
     companion object {
         /**
@@ -120,5 +169,13 @@ class FragmentSecond : Fragment() {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+
+    fun refresh(){
+
+        val tr = fragmentManager?.beginTransaction()
+        tr?.detach(this)?.attach(this)
+
     }
 }

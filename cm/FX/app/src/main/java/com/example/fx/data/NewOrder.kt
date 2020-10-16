@@ -31,9 +31,12 @@ object NewOrder {
     var pipsCount : Float = 0.0F
 
 
-    /** 설정된 지정 pips */
+    /** 설정된 pips (Switch)*/
     var sellAutoPips:Float = 0.0F
     var buyAutoPips:Float = 0.0F
-    /** 설정된 역지정 pips */
+
+    /** 설정할 pips (SP Button) */
+    var sellPips:Float = 0.000F
+    var buyPips:Float = 0.000F
 
 }
