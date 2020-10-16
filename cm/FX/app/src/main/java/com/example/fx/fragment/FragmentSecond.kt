@@ -1,6 +1,8 @@
 package com.example.fx.fragment
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -95,6 +97,23 @@ class FragmentSecond : Fragment() {
             NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
             call_quantity_value2.text = formatter.format(NewOrder.callAmount)
         }
+
+        /** SP Button 길게 클릭 시 해당 EditText값을 바로 call_quantity_value(주문수량) TextView에 반영!! */
+        call_button.inputData.addTextChangedListener(object : TextWatcher {
+            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                // 입력되는 텍스트에 변화가 있을 때
+                NewOrder.callUnitCount = s.toString().toInt() // 주문 개별 수량
+                NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
+                call_quantity_value2.text = formatter.format(NewOrder.callAmount)
+                Log.d("TextWatcher!!","NewOrder.callAmount:${NewOrder.callAmount},char:$s")
+            }
+            override fun afterTextChanged(arg0: Editable) {
+                // 입력이 끝났을 때
+            }
+            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+                // 입력하기 전에
+            }
+        })
 
         /** 지정 & 역지정 SPButton 리스너!! */
         // +,- 처음 클릭 시 -> 매수 호가로 세팅

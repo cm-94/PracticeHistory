@@ -113,6 +113,7 @@ class FragmentFirst : Fragment() {
             call_quantity_value1.text = formatter.format(NewOrder.callAmount)
         }
 
+        /** SP Button 길게 클릭 시 해당 EditText값을 바로 call_quantity_value(주문수량) TextView에 반영!! */
         call_button.inputData.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // 입력되는 텍스트에 변화가 있을 때
