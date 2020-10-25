@@ -1,2 +1,2 @@
 include ':app'
-rootProject.name = "FCex"
+rootProject.name = "FX"

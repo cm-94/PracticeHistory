@@ -1,7 +1,11 @@
 package com.example.fx.view
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.os.Handler
 import android.util.AttributeSet
+import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -16,10 +20,18 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
     private lateinit var dataEditText: EditText
     private var bDataType : Int = 0
 
+    private var autoIncrement : Boolean = false
+    private var autoDecrement : Boolean = false
+
+
+    private val repeatUpdateHandler = Handler()
+
+
     init {
         initView()
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initView() {
         val view = View.inflate(this.context, R.layout.button_item, this)
 
@@ -27,29 +39,77 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
         this.plusButton = view.plusButton
         this.dataEditText = view.inputData
 
-        plusButton.setOnLongClickListener {
 
-            true
-        }
-
-        view.minusButton.setOnClickListener {
+        // TODO : Click Event!!
+        this.minusButton.setOnClickListener {
             calcData(Constants.SUB_NUMBER)
         }
 
-        view.plusButton.setOnClickListener {
+        this.plusButton.setOnClickListener {
             calcData(Constants.ADD_NUMBER)
+        }
+
+
+        // TODO : Long Click Event!!
+        //  +,- 각각
+        /** Minus Button */
+        this.minusButton.setOnLongClickListener {
+            // 뻴셈으로 flag 변경!!
+            autoIncrement = false
+            autoDecrement = true
+            // 핸들러 시작!!
+            repeatUpdateHandler.post(RepetetiveUpdater())
+            false
+        }
+
+        /** Plus Button */
+        this.plusButton.setOnLongClickListener {
+            // 덧셈으로 flag 변경!!
+            autoIncrement = true
+            autoDecrement = false
+            // 핸들러 시작!!
+            repeatUpdateHandler.post(RepetetiveUpdater()) // postDelayed(... , 500) => 0.5초 뒤 핸들러 실행!!
+            false
+        }
+
+        this.minusButton.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP && autoDecrement) {
+                autoDecrement = false
+            }
+
+            false
+        }
+
+        this.plusButton.setOnTouchListener { v, event ->
+            if (event.action == MotionEvent.ACTION_UP && autoIncrement) {
+                autoIncrement = false
+            }
+
+            false
+        }
+    }
+
+    inner class RepetetiveUpdater : Runnable {
+        override fun run() {
+            if (autoIncrement) {
+                Log.d("SPButton!!", "calc add: ${calcData(Constants.ADD_NUMBER)}")
+                repeatUpdateHandler.postDelayed(RepetetiveUpdater(), 50)
+            } else if (autoDecrement) {
+                Log.d("SPButton!!", "cald sub: ${calcData(Constants.SUB_NUMBER)}")
+                repeatUpdateHandler.postDelayed(RepetetiveUpdater(), 50)
+            }
         }
     }
 
 
 
     /**
-     * SP Button 에 사용될 버튼의 타입(bDataType) 설정
+     * SP Button 에 사용될 데이터 및 타입(bDataType) 설정
      * 표시할 첫 데이터와 type을 param으로 받아 EditText에 표현
      * @param data, type
      * @return true,false
      */
-    fun setDataType(data:Number, type:Int):Boolean{
+    fun setDataType(data: Number, type: Int):Boolean{
         /** type == 1~3 아닐 때 */
         if (type>3 || type<1){
             return false
@@ -58,18 +118,18 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
         bDataType = type
         when(bDataType){
             /** 매수 매도 수량일 때 : 자연수 */
-            Constants.CALL_QUANTITY->{
+            Constants.CALL_QUANTITY -> {
 //                dataEditText.setText(firstData.toInt().toString())
-                dataEditText.setText(resources.getString(R.string.callData,data.toInt()))
+                dataEditText.setText(resources.getString(R.string.callData, data.toInt()))
             }
             /** pips 일 때 : 실수(0.1)*/
-            Constants.PIPS_QUANTITY->{
-                dataEditText.setText(resources.getString(R.string.pipData,data.toFloat()))
+            Constants.PIPS_QUANTITY -> {
+                dataEditText.setText(resources.getString(R.string.pipData, data.toFloat()))
             }
             /** (역)지정가 일 때 : 실수(0.001) */
-            Constants.LIMIT_PRICE->{
+            Constants.LIMIT_PRICE -> {
 //                dataEditText.setText(String.format("%.3f", firstData))
-                dataEditText.setText(resources.getString(R.string.limitData,data.toFloat()))
+                dataEditText.setText(resources.getString(R.string.limitData, data.toFloat()))
             }
         }
         return true
@@ -81,54 +141,58 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
      * @param calcData,calcType
      * @return new data(String)
      */
-    fun calcData(calcType:String) :String {
+    fun calcData(calcType: String) :String {
         val data = dataEditText.text.toString()
         var result = ""
         when(bDataType){
             /** 매수 매도 수량일 때 */
-            Constants.CALL_QUANTITY->{
+            Constants.CALL_QUANTITY -> {
                 /** 덧셈일 때 => 1씩 변경 */
                 result =
-                    if (calcType== Constants.ADD_NUMBER) {
+                    if (calcType == Constants.ADD_NUMBER) {
                         (data.toInt() + 1).toString()
                     }
                     /** 뺄셈일 때 */
-                    else{
-                    /** 양수일 때 */
-                        if (data.toInt()>0){
-                            (data.toInt()-1).toString()
-                        }else{
+                    else {
+                        /** 양수일 때 */
+                        if (data.toInt() > 0) {
+                            (data.toInt() - 1).toString()
+                        } else {
                             resources.getString(R.string.default_order)
                         }
                     }
             }
             /** pips 일 때 => 0.1씩 변경 */
-            Constants.PIPS_QUANTITY->{
+            Constants.PIPS_QUANTITY -> {
                 /** 덧셈일 때 */
-                result = if (calcType== Constants.ADD_NUMBER){
+                result = if (calcType == Constants.ADD_NUMBER) {
                     // ex) 3.3pips => 3.3 => 3.4 => 3.4pips => return!!
-                    resources.getString(R.string.pipData,(data.substring(0,data.length-4).toFloat()+0.1))
-                }/** 뺄셈일 때 */
-                else{
+                    resources.getString(R.string.pipData,
+                        (data.substring(0, data.length - 4).toFloat() + 0.1))
+                }
+                /** 뺄셈일 때 */
+                else {
                     /** 양수일 때 */
-                    if (data.substring(0,data.length-4).toFloat()>0.0){
-                        resources.getString(R.string.pipData,(data.substring(0,data.length-4).toFloat()-0.1))
-                    }else{
+                    if (data.substring(0, data.length - 4).toFloat() > 0.0) {
+                        resources.getString(R.string.pipData,
+                            (data.substring(0, data.length - 4).toFloat() - 0.1))
+                    } else {
                         resources.getString(R.string.default_pips)
                     }
                 }
             }
             /** (역)지정가 일 때 => 0.01씩 변경 */
-            Constants.LIMIT_PRICE->{
+            Constants.LIMIT_PRICE -> {
                 /** 덧셈일 때 */
-                result = if (calcType== Constants.ADD_NUMBER){
-                    (data.toFloat()+0.001).toString()
-                }/** 뺄셈일 때 */
-                else{
+                result = if (calcType == Constants.ADD_NUMBER) {
+                    (data.toFloat() + 0.001).toString()
+                }
+                /** 뺄셈일 때 */
+                else {
                     /** 양수일 때 */
-                    if (data.toFloat()>0.000){
-                        (data.toFloat()-0.001).toString()
-                    }else{
+                    if (data.toFloat() > 0.000) {
+                        (data.toFloat() - 0.001).toString()
+                    } else {
                         resources.getString(R.string.default_3f)
                     }
                 }
@@ -139,31 +203,10 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
         return result
     }
 
-    /**
-     * - set dataEditText to Max count
-     * @param amount(Int), option(1,000 or 10,000)
-     */
-    fun setTextData(data:String){
-        dataEditText.setText(data)
-    }
-//    fun setMaxCall(format: NumberFormat):String{
-//        val maxAmount :String
-//        if(this.bDataType==Constants.CALL_QUANTITY){
-//            maxAmount= formatter.format(NewOrder.balance/NewOrder.callAmount)
-//            dataEditText.setText(maxAmount)
-//            return maxAmount
-//
-//            when(dataType){
-//                Constants.CALL_QUANTITY->dataEditText.setText(data)
-//                Constants.PIPS_QUANTITY->dataEditText.setText(resources.getString(R.string.pipData,data.toFloat()))
-//                Constants.LIMIT_PRICE->dataEditText.setText(resources.getString(R.string.limitData,data.toFloat()))
-//            }
-//        }else{
-//            return ""
-//        }
-//    }
-
     fun getData():String{
         return dataEditText.text.toString()
     }
+
+
+
 }

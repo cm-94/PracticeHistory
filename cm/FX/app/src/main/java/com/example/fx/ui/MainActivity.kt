@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // TODO TabBar 세팅
+
+
         // TODO 통신 연결
 
         // TODO 데이터 세팅(NewOrder Object)
@@ -30,8 +33,6 @@ class MainActivity : AppCompatActivity() {
 
         // TODO View 세팅
         initView()
-
-
     }
 
 
@@ -86,32 +87,29 @@ class MainActivity : AppCompatActivity() {
         // TODO 데이터 변동에 따른 이미지 변경( ↑ , ↓ )
 //        pmImage.setImageResource(R.drawable.ic_minus)
 
-
-
         /** 매도,매수 가격 & 차액(spread) => call_price, sell_price & spr */
-        val callStr = SpannableStringBuilder(NewOrder.callprice.toString())
-        callStr.setSpan(AbsoluteSizeSpan(250),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val callStr = SpannableStringBuilder(NewOrder.callprice.toString())            // 데이터(.1f) -> String으로
+        callStr.setSpan(AbsoluteSizeSpan(230),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) // 마지막 두글자 크기 ↑
         call_price.text = callStr
 
-        val sellStr = SpannableStringBuilder(NewOrder.sellprice.toString())
-        sellStr.setSpan(AbsoluteSizeSpan(250),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        val sellStr = SpannableStringBuilder(NewOrder.sellprice.toString())            // 데이터(.1f) -> String으로
+        sellStr.setSpan(AbsoluteSizeSpan(230),4,6, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE) // 마지막 두글자 크기 ↑
         sell_price.text = sellStr
 
-        high_price.text = NewOrder.maxprice.toString()
-        low_price.text = NewOrder.minprice.toString()
-        fluctate.text = NewOrder.fluctate.toString()
+        high_price.text = NewOrder.maxprice.toString() // 고거
+        low_price.text = NewOrder.minprice.toString()  // 저가
+        fluctate.text = NewOrder.fluctate.toString()   // 시가 대비(변동)
 
-        val spreadStr = SpannableStringBuilder(resources.getString(R.string.spread, NewOrder.spread))
-        spreadStr.setSpan(AbsoluteSizeSpan(80),5,9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
-        spread_text.text = spreadStr
-
+        val spreadStr = SpannableStringBuilder(resources.getString(R.string.spread, NewOrder.spread))          // 데이터(.3f) -> String으로
+        spreadStr.setSpan(AbsoluteSizeSpan(45),5,9, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)// 마지막 세글자 크기 ↑
+        spread_text.text = spreadStr // Spread( 세번째 레이아웃 가운데 Text )
 //        spread_text.text = resources.getString(R.string.spread,NewOrder.spread)
 
 
         /** Viewpager & adpater */
         // fragment adapter instance 생성
         val mFragmentAdapter = FragmentAdapter(supportFragmentManager)
-        // fragment adapter에 fragment 추가(fragment,title)
+        // fragment adapter에 fragment 생성 후 추가(fragment,Title)
         mFragmentAdapter.addFragment(FragmentFirst(), "fragment1")
         mFragmentAdapter.addFragment(FragmentSecond(), "fragment2")
         mFragmentAdapter.addFragment(FragmentThird(), "fragment3")
@@ -121,6 +119,7 @@ class MainActivity : AppCompatActivity() {
         /**
          *  Radio Button Click
          * - click된 radio button의 해당 fragment로 변경
+         * - Scroll or 버튼 클릭 시 둘 다 발생!! ( 스크롤 시 checked 변경하도록 해서..!! )
          */
         radio_group_tab.setOnCheckedChangeListener { _, i ->
             when(i){
@@ -129,30 +128,19 @@ class MainActivity : AppCompatActivity() {
 //                    tran.replace(R.id.viewpager,mFragmentAdapter.getItem(0))
 //                    tran.commit()
 
-                    val tran = supportFragmentManager.beginTransaction()
-                    tran.addToBackStack(null)
 //                    tran.remove(mFragmentAdapter.getItem(0))
+                    /** 페이지 변경 시 새 데이터 적용 */
+//                    mFragmentAdapter.replaceFragment(0,FragmentFirst())
+//                    viewpager.adapter = mFragmentAdapter
 
+//                    mFragmentAdapter.getItem(0).onStart()
                     viewpager.currentItem = 0
-
-
                 }
                 R.id.radio_button_tab2 -> {
-//                    var tran = supportFragmentManager.beginTransaction()
-//                    tran.replace(R.id.viewpager,mFragmentAdapter.getItem(1))
-//                    tran.commit()
-                    val tran = supportFragmentManager.beginTransaction()
-                    tran.addToBackStack(null)
                     viewpager.currentItem = 1
                 }
                 R.id.radio_button_tab3 -> {
-//                    val tran = supportFragmentManager.beginTransaction()
-//                    tran.replace(R.id.viewpager,mFragmentAdapter.getItem(2))
-//                    tran.commit()
-                    val tran = supportFragmentManager.beginTransaction()
-                    tran.addToBackStack(null)
                     viewpager.currentItem = 2
-
                 }
             }
         }
@@ -171,10 +159,9 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onPageSelected(position: Int) {
                 /** position번째 => check */
-                viewpager
                 when(position){
                     0->{
-                        radio_group_tab.check(R.id.radio_button_tab1)               /** Radio button check 변경 */
+                        radio_group_tab.check(R.id.radio_button_tab1)               /** Radio button check된 것 변경 */
                         sellLayout.setBackgroundResource(R.drawable.ic_order_sell)  /** Order(sell) 배경 변경 */
                         callLayout.setBackgroundResource(R.drawable.ic_order_buy)   /** Order(call) 배경 변경 */
 
@@ -183,8 +170,8 @@ class MainActivity : AppCompatActivity() {
                         callText.setTextColor(Color.WHITE)                          /** Order(call) Text색 변경 */
                         call_price.setTextColor(Color.WHITE)
 
-                        chartButton.visibility = View.VISIBLE                       /** chart 버튼 안보이게 */
-                        tabTitle.text = getString(R.string.new_order)
+                        chartButton.visibility = View.VISIBLE                       /** chart 버튼 보이게 */
+                        tabTitle.text = getString(R.string.new_order)                     /** Title TextView 변경 */
                         tabTitle.textSize = 18F
                     }
                     1->{
@@ -217,7 +204,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-
             override fun onPageScrollStateChanged(state: Int) {
 
             }
