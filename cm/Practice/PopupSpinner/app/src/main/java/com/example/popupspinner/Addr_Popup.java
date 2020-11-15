@@ -18,8 +18,8 @@ public class Addr_Popup extends Dialog implements View.OnClickListener, AdapterV
 
     /** View */
     private View mView;
-    private Spinner city_spinner;
-    private Spinner county_spinner;
+    private Spinner spinner_city;
+    private Spinner spinner_county;
 
     /** Data */
     private ArrayList<String> city_data;
@@ -59,12 +59,12 @@ public class Addr_Popup extends Dialog implements View.OnClickListener, AdapterV
     private void InitView(){
         /** View */
         mView = View.inflate(mContext,R.layout.addr_popup,null);
-        city_spinner = mView.findViewById(R.id.spinner_city);
-        county_spinner = mView.findViewById(R.id.spinner_county);
+        spinner_city = mView.findViewById(R.id.spinner_city);
+        spinner_county = mView.findViewById(R.id.spinner_county);
 
         /** Spinner Item Selected 이벤트!! */
-        city_spinner.setOnItemSelectedListener(this);
-        county_spinner.setOnItemSelectedListener(this);
+        spinner_city.setOnItemSelectedListener(this);
+        spinner_county.setOnItemSelectedListener(this);
 
         setContentView(mView);
 
@@ -121,7 +121,7 @@ public class Addr_Popup extends Dialog implements View.OnClickListener, AdapterV
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //스피너의 어댑터 지정
-        city_spinner.setAdapter(spinner_adapter);
+        spinner_city.setAdapter(spinner_adapter);
 
     }
     public void setCountyList(ArrayList<String> data){
@@ -134,7 +134,7 @@ public class Addr_Popup extends Dialog implements View.OnClickListener, AdapterV
         spinner_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         //스피너의 어댑터 지정
-        county_spinner.setAdapter(spinner_adapter);
+        spinner_county.setAdapter(spinner_adapter);
     }
 
     @Override

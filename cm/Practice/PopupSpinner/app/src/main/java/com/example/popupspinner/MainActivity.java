@@ -61,8 +61,6 @@ public class MainActivity extends AppCompatActivity implements Addr_Popup.onAddr
          * 주소검색 클릭 시 시도명(TR 0726) 요청 및 데이터 세팅
          * 수신 데이터로 팝업 내 시도명 데이터 세팅
          */
-
-
     }
 
 
