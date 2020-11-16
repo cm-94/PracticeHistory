@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
 
         linearLayoutManager = LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false)
         book_rv.layoutManager = linearLayoutManager
+
         // adapter
         myAdapter = BookAdapter(this,listData)
         book_rv.adapter = myAdapter

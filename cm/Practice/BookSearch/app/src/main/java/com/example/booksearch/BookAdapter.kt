@@ -57,7 +57,6 @@ class BookAdapter(private var context: Context, private var items: ArrayList<Boo
             holder.author.text = item.author
             holder.price.text = item.price
             holder.publisher.text = item.publisher
-
             holder.itemView.setOnClickListener {
 //                // context(MainActivity) ~> InfoActivity
 //                val intent = Intent(context, InfoActivity::class.java)
