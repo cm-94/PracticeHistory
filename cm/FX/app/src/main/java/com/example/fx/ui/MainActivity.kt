@@ -133,13 +133,25 @@ class MainActivity : AppCompatActivity() {
 //                    mFragmentAdapter.replaceFragment(0,FragmentFirst())
 //                    viewpager.adapter = mFragmentAdapter
 
-//                    mFragmentAdapter.getItem(0).onStart()
+                    /**
+                     *  FragmentFirst가 Main에 올라가있으면 onStart() 실행 후 페이지 변경!!
+                     *  => onStart()에서 새 데이터 반영해서 View 구성
+                     */
+                    if(mFragmentAdapter.getItem(0).isAdded){
+                        mFragmentAdapter.getItem(0).onStart()
+                    }
                     viewpager.currentItem = 0
                 }
                 R.id.radio_button_tab2 -> {
+                    if(mFragmentAdapter.getItem(1).isAdded){
+                        mFragmentAdapter.getItem(1).onStart()
+                    }
                     viewpager.currentItem = 1
                 }
                 R.id.radio_button_tab3 -> {
+                    if(mFragmentAdapter.getItem(2).isAdded){
+                        mFragmentAdapter.getItem(2).onStart()
+                    }
                     viewpager.currentItem = 2
                 }
             }

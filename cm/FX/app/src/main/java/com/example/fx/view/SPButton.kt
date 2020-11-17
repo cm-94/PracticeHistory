@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
@@ -23,9 +22,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
     private var autoIncrement : Boolean = false
     private var autoDecrement : Boolean = false
 
-
     private val repeatUpdateHandler = Handler()
-
 
     init {
         initView()
@@ -38,7 +35,6 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
         this.minusButton = view.minusButton
         this.plusButton = view.plusButton
         this.dataEditText = view.inputData
-
 
         // TODO : Click Event!!
         this.minusButton.setOnClickListener {
@@ -58,7 +54,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
             autoIncrement = false
             autoDecrement = true
             // 핸들러 시작!!
-            repeatUpdateHandler.post(RepetetiveUpdater())
+            repeatUpdateHandler.postDelayed(RepetitiveUpdater(),500)
             false
         }
 
@@ -68,7 +64,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
             autoIncrement = true
             autoDecrement = false
             // 핸들러 시작!!
-            repeatUpdateHandler.post(RepetetiveUpdater()) // postDelayed(... , 500) => 0.5초 뒤 핸들러 실행!!
+            repeatUpdateHandler.postDelayed(RepetitiveUpdater(),500) // postDelayed(... , 500) => 0.5초 뒤 핸들러 실행!!
             false
         }
 
@@ -76,7 +72,6 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
             if (event.action == MotionEvent.ACTION_UP && autoDecrement) {
                 autoDecrement = false
             }
-
             false
         }
 
@@ -84,19 +79,16 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
             if (event.action == MotionEvent.ACTION_UP && autoIncrement) {
                 autoIncrement = false
             }
-
             false
         }
     }
 
-    inner class RepetetiveUpdater : Runnable {
+    inner class RepetitiveUpdater : Runnable {
         override fun run() {
             if (autoIncrement) {
-                Log.d("SPButton!!", "calc add: ${calcData(Constants.ADD_NUMBER)}")
-                repeatUpdateHandler.postDelayed(RepetetiveUpdater(), 50)
+                repeatUpdateHandler.postDelayed(RepetitiveUpdater(), Constants.POST_DELAY)
             } else if (autoDecrement) {
-                Log.d("SPButton!!", "cald sub: ${calcData(Constants.SUB_NUMBER)}")
-                repeatUpdateHandler.postDelayed(RepetetiveUpdater(), 50)
+                repeatUpdateHandler.postDelayed(RepetitiveUpdater(), Constants.POST_DELAY)
             }
         }
     }

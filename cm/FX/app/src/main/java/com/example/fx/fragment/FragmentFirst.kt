@@ -117,11 +117,9 @@ class FragmentFirst : Fragment() {
         call_button.inputData.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 // 입력되는 텍스트에 변화가 있을 때
-                NewOrder.callUnitCount = s.toString().toInt() // 주문 개별 수량
-                NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit              // 주문 총 수량 = 주문 개별 수량 X 주문 단위
+                NewOrder.callUnitCount = s.toString().toInt()                   // 주문 개별 수량
+                NewOrder.callAmount = NewOrder.callUnitCount*NewOrder.callUnit  // 주문 총 수량 = 주문 개별 수량 X 주문 단위
                 call_quantity_value1.text = formatter.format(NewOrder.callAmount)
-                Log.d("TextWatcher!!","NewOrder.callAmount:${NewOrder.callAmount},char:$s")
-
             }
 
             override fun afterTextChanged(arg0: Editable) {
@@ -132,10 +130,6 @@ class FragmentFirst : Fragment() {
                 // 입력하기 전에
             }
         })
-
-
-
-
 
         /** pips 증감(+,-) 버튼 리스너 */
         pips_button.minusButton.setOnClickListener {

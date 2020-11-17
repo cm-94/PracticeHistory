@@ -8,4 +8,7 @@ object Constants {
 
     const val ADD_NUMBER = "add"
     const val SUB_NUMBER = "sub"
+
+    const val POST_FIRST_DELAY = 500L
+    const val POST_DELAY = 50L
 }

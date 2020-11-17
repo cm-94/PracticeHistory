@@ -84,8 +84,8 @@ public class MainActivity extends Activity {
     private TextView longText = null;
 
     // Time to get message from Arduino
-    private static final int NEW_LINE_INTERVAL = 1000;
-    private static long mLastReceivedTime = 0L;
+//    private static final int NEW_LINE_INTERVAL = 1000;
+//    private static final long mLastReceivedTime = 0L;
     // Time to send Data to Server
     private static final int DATA_INTERVAL = 10000; // 600000
     private static long lastTime = 0L;
@@ -96,8 +96,8 @@ public class MainActivity extends Activity {
     private static int ekey;
     private static String regid;
     NotificationManager manager;
-    private static String CHANNEL_ID = "channel1";
-    private static String CHANNEL_NAME = "Channel1";
+    private static final String CHANNEL_ID = "channel1";
+    private static final String CHANNEL_NAME = "Channel1";
 
     private static ElderlyData elderlyData;
 

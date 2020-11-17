@@ -12,7 +12,7 @@ data class BookItem(
     val title: String,
     val publisher: String,
     val author: String,
-    val price: String,
+    val price: Int,
     val image: String,
     val link: String
 ) {
