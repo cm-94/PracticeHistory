@@ -1,13 +1,15 @@
-package com.example.booksearch
+package com.example.booksearch.ui
 
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.booksearch.ui.adpater.BookAdapter
+import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
-import com.example.booksearch.util.CommonUtils
 import com.example.booksearch.util.RetrofitUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import retrofit2.Call
@@ -72,23 +74,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-//
-//
-//        )
-//            RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//
-//                LinearLayoutManager layoutManager = LinearLayoutManager.class.cast(recyclerView.getLayoutManager());
-//                int totalItemCount = layoutManager.getItemCount();
-//                int lastVisible = layoutManager.findLastCompletelyVisibleItemPosition();
-//
-//                if (lastVisible >= totalItemCount - 1) {
-//                Log.d(TAG, "lastVisibled");
-//                }
-//            }
-//        };
+
     }
 
     private fun bookSearch(query: String, start: Int, display: Int){
@@ -116,10 +102,10 @@ class MainActivity : AppCompatActivity() {
                                     Log.d("MainActivity_Response_S", "item.toString: ${item["title"]}")
                                     listData.add(BookItem(
                                         // 태그 제거
-                                        // TODO : 정규표현식 학습하기
                                         item["title"].toString().replace("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>".toRegex(), ""),
-                                        item["publisher"].toString(),
+                                        item["publisher"].toString().replace("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>".toRegex(), ""),
                                         item["author"].toString().replace("<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>".toRegex(), ""),
+                                        // 가격 "" => 0 으로 초기화
                                         if(item["price"].toString().isNotBlank()) item["price"].toString().toInt() else 0,
                                         item["image"].toString(),
                                         item["link"].toString(),
@@ -133,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                     Log.d("MainActivity_Response_S", "listData.size2: " + listData.size)
+                    Toast.makeText(applicationContext,"총 데이터 : ${myAdapter.itemCount} ", Toast.LENGTH_SHORT).show()
                     myAdapter.addItems(listData)
                     // 전체 데이터 갱신(view)
                     myAdapter.notifyDataSetChanged()

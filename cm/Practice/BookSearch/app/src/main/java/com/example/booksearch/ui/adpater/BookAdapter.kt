@@ -1,17 +1,20 @@
-package com.example.booksearch
+package com.example.booksearch.ui.adpater
 
 import android.content.Context
+import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
+import com.example.booksearch.ui.InfoActivity
+import com.example.booksearch.util.CommonUtils
 import kotlinx.android.synthetic.main.book_item.view.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -66,23 +69,30 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
                 item.author
             )
             holder.price.text = context.getString(R.string.price, formatter.format(item.price))
+            holder.test.text = item.image
+            holder.link = item.link
 
-            if (item.image != ""){
-                Glide.with(context).load(item.image).override(item.image.length).into(holder.img_book)
+
+            // TODO : Glide 응답 Header -> content-length == 0 일 때 처리 필요..(빈 이미지)
+            if (!item.image.equals("")){
+                Glide.with(context).load(item.image)./*override(item.image.length).*/into(holder.img_book)
+                holder.img_book.visibility = View.VISIBLE
+                holder.test.visibility = View.VISIBLE
             }else{
                 holder.img_book.visibility = View.GONE
+                holder.test.visibility = View.GONE
             }
 
+            holder.img_book.setOnClickListener{
+//                Toast.makeText(context,"${holder.title.text} 이미지 클릭!, ${Glide.with(context).load(item.image)}",Toast.LENGTH_SHORT).show()
+                Toast.makeText(context,"${holder.title.text} 클릭!, 링크 : ${holder.link}",Toast.LENGTH_SHORT).show()
+            }
 
             holder.itemView.setOnClickListener {
-//                // context(MainActivity) ~> InfoActivity
-//                val intent = Intent(context, InfoActivity::class.java)
-//                // order_currency : InfoActivity에서 데이터 요청에 쓰일 종목명(Keyword)
-//                // Constants.ORDER_CURRENCY == "order_currency"
-//                intent.putExtra(Constants.ORDER_CURRENCY, this.items[position].order_currency)
-//                // startActivity -> intent에 세팅한대로 Activity 실행.
-//                // TODO : startActivity option값 살펴보기
-//                ContextCompat.startActivity(holder.itemView.context, intent, null)
+                val intent = Intent(context, InfoActivity::class.java)
+                intent.putExtra(CommonUtils.BOOK_INFO_URL,holder.link)
+                ContextCompat.startActivity(context,intent,null)
+
                 Toast.makeText(
                     context,
                     "${items[position].title}클릭됨! Link: ${items[position].link}",
@@ -94,10 +104,12 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
 
     // TODO Item을 담아둘 ViewHolder Class 정의!!
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img_book : ImageView = itemView.img_book
-        val title: TextView = itemView.title_tv
+        val img_book = itemView.img_book
+        val title = itemView.title_tv
         val price = itemView.price_tv
         val publisher_author = itemView.publisher_author_tv
+        var link = ""
+        val test = itemView.test
     }
 
     /**
