@@ -14,7 +14,7 @@ interface RetrofitService {
 //        "X-Naver-Client-Id: C5lgKUkRqRLJy79ksMpE",
 //        "X-Naver-Client-Secret: hA9aUSVBAB"
 //    })
-    @GET("book")
+    @GET("book.json")
     fun searchBookItem(@Query("query") query: String,
                        @Query("start") start: Int,
                        @Query("display") display: Int): Call<HashMap<String, Any>>

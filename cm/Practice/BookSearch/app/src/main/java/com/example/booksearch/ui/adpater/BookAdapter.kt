@@ -2,22 +2,31 @@ package com.example.booksearch.ui.adpater
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
+import com.example.booksearch.data.BookLink
 import com.example.booksearch.ui.InfoActivity
 import com.example.booksearch.util.CommonUtils
 import kotlinx.android.synthetic.main.book_item.view.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
+import javax.sql.DataSource
 
 
 class BookAdapter(private val context: Context, private var items: ArrayList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
@@ -69,35 +78,46 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
                 item.author
             )
             holder.price.text = context.getString(R.string.price, formatter.format(item.price))
-            holder.test.text = item.image
+            holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 
+            // TODO : Link Object 활용하기
+            BookLink.addLink(item.link)
 
-            // TODO : Glide 응답 Header -> content-length == 0 일 때 처리 필요..(빈 이미지)
-            if (!item.image.equals("")){
-                Glide.with(context).load(item.image)./*override(item.image.length).*/into(holder.img_book)
-                holder.img_book.visibility = View.VISIBLE
-                holder.test.visibility = View.VISIBLE
-            }else{
-                holder.img_book.visibility = View.GONE
-                holder.test.visibility = View.GONE
-            }
-
-            holder.img_book.setOnClickListener{
-//                Toast.makeText(context,"${holder.title.text} 이미지 클릭!, ${Glide.with(context).load(item.image)}",Toast.LENGTH_SHORT).show()
-                Toast.makeText(context,"${holder.title.text} 클릭!, 링크 : ${holder.link}",Toast.LENGTH_SHORT).show()
-            }
+            // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
+            // 성공 : VISIBLE, 실패 : GONE
+            Glide.with(context)
+                .load(item.image)
+                .listener(object : RequestListener<Drawable?> {
+                    // 이미지 로드 성공 시
+                    override fun onResourceReady(
+                        resource: Drawable?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        dataSource: com.bumptech.glide.load.DataSource?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        holder.img_book.visibility = View.VISIBLE       // 이미지 View -> Visible
+                        return false
+                    }// 이미지 로드 실패 시
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable?>?,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        holder.img_book.visibility = View.GONE          // 이미지 View -> Gone
+                        return false
+                    }
+                })
+//                .transition(withCrossFade())
+                .into(holder.img_book)
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, InfoActivity::class.java)
-                intent.putExtra(CommonUtils.BOOK_INFO_URL,holder.link)
-                ContextCompat.startActivity(context,intent,null)
+                intent.putExtra(CommonUtils.BOOK_INFO_URL, holder.link)
+                ContextCompat.startActivity(context, intent, null)
 
-                Toast.makeText(
-                    context,
-                    "${items[position].title}클릭됨! Link: ${items[position].link}",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
     }
@@ -109,7 +129,6 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
         val price = itemView.price_tv
         val publisher_author = itemView.publisher_author_tv
         var link = ""
-        val test = itemView.test
     }
 
     /**
