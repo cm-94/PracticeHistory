@@ -1,4 +1,4 @@
-package com.example.fx.fragment
+package com.example.booksearch.ui.adpater
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentStatePagerAdapter
 
 class FragmentAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdapter(fragmentManager) {
     private val mFragmentList: MutableList<Fragment> = ArrayList()   // fragment
-    private val mFragmentTitleList: MutableList<String> = ArrayList()// fragment title
+    private val mFragmentLinkList: MutableList<String> = ArrayList()// fragment title
 
     /**
      * - Activity에서 Fragment를 추가할 때 호출할 메서드
@@ -19,7 +19,7 @@ class FragmentAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdap
      */
     fun addFragment(fragment: Fragment, title: String) {
         mFragmentList.add(fragment)
-        mFragmentTitleList.add(title)
+        mFragmentLinkList.add(title)
     }
 
     /**
@@ -34,11 +34,6 @@ class FragmentAdapter(fragmentManager: FragmentManager) : FragmentStatePagerAdap
     override fun getCount(): Int {
         return mFragmentList.size
     }
-
-    override fun getPageTitle(position: Int): CharSequence? {
-        return mFragmentTitleList[position]
-    }
-
 
 
 

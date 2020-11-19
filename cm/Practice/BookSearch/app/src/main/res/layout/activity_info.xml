@@ -7,9 +7,10 @@
     tools:context=".ui.InfoActivity"
     android:orientation="vertical">
 
-
-    <WebView
-        android:id="@+id/webview"
+    <com.example.booksearch.ui.adpater.BookViewPager
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+    </com.example.booksearch.ui.adpater.BookViewPager>
+
 </LinearLayout>

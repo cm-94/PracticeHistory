@@ -4,4 +4,6 @@
     <string name="search">검색</string>
     <string name="publisher_author">%s(%s)</string>
     <string name="price">%s(원)</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

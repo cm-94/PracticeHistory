@@ -19,4 +19,9 @@ object BookLink {
      */
     fun addLink(links : ArrayList<String>) = links.addAll(links)
 
+    fun getLinks(): ArrayList<String> {
+        return links
+    }
+
+
 }

@@ -20,6 +20,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="한강"
+            android:inputType="text"
             android:imeOptions="actionSearch"
             android:padding="10dp" />
 

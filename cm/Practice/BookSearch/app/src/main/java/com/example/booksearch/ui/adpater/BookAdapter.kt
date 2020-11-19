@@ -13,8 +13,11 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
 import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -29,8 +32,9 @@ import java.text.NumberFormat
 import javax.sql.DataSource
 
 
-class BookAdapter(private val context: Context, private var items: ArrayList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
-    var formatter: NumberFormat = DecimalFormat("#,###")
+class BookAdapter(private val context: Context, private var items: MutableList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
+    // 책 가격 formatting 변수
+    private val formatter: NumberFormat = DecimalFormat("#,###")
 
     /** onCreateViewHolder()
      *  ViewHolder 객체가 만들어질 때 자동 호출
@@ -62,14 +66,6 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
      *  - View item에 대한 클릭 이벤트 추가
      */
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
-        /**
-         *  변동값의 증감에 따라 item View의 배경색이 바뀐다
-         * 증가 -> Color.RED
-         * 감소 -> Color.BLUE
-         * 동일 -> Color.White
-         */
-        // TODO : 환율 변동 case 추가하기( =>onBindViewHolder(...payload)에서 처리!! )
-        Log.d("MainActivity_BindView", "item:" + items[position].title + ", position: " + position)
         items[position].let { item: BookItem ->
             holder.title.text = item.title
             holder.publisher_author.text = context.getString(
@@ -81,7 +77,7 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
             holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 
-            // TODO : Link Object 활용하기
+            // BookLink Object에 데이터 담기
             BookLink.addLink(item.link)
 
             // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
@@ -97,7 +93,7 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
                         dataSource: com.bumptech.glide.load.DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        holder.img_book.visibility = View.VISIBLE       // 이미지 View -> Visible
+                        holder.img_book.visibility = View.VISIBLE         // 이미지 View -> Visible
                         return false
                     }// 이미지 로드 실패 시
                     override fun onLoadFailed(
@@ -106,16 +102,16 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
                         target: Target<Drawable?>?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        holder.img_book.visibility = View.GONE          // 이미지 View -> Gone
+                        holder.img_book.visibility = View.GONE            // 이미지 View -> Gone
                         return false
                     }
                 })
-//                .transition(withCrossFade())
+                .transition(DrawableTransitionOptions.withCrossFade(200)) // 이미지 에니메이션(Fade)
                 .into(holder.img_book)
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, InfoActivity::class.java)
-                intent.putExtra(CommonUtils.BOOK_INFO_URL, holder.link)
+                intent.putExtra(CommonUtils.BOOK_INFO_INDEX, position)
                 ContextCompat.startActivity(context, intent, null)
 
             }
@@ -136,13 +132,7 @@ class BookAdapter(private val context: Context, private var items: ArrayList<Boo
      *  - 서버로부터 MutableList<TickerMain> 데이터를 받으면 해당 리스트로 RecyclerView 초기화
      *  - MainActivity에서 데이터를 수신에 성공하면
      */
-    fun addItems(newItem: ArrayList<BookItem>){
-        // items 비우기
-//        this.items = arrayListOf()
-        // 전달받은 items로 다시 세팅
-        Log.d("MainActivity_BindAdd", "Before items.size: " + items.size)
-        items=newItem
-        Log.d("MainActivity_BindAdd", "After items.size: " + items.size)
-
+    fun addItems(newItem: MutableList<BookItem>){
+        items = newItem
     }
 }
