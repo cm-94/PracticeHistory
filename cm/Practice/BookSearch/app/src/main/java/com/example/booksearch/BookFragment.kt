@@ -1,10 +1,10 @@
 package com.example.booksearch
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_book.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,9 +42,7 @@ class BookFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_book, container, false)
-
     }
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 자바스크립트가 동작할 수 있도록 세팅
@@ -54,8 +52,6 @@ class BookFragment : Fragment() {
         frg_webview.webViewClient = BookWebViewClient()
         // 웹뷰 실행
         frg_webview.loadUrl(bookLink)
-
-        book_index.text = bookIndex.toString()
     }
 
 

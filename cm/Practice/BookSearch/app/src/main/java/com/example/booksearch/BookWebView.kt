@@ -5,14 +5,12 @@ import android.util.AttributeSet
 import android.webkit.WebView
 
 class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
-
-    constructor(){
-
-    }
-    var webView = BookWebView()
-    lateinit var bookFragment : BookFragment
-    fun setFragment(webViewFragment : BookFragment){
-
-    }
+//
+//
+//    var webView = BookWebView()
+//    lateinit var bookFragment : BookFragment
+//    fun setFragment(webViewFragment : BookFragment){
+//
+//    }
 
 }

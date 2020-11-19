@@ -183,3 +183,11 @@ class MainActivity : AppCompatActivity() {
         })
     }
 }
+
+
+/*
+InfoActivity - viewpager에서 좌우 스크롤 시 수신 데이터 이상 넘어가는 오류
+ - MainActivity & BookAdapter(RecyclerView Adapter) 에서 BookLink(object).addItem 중복 확인 후 수정
+ - 수신 데이터만큼 좌우 스크롤 정상 확인
+ -
+ */

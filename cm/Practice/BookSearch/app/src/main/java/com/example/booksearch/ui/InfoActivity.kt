@@ -1,8 +1,8 @@
 package com.example.booksearch.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.viewpager.widget.ViewPager
 import com.example.booksearch.BookFragment
 import com.example.booksearch.R
 import com.example.booksearch.data.BookLink
@@ -33,30 +33,33 @@ class InfoActivity : AppCompatActivity() {
         var fAdapter = FragmentAdapter(supportFragmentManager)
 
         BookLink.getLinks().forEachIndexed { index, link ->
+            Log.d("asdfasdf", "index: $index, link: $link")
             fAdapter.addFragment(BookFragment.newInstance(link,index),link);
         }
 
 
 
-        viewPager.adapter = fAdapter
-        viewPager.currentItem = index
+        book_vp.adapter = fAdapter
+        book_vp.currentItem = index
+
+
 
         // 스크롤 에니메이션 동작 시간 설정
-        viewPager!!.setDurationScroll(300)
-        viewPager!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-
-            override fun onPageScrollStateChanged(state: Int) {
-                viewPager.scrollState = state
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-            override fun onPageSelected(position: Int) {
-
-            }
-
-        })
+        book_vp!!.setDurationScroll(300)
+//        book_vp!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+//
+//            override fun onPageScrollStateChanged(state: Int) {
+//                book_vp.scrollState = state
+//            }
+//
+//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+//
+//            }
+//            override fun onPageSelected(position: Int) {
+//
+//            }
+//
+//        })
 
     }
 

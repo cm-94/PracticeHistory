@@ -3,11 +3,10 @@ package com.example.booksearch.ui.adpater
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
-import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.Scroller
-import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.example.booksearch.data.BookLink
 
 class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context, attrs) {
     private var isPagingEnabled : Boolean = true
@@ -28,14 +27,12 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
     }
 
     /**
-     * 스크롤 동작 클래스
+     * 스크롤러 클래스
      * @param context
      * @param durationScroll   스크롤 동작 시간
      */
     inner class OwnScroller(context: Context, durationScroll: Int) : Scroller(context, DecelerateInterpolator()) {
-
         private var durationScrollMillis = 1
-
         init {
             this.durationScrollMillis = durationScroll
         }
@@ -52,7 +49,9 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
             if(viewPager.scrollState == SCROLL_STATE_IDLE) { // 스크롤 하지 않는 상태
                 if(deltaX > 0) {
                     if(checkAdapterLimits(1, viewPager.currentItem)) //right
-                        (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem + 1,true)
+                        if(viewPager.currentItem < BookLink.getSize()){
+                            (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem + 1,true)
+                        }
                 }
                 else {
                     if(checkAdapterLimits(-1, viewPager.currentItem)) //left
