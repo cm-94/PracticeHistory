@@ -12,29 +12,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp">
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp">
 
         <EditText
+            style="@style/txt_size_16"
             android:id="@+id/edit_Input"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="한강"
+            android:hint="@string/input_search"
             android:inputType="text"
-            android:imeOptions="actionSearch"
+            android:imeOptions="actionDone"
             android:padding="10dp" />
 
         <Button
+            style="@style/txt_size_16"
             android:id="@+id/btn_search"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="70dp"
+            android:layout_height="50dp"
             android:text="@string/search"/>
     </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/bright_gray">
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -48,16 +52,8 @@
             android:id="@+id/book_rv"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:layout_weight="1">
-            <!--        android:background="#90ABFA"-->
-
-
+            android:layout_marginTop="2dp">
         </androidx.recyclerview.widget.RecyclerView>
-
     </RelativeLayout>
 
 

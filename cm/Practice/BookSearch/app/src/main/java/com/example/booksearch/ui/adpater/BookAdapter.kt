@@ -77,9 +77,6 @@ class BookAdapter(private val context: Context, private var items: MutableList<B
             holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 
-            // BookLink Object에 데이터 담기
-            BookLink.addLink(item.link)
-
             // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
             // 성공 : VISIBLE, 실패 : GONE
             Glide.with(context)
@@ -118,7 +115,6 @@ class BookAdapter(private val context: Context, private var items: MutableList<B
         }
     }
 
-    // TODO Item을 담아둘 ViewHolder Class 정의!!
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val img_book = itemView.img_book
         val title = itemView.title_tv

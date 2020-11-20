@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">BookSearch</string>
 
-    <string name="search">검색</string>
+    <string name="search">검 색</string>
     <string name="publisher_author">%s(%s)</string>
     <string name="price">%s(원)</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="input_search">검색어를 입력하세요.</string>
 </resources>

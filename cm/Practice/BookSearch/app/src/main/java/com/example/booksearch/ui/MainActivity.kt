@@ -1,11 +1,7 @@
 package com.example.booksearch.ui
 
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -43,50 +39,48 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        initView()
+
+    }
+
+    // TODO 데이터 저장!!
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+    }
+
+    private fun initView(){
         linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         book_rv.layoutManager = linearLayoutManager
         // adapter
         bookAdapter = BookAdapter(this, listData)
         book_rv.adapter = bookAdapter
         book_rv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            }
-
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 // 최하단 스크롤 시
                 if (!book_rv.canScrollVertically(1)) {
                     if (startCnt < total || startCnt < 1001) {
-                        setSearch(true)
+                        searchBook(true)
                     }
-                }
+                }// 최대 데이터 조회
             }
         })
-
-        edit_Input.setOnKeyListener { p0, keyCode, keyEvent ->
-            if (keyEvent.getAction() === KeyEvent.ACTION_DOWN && keyCode === android.view.KeyEvent.KEYCODE_ENTER) {
-                // hide virtual keyboard
-                val imm: InputMethodManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(edit_Input.windowToken, 0)
-                // Data Request
-                setSearch(false)
-            }
-            true
-        }
-
-
+        // 검색 버튼 클릭 시
         btn_search.setOnClickListener {
-            setSearch(false)
+            // 화면 상단으로 이동
+            book_rv.scrollToPosition(0)
+            // Link 데이터 초기화
+            BookLink.clear()
+            // 책 검색
+            searchBook(false)
         }
     }
-
 
     /**
      * 검색조건 초기화 & 데이터 요청
      * 입력값(EditText), 시작값(1), 기존 데이터(ListData) 초기화
      * @param scrollFlag  스크롤 이벤트로 호출 시 검색조건 초기화 x
      */
-    @Synchronized
-    private fun setSearch(scrollFlag: Boolean){
+    private fun searchBook(scrollFlag: Boolean){
         if(!scrollFlag){
             edit_Input.text.toString().let{
                 // 검색버튼은 클릭할 때마다 처음부터 데이터 요청!!
@@ -97,20 +91,21 @@ class MainActivity : AppCompatActivity() {
                 // 공백 : 데이터 요청 x & RecyclerView item => 0개로 초기화
                 if (editInput == ""){
                     bookAdapter.notifyDataSetChanged()
+                    Toast.makeText(applicationContext,getString(R.string.input_search),Toast.LENGTH_SHORT).show()
                     return
                 }// 데이터 요청 : 검색어(input)에 대해 첫번째부터 displayCnt(20)개 만큼 요청
             }
+            // 화면을 최상단으로 이동
         }
-        if(bRequest){
-            requestSearch(editInput, startCnt, displayCnt)
+        if(bRequest){ // progressBar.visibility 상태와 같음!!
+            requestBook(editInput, startCnt, displayCnt)
         }
     }
 
     /**
      * 검색 요청 함수
      */
-    @Synchronized
-    private fun requestSearch(query: String, start: Int, display: Int){
+    private fun requestBook(query: String, start: Int, display: Int){
         bRequest = false
         // 검색 Progressbar -> VISIBLE
         progressBar.visibility = View.VISIBLE
@@ -121,14 +116,18 @@ class MainActivity : AppCompatActivity() {
                 response: Response<HashMap<String, Any>>
             ) {
                 // 검색 Progressbar -> GONE
-                progressBar.visibility = View.GONE
                 if (response.isSuccessful && response.body() != null) {
-                    // TODO : 전체 데이터 개수 확인
+                    // 전체 데이터 개수 확인
                     total = response.body()?.get("total") as Double
                     response.body()?.get("items").let { items ->
-                        if (/*items is LinkedHashMap<*,*> || */ items is ArrayList<*>) {
+                        if (items is ArrayList<*>) {
                             items.forEach { item ->
                                 if (item is Map<*, *>) {
+                                    // 가격 데이터 처리
+                                    var price = 0
+                                    if(item["price"].toString().isNotBlank()){
+                                        price = item["price"].toString().split(".")[0].toInt()
+                                    }
                                     listData.add(
                                         BookItem(
                                             // 태그 제거
@@ -145,12 +144,9 @@ class MainActivity : AppCompatActivity() {
                                                 ""
                                             ),
                                             // 가격 "" => 0 으로 초기화
-                                            if (item["price"].toString()
-                                                    .isNotBlank()
-                                            ) item["price"].toString().toInt() else 0,
+                                            price,
                                             item["image"].toString(),
                                             item["link"].toString(),
-
                                         )
                                     )
                                     BookLink.addLink(item["link"].toString())
@@ -159,13 +155,11 @@ class MainActivity : AppCompatActivity() {
                             startCnt += items.size
                         }
                     }
-                    Toast.makeText(
-                        applicationContext,
-                        "total: $total, startCnt: $startCnt, 총 데이터 : ${bookAdapter.itemCount} ",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     // 전체 데이터 갱신(view)
                     bookAdapter.notifyDataSetChanged()
+                    // progressBar => Gone
+                    progressBar.visibility = View.GONE
+                    // 검색 Flag => true 변경
                     bRequest = true
                 }
             }
@@ -173,12 +167,8 @@ class MainActivity : AppCompatActivity() {
             override fun onFailure(call: Call<HashMap<String, Any>>, t: Throwable) {
                 // 검색 Progressbar -> GONE
                 progressBar.visibility = View.GONE
-                Log.d("MainActivity_Response_F", "error: " + t.message)
-                Toast.makeText(
-                    applicationContext,
-                    "total: $total, 총 데이터 : ${bookAdapter.itemCount} ",
-                    Toast.LENGTH_SHORT
-                ).show()
+                // 검색 Flag => true 변경
+                bRequest = true
             }
         })
     }

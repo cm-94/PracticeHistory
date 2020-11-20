@@ -3,11 +3,29 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">#FF000000</item>
         <item name="colorAccent">@color/colorAccent</item>
 
         <item name="windowNoTitle">true</item>
+    </style>
 
+
+    <style name="txt_size_14">
+        <item name="android:textSize">14dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="txt_size_14_multilines">
+        <item name="android:textSize">14dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:maxLines">2</item>
+    </style>
+
+    <style name="txt_size_16">
+        <item name="android:textSize">16dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
     </style>
 
 </resources>

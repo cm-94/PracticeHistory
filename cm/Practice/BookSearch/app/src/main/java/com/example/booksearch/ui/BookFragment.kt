@@ -1,10 +1,12 @@
-package com.example.booksearch
+package com.example.booksearch.ui
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.booksearch.BookWebViewClient
+import com.example.booksearch.R
 import kotlinx.android.synthetic.main.fragment_book.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -50,17 +52,11 @@ class BookFragment : Fragment() {
         // 자바스크립트가 동작할 수 있도록 세팅
         val webSetting = frg_webview.settings
         webSetting.javaScriptEnabled = true
-        // 웹뷰 클라이언트 설정
+        // 웹뷰 클라이언트 설정 => 안그럼 브라우저로 강제 실행됨(브라우저 > 웹뷰)
         frg_webview.webViewClient = BookWebViewClient()
-        // 웹뷰 실행
+        // 웹뷰 - url 로드
         frg_webview.loadUrl(bookLink)
-
-        book_index.text = bookIndex.toString()
     }
-
-
-
-
 
     companion object {
         /**
@@ -71,7 +67,6 @@ class BookFragment : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment BookFragment.
          */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: Int) =
             BookFragment().apply {
