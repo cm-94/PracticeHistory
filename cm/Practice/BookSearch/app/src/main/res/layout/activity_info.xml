@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <com.example.booksearch.ui.adpater.BookViewPager
-        android:id="@+id/viewPager"
+        android:id="@+id/book_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     </com.example.booksearch.ui.adpater.BookViewPager>

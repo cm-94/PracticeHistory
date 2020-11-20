@@ -3,36 +3,27 @@ package com.example.booksearch.ui.adpater
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.annotation.NonNull
-import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.bumptech.glide.TransitionOptions
 import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions
-import com.bumptech.glide.load.resource.bitmap.BitmapTransitionOptions.withCrossFade
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
-import com.example.booksearch.data.BookLink
 import com.example.booksearch.ui.InfoActivity
 import com.example.booksearch.util.CommonUtils
 import kotlinx.android.synthetic.main.book_item.view.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
-import javax.sql.DataSource
 
 
-class BookAdapter(private val context: Context, private var items: MutableList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
+class BookAdapter(private val context: Context, private val items: MutableList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
     // 책 가격 formatting 변수
     private val formatter: NumberFormat = DecimalFormat("#,###")
 
@@ -77,6 +68,10 @@ class BookAdapter(private val context: Context, private var items: MutableList<B
             holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
             // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
             // 성공 : VISIBLE, 실패 : GONE
             Glide.with(context)
@@ -129,6 +124,6 @@ class BookAdapter(private val context: Context, private var items: MutableList<B
      *  - MainActivity에서 데이터를 수신에 성공하면
      */
     fun addItems(newItem: MutableList<BookItem>){
-        items = newItem
+        items.addAll(newItem)
     }
 }

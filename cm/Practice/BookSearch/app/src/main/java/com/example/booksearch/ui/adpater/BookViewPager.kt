@@ -6,6 +6,7 @@ import android.view.MotionEvent
 import android.view.animation.DecelerateInterpolator
 import android.widget.Scroller
 import androidx.viewpager.widget.ViewPager
+import com.example.booksearch.data.BookLink
 
 class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context, attrs) {
     var scrollState: Int = SCROLL_STATE_IDLE
@@ -24,12 +25,15 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
     }
 
     /**
-     * 스크롤 동작 클래스
+     * 스크롤러 클래스
      * @param context
      * @param durationScroll   스크롤 동작 시간
      */
     inner class OwnScroller(context: Context, durationScroll: Int) : Scroller(context, DecelerateInterpolator()) {
+<<<<<<< HEAD
         // 화면 스크롤 지속 시간(ms)
+=======
+>>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
         private var durationScrollMillis = 1
         init {
             this.durationScrollMillis = durationScroll
@@ -40,4 +44,50 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
         }
     }
 
+<<<<<<< HEAD
+=======
+
+    override fun overScrollBy(deltaX: Int, deltaY: Int, scrollX: Int, scrollY: Int, scrollRangeX: Int, scrollRangeY: Int, maxOverScrollX: Int, maxOverScrollY: Int, isTouchEvent: Boolean): Boolean {
+        if(parent.parent is BookViewPager) {
+            val viewPager: BookViewPager = (parent.parent as BookViewPager)
+            if(viewPager.scrollState == SCROLL_STATE_IDLE) { // 스크롤 하지 않는 상태
+                if(deltaX > 0) {
+                    if(checkAdapterLimits(1, viewPager.currentItem)) //right
+                        if(viewPager.currentItem < BookLink.getSize()){
+                            (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem + 1,true)
+                        }
+                }
+                else {
+                    if(checkAdapterLimits(-1, viewPager.currentItem)) //left
+                        (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem - 1,true)
+                }
+            }
+        }
+        return false
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        try {
+            return this.isPagingEnabled && super.onInterceptTouchEvent(ev)
+        }catch (exception : IllegalArgumentException){
+            exception.printStackTrace()
+        }
+        return false
+    }
+
+//    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
+//        parent.requestDisallowInterceptTouchEvent(true)
+//
+//        return super.onInterceptTouchEvent(event)
+//    }
+
+    private fun checkAdapterLimits(direction: Int, position: Int) : Boolean {
+        return if(direction < 0) //left
+            position >= 1
+        else //right
+            position < (parent.parent as ViewPager).adapter!!.count - 1
+
+    }
+
+>>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
 }

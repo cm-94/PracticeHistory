@@ -1,7 +1,7 @@
 package com.example.booksearch.data
 
 object BookLink {
-    private var links : ArrayList<String> = arrayListOf()
+    private val links : ArrayList<String> = arrayListOf()
 
 
     // 책 링크 목록 초기화
@@ -24,4 +24,7 @@ object BookLink {
     }
 
 
+    fun getSize() : Int{
+        return this.links.size
+    }
 }
