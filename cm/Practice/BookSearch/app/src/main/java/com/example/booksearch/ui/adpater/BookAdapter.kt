@@ -64,7 +64,9 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
                 item.publisher,
                 item.author
             )
-            holder.price.text = context.getString(R.string.price, formatter.format(item.price))
+            holder.price.text = context.getString(
+                R.string.price,
+                formatter.format(item.price.toInt()))
             holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 

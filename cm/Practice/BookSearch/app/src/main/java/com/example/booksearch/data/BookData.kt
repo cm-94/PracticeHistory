@@ -1,22 +1,32 @@
 package com.example.booksearch.data
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import java.sql.Date
-import java.time.LocalDateTime
-import java.util.*
 
 data class BookData(
     @SerializedName("lastBuildDate")
-    val lastBuildDate: Date,
+    @Expose
+    val lastBuildDate: String,
     @SerializedName("total")
+    @Expose
     val total: Int,
     @SerializedName("start")
+    @Expose
     val start: Int,
     @SerializedName("display")
+    @Expose
     val display: Int,
     @SerializedName("items")
-    val items: ArrayList<BookItem>)
+    @Expose
+    val items : List<BookItem>)
 {
+    fun getBookItems() : List<BookItem>{
+        return items
+
+    }
+//    fun getItems() : List<BookItem> {
+//        return this.items
+//    }
     override fun toString(): String {
         return "lastBuildDate: $lastBuildDate, total: $total, start: $start, display: $display, items.size: $items.size"
     }
