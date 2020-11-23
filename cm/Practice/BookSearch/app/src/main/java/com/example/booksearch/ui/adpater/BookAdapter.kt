@@ -68,10 +68,6 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
             holder.img_book.visibility = View.VISIBLE
             holder.link = item.link
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
             // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
             // 성공 : VISIBLE, 실패 : GONE
             Glide.with(context)

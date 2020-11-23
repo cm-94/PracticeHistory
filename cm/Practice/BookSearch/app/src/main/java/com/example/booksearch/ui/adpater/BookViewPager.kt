@@ -30,10 +30,7 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
      * @param durationScroll   스크롤 동작 시간
      */
     inner class OwnScroller(context: Context, durationScroll: Int) : Scroller(context, DecelerateInterpolator()) {
-<<<<<<< HEAD
         // 화면 스크롤 지속 시간(ms)
-=======
->>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
         private var durationScrollMillis = 1
         init {
             this.durationScrollMillis = durationScroll
@@ -43,9 +40,6 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
             super.startScroll(startX, startY, dx, dy, durationScrollMillis)
         }
     }
-
-<<<<<<< HEAD
-=======
 
     override fun overScrollBy(deltaX: Int, deltaY: Int, scrollX: Int, scrollY: Int, scrollRangeX: Int, scrollRangeY: Int, maxOverScrollX: Int, maxOverScrollY: Int, isTouchEvent: Boolean): Boolean {
         if(parent.parent is BookViewPager) {
@@ -66,20 +60,20 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
         return false
     }
 
-    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
-        try {
-            return this.isPagingEnabled && super.onInterceptTouchEvent(ev)
-        }catch (exception : IllegalArgumentException){
-            exception.printStackTrace()
-        }
-        return false
-    }
-
-//    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
-//        parent.requestDisallowInterceptTouchEvent(true)
-//
-//        return super.onInterceptTouchEvent(event)
+//    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+//        try {
+//            return this.isPagingEnabled && super.onInterceptTouchEvent(ev)
+//        }catch (exception : IllegalArgumentException){
+//            exception.printStackTrace()
+//        }
+//        return false
 //    }
+
+    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
+        parent.requestDisallowInterceptTouchEvent(true)
+
+        return super.onInterceptTouchEvent(event)
+    }
 
     private fun checkAdapterLimits(direction: Int, position: Int) : Boolean {
         return if(direction < 0) //left
@@ -89,5 +83,4 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
 
     }
 
->>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
 }

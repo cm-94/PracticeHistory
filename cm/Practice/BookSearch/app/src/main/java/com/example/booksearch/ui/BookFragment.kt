@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-<<<<<<< HEAD:cm/Practice/BookSearch/app/src/main/java/com/example/booksearch/ui/BookFragment.kt
 import com.example.booksearch.BookWebViewClient
 import com.example.booksearch.R
-=======
 import androidx.fragment.app.Fragment
->>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94:cm/Practice/BookSearch/app/src/main/java/com/example/booksearch/BookFragment.kt
 import kotlinx.android.synthetic.main.fragment_book.*
 
 // TODO: Rename parameter arguments, choose names that match

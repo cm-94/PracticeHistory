@@ -33,9 +33,9 @@ object RetrofitClient {
         // retrofit에 기본 URL 등록
         retrofit = Retrofit.Builder().baseUrl(this.BASE_URL)
             // JSON 파싱이 가능하도록 GsonConverterFactory 세팅
-            .addConverterFactory(GsonConverterFactory.create()).
+            .addConverterFactory(GsonConverterFactory.create())
             // retrofit에 OkHttp Client 세팅
-            client(client)
+            .client(client)
             // retrofit client build
             .build()
         // 생성된 retrofit client 반환

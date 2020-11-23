@@ -8,7 +8,6 @@ import androidx.viewpager.widget.ViewPager
 import com.example.booksearch.ui.adpater.BookViewPager
 
 class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
-<<<<<<< HEAD
 //    override fun overScrollBy(
 //        deltaX: Int,
 //        deltaY: Int,
@@ -67,7 +66,6 @@ class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, att
 //            position < (parent.parent as ViewPager).adapter?.count?.minus(1)!!
 //
 //    }
-=======
 //
 //
 //    var webView = BookWebView()
@@ -76,5 +74,4 @@ class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, att
 //
 //    }
 
->>>>>>> 55f01baf934b6ce99b7b2220c6e8ab3eeff5bf94
 }
