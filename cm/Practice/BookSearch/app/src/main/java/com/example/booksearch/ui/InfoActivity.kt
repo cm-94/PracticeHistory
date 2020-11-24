@@ -21,9 +21,11 @@ class InfoActivity : AppCompatActivity() {
         // Fragment 어댑터 생성
         val fragAdt = FragmentAdapter(supportFragmentManager)
         // 링크 가져와 frament 추가
-        BookLink.getLinks().forEachIndexed { index, link ->
+/*        BookLink.getLinks().forEachIndexed { index, link ->
             fragAdt.addFragment(BookFragment.newInstance(link,index),link);
-        }
+        }*/
+
+
 
         // ViewPager 어댑터 & 첫번째 item(Intent로 전달받은 index로 확인) 설정
         book_vp.adapter = fragAdt

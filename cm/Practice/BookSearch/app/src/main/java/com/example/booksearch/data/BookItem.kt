@@ -21,20 +21,21 @@ data class BookItem(
     val author: String,
     @SerializedName("price")
     val price: String,
+    @SerializedName("publisher")
+    val publisher: String
+    /*,
     @SerializedName("discount")
     val discount : String,
-    @SerializedName("publisher")
-    val publisher: String,
     @SerializedName("pubdate")
     val pubdate : String,
     @SerializedName("isbn")
     val isbn : String,
     @SerializedName("description")
-    val description :String
+    val description :String*/
 ) {
     override fun toString(): String {
-        return "title: $title, link: $link, image: $image, author: $author, price: $price" +
-                "discount: $discount, publisher: $publisher, pubdate: $pubdate, isbn: $isbn, description: $description"
+        return "title: $title, link: $link, image: $image, author: $author, price: $price"
+        /*+"discount: $discount, publisher: $publisher, pubdate: $pubdate, isbn: $isbn, description: $description"*/
     }
 }
 

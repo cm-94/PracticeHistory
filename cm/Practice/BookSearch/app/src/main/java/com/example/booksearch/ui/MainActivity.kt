@@ -75,8 +75,6 @@ class MainActivity : AppCompatActivity() {
         btn_search.setOnClickListener {
             // 화면 최상단으로 이동
             book_rv.scrollToPosition(0)
-            // Link 데이터 초기화
-            BookLink.clear()
             // 책 검색
             searchBook(false)
         }
@@ -121,28 +119,20 @@ class MainActivity : AppCompatActivity() {
                 call: Call<ResponseBody>,
                 response: Response<ResponseBody>
             ) {
-                val res = response.body()?.string()
+                if(response.body() != null && response.isSuccessful){
+                    val res = response.body()?.string()
+                    val gson = Gson()
+                    val jsonReader = JsonReader(StringReader(res))
 
-                var gson = Gson()
-                var jsonReader = JsonReader(StringReader(res))
+                    val bookData : BookData = gson.fromJson(jsonReader,BookData::class.java)
 
-                jsonReader.isLenient = true
+                    listData.addAll(bookData.getBookItems())
 
-                var bookData : BookData = gson.fromJson(jsonReader,BookData::class.java)
+                    progressBar.visibility = View.GONE
+                    bookAdapter.notifyDataSetChanged()
+                    bRequest = true
+                }
 
-
-//                Log.d("Receive_data","response string: ${response.body()?.string()}")
-//                Log.d("Receive_data","\n")
-//                Log.d("Receive_data","\n")
-//                Log.d("Receive_data","response string: $res")
-//                Log.d("Receive_data","bookData: ${bookData.toString()}")
-
-
-                listData.addAll(bookData.getBookItems())
-                Log.d("Receive_data","bookData: ${bookData.items.toString()}")
-                progressBar.visibility = View.GONE
-                bookAdapter.notifyDataSetChanged()
-                bRequest = true
 //                listData.add(bookItem)
 
 

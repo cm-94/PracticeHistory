@@ -1,30 +1,29 @@
 package com.example.booksearch.data
 
-object BookLink {
-    private val links : ArrayList<String> = arrayListOf()
+import android.os.Parcel
+import android.os.Parcelable
 
+class BookLink(var links : ArrayList<String>) : Parcelable{
+    constructor() : this(arrayListOf())
 
-    // 책 링크 목록 초기화
-    fun clear() =links.clear()
-
-    /**
-     * 링크(String) 추가
-     * @param link    추가할 링크
-     */
-    fun addLink(link : String) = links.add(link)
-
-    /**
-     * 링크(ArrayList) 추가
-     * @param link     추가할 링크 목록
-     */
-    fun addLink(links : ArrayList<String>) = links.addAll(links)
-
-    fun getLinks(): ArrayList<String> {
-        return links
+    override fun describeContents(): Int {
+        return 0
     }
 
-
-    fun getSize() : Int{
-        return this.links.size
+    override fun writeToParcel(p0: Parcel?, p1: Int) {
+        p0?.writeStringList(this.links)
     }
+
+    companion object CREATOR : Parcelable.Creator<BookLink> {
+        override fun createFromParcel(parcel: Parcel): BookLink {
+            val links = parcel.createStringArrayList() as ArrayList<String>
+            return BookLink(links)
+        }
+
+        override fun newArray(size: Int): Array<BookLink?> {
+            return arrayOfNulls(size)
+        }
+    }
+
 }
+

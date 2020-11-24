@@ -24,10 +24,8 @@ data class BookData(
         return items
 
     }
-//    fun getItems() : List<BookItem> {
-//        return this.items
-//    }
+
     override fun toString(): String {
-        return "lastBuildDate: $lastBuildDate, total: $total, start: $start, display: $display, items.size: $items.size"
+        return /*"lastBuildDate: $lastBuildDate, total: $total, start: $start, display: $display,*/ "items.size: $items.size"
     }
 }

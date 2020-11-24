@@ -41,24 +41,24 @@ class BookViewPager(context: Context, attrs: AttributeSet?) : ViewPager(context,
         }
     }
 
-    override fun overScrollBy(deltaX: Int, deltaY: Int, scrollX: Int, scrollY: Int, scrollRangeX: Int, scrollRangeY: Int, maxOverScrollX: Int, maxOverScrollY: Int, isTouchEvent: Boolean): Boolean {
-        if(parent.parent is BookViewPager) {
-            val viewPager: BookViewPager = (parent.parent as BookViewPager)
-            if(viewPager.scrollState == SCROLL_STATE_IDLE) { // 스크롤 하지 않는 상태
-                if(deltaX > 0) {
-                    if(checkAdapterLimits(1, viewPager.currentItem)) //right
-                        if(viewPager.currentItem < BookLink.getSize()){
-                            (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem + 1,true)
-                        }
-                }
-                else {
-                    if(checkAdapterLimits(-1, viewPager.currentItem)) //left
-                        (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem - 1,true)
-                }
-            }
-        }
-        return false
-    }
+//    override fun overScrollBy(deltaX: Int, deltaY: Int, scrollX: Int, scrollY: Int, scrollRangeX: Int, scrollRangeY: Int, maxOverScrollX: Int, maxOverScrollY: Int, isTouchEvent: Boolean): Boolean {
+//        if(parent.parent is BookViewPager) {
+//            val viewPager: BookViewPager = (parent.parent as BookViewPager)
+//            if(viewPager.scrollState == SCROLL_STATE_IDLE) { // 스크롤 하지 않는 상태
+//                if(deltaX > 0) {
+//                    if(checkAdapterLimits(1, viewPager.currentItem)) //right
+//                        if(viewPager.currentItem < BookLink.getSize()){
+//                            (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem + 1,true)
+//                        }
+//                }
+//                else {
+//                    if(checkAdapterLimits(-1, viewPager.currentItem)) //left
+//                        (parent.parent as ViewPager).setCurrentItem(viewPager.currentItem - 1,true)
+//                }
+//            }
+//        }
+//        return false
+//    }
 
 //    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
 //        try {

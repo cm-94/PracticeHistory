@@ -13,12 +13,11 @@ object RetrofitClient {
     private var client = OkHttpClient()
     private var builder = OkHttpClient.Builder()
 
-
     /**
      * getClient(context)
      * @param context
      * @return retrofit : Retrofit
-     *  - 통신을 위한 retrofit 객체를 return
+     * - 통신을 위한 retrofit 객체를 return
      */
     fun getClient(): Retrofit {
         builder.addInterceptor { chain: Interceptor.Chain ->

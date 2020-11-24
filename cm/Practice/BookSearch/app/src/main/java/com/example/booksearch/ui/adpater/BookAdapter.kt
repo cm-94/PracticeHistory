@@ -6,6 +6,8 @@ import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.NonNull
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +18,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
+import com.example.booksearch.data.BookLink
 import com.example.booksearch.ui.InfoActivity
 import com.example.booksearch.util.CommonUtils
 import kotlinx.android.synthetic.main.book_item.view.*
@@ -25,7 +28,8 @@ import java.text.NumberFormat
 
 class BookAdapter(private val context: Context, private val items: MutableList<BookItem>) : RecyclerView.Adapter<BookAdapter.MainViewHolder>() {
     // 책 가격 formatting 변수
-    private val formatter: NumberFormat = DecimalFormat("#,###")
+    private val formatter : NumberFormat = DecimalFormat("#,###")
+    private val bookLink : BookLink = BookLink()
 
     /** onCreateViewHolder()
      *  ViewHolder 객체가 만들어질 때 자동 호출
@@ -58,16 +62,17 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
      */
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         items[position].let { item: BookItem ->
-            holder.title.text = item.title
-            holder.publisher_author.text = context.getString(
+            holder.title.text = item.title.replace(CommonUtils.HTML_TAG.toRegex(),"")
+            holder.publisherAuthor.text = context.getString(
                 R.string.publisher_author,
-                item.publisher,
-                item.author
+                item.publisher.replace(CommonUtils.HTML_TAG.toRegex(),""),
+                item.author.replace(CommonUtils.HTML_TAG.toRegex(),"")
             )
+
             holder.price.text = context.getString(
                 R.string.price,
                 formatter.format(item.price.toInt()))
-            holder.img_book.visibility = View.VISIBLE
+            holder.bookImg.visibility = View.VISIBLE
             holder.link = item.link
 
             // 이미지 불러오기 -> Glide 응답 처리 => RequestListener
@@ -83,7 +88,7 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
                         dataSource: com.bumptech.glide.load.DataSource?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        holder.img_book.visibility = View.VISIBLE         // 이미지 View -> Visible
+                        holder.bookImg.visibility = View.VISIBLE         // 이미지 View -> Visible
                         return false
                     }// 이미지 로드 실패 시
                     override fun onLoadFailed(
@@ -92,28 +97,27 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
                         target: Target<Drawable?>?,
                         isFirstResource: Boolean
                     ): Boolean {
-                        holder.img_book.visibility = View.GONE            // 이미지 View -> Gone
+                        holder.bookImg.visibility = View.GONE            // 이미지 View -> Gone
                         return false
                     }
                 })
                 .transition(DrawableTransitionOptions.withCrossFade(200)) // 이미지 에니메이션(Fade)
-                .into(holder.img_book)
+                .into(holder.bookImg)
 
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, InfoActivity::class.java)
                 intent.putExtra(CommonUtils.BOOK_INFO_INDEX, position)
                 ContextCompat.startActivity(context, intent, null)
-
             }
         }
     }
 
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val img_book = itemView.img_book
-        val title = itemView.title_tv
-        val price = itemView.price_tv
-        val publisher_author = itemView.publisher_author_tv
-        var link = ""
+        val bookImg: ImageView = itemView.img_book
+        val title: TextView = itemView.title_tv
+        val price: TextView = itemView.price_tv
+        val publisherAuthor: TextView = itemView.publisher_author_tv
+        var link: String = ""
     }
 
     /**
@@ -121,7 +125,8 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
      *  - 서버로부터 MutableList<TickerMain> 데이터를 받으면 해당 리스트로 RecyclerView 초기화
      *  - MainActivity에서 데이터를 수신에 성공하면
      */
-    fun addItems(newItem: MutableList<BookItem>){
-        items.addAll(newItem)
-    }
+
+
+
+
 }

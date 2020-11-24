@@ -6,4 +6,5 @@ object CommonUtils{
     const val DISPLAY_MAX = 1000
     const val BOOK_INFO_URL = "BOOK_INFO_URL"
     const val BOOK_INFO_INDEX = "BOOK_INFO_INDEX"
+    const val HTML_TAG ="<(/)?([a-zA-Z]*)(\\\\s[a-zA-Z]*=[^>]*)?(\\\\s)*(/)?>"
 }
