@@ -1,6 +1,8 @@
 package com.example.booksearch.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
@@ -16,53 +18,38 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info)
 
         // 인텐트 수신
+        // 1. 사용자가 클릭한 item의 index 받기
         val index = intent.getIntExtra(CommonUtils.BOOK_INFO_INDEX,0)
+        // 2. Link 리스트(BookLink) 받기
+        val bookLink = intent.getParcelableExtra<BookLink>(CommonUtils.BOOK_INFO_URL)
 
-        // Fragment 어댑터 생성
+        // 3. Fragment 어댑터 생성
         val fragAdt = FragmentAdapter(supportFragmentManager)
-        // 링크 가져와 frament 추가
-/*        BookLink.getLinks().forEachIndexed { index, link ->
-            fragAdt.addFragment(BookFragment.newInstance(link,index),link);
-        }*/
+        // 4. 링크 가져와 frament 추가
+        bookLink?.links?.forEachIndexed { index, s ->
+            fragAdt.addFragment(BookFragment.newInstance(s,index),s);
+        }
 
-
-
-        // ViewPager 어댑터 & 첫번째 item(Intent로 전달받은 index로 확인) 설정
+        // 5. ViewPager 어댑터 & 첫번째 item(Intent로 전달받은 index로 확인) 설정
+        // - Fragment size 체크
+        if(fragAdt.count == 0){
+            // 생성된 화면이 없으면 에러!! InfoActivity를 종료한다
+            /** MainActivity한테 에러로 종료됐다고 전달해주는 부분 추가 고려 */
+            finish()
+        }
         book_vp.adapter = fragAdt
         book_vp.currentItem = index
-
-        // 스크롤 에니메이션 동작 시간 설정
-        book_vp!!.setDurationScroll(300)
-        book_vp!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrollStateChanged(state: Int) {
-                book_vp.scrollState = state
-            }
-
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-
-            }
-
-            override fun onPageSelected(position: Int) {
-
-            }
-        })
-
-//        book_vp!!.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-//
-//            override fun onPageScrollStateChanged(state: Int) {
-//                book_vp.scrollState = state
-//            }
-//
-//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
-//
-//            }
-//            override fun onPageSelected(position: Int) {
-//
-//            }
-//
-//        })
-
+        // + 스크롤 에니메이션 동작 설정
+        book_vp!!.setDurationScroll(300) // 시간 설정
 
     }
 
+    // 수신된 인텐트 처리 함수
+    //  index, bookLink가 전역변수일 때 사용
+    private fun processIntent(intent : Intent){
+        // 1. 사용자가 클릭한 item의 index 받기
+        val index = intent.getIntExtra(CommonUtils.BOOK_INFO_INDEX,0)
+
+        val bookLink = intent.getParcelableExtra<BookLink>(CommonUtils.BOOK_INFO_URL)
+    }
 }
