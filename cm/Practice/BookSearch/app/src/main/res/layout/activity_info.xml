@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,10 +7,63 @@
     tools:context=".ui.InfoActivity"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/title_ll"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/webview_title_height"
+        android:layout_alignParentTop="true"
+        android:orientation="horizontal"
+        android:background="@color/bright_gray"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/btn_close"
+            android:layout_width="@dimen/close_btn_width"
+            android:layout_height="@dimen/close_btn_height"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/img_close"/>
+
+        <HorizontalScrollView
+            android:id="@+id/url_sv"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_box"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_weight="1"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/book_url"
+                style="@style/txt_size_14"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="test"
+                android:textColor="@color/black" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/btn_share"
+            style="@style/txt_size_16"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="10dp"
+            android:gravity="center_vertical"
+            android:text="공유"
+            android:textColor="@color/black"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
     <com.example.booksearch.ui.adpater.BookViewPager
         android:id="@+id/book_vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@id/title_ll">
     </com.example.booksearch.ui.adpater.BookViewPager>
-
-</LinearLayout>
+</RelativeLayout>

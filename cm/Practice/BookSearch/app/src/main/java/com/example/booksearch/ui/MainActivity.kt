@@ -26,7 +26,7 @@ import java.io.StringReader
 
 class MainActivity : AppCompatActivity() {
     private val SAVED_TOTAL = "SAVED_TOTAL"
-    private val SAVED_STRAT = "SAVED_STRAT"
+    private val SAVED_START = "SAVED_START"
 
     // 검색된 전체 데이터 수
     private var total = 0
@@ -58,11 +58,11 @@ class MainActivity : AppCompatActivity() {
             // 저장된 검색어로 EditText 세팅
             data.getString(CommonUtils.EDIT_INPUT)?.let{ it ->
                 editInput = it
-                edit_Input.setText(it)
+                edit_input.setText(it)
             }
             // 저장된 total & start로 세팅
             data.getInt(SAVED_TOTAL).let{ total = it }
-            data.getInt(SAVED_STRAT).let{ startCnt = it }
+            data.getInt(SAVED_START).let{ startCnt = it }
 
         }
         initView()
@@ -70,13 +70,14 @@ class MainActivity : AppCompatActivity() {
 
     // 데이터 저장!!
     override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("LifeCycle_Main", "onSaveInstanceState() 호출!!")
         // 검색된 List<BookItem> 저장
         outState.putParcelableArrayList(CommonUtils.BOOK_LIST, listData)
         // 현재 검색창 입력 값 저장
-        outState.putString(CommonUtils.EDIT_INPUT, edit_Input.text.toString())
+        outState.putString(CommonUtils.EDIT_INPUT, edit_input.text.toString())
         // 현재 total & start 저장
         outState.putInt(SAVED_TOTAL, total)
-        outState.putInt(SAVED_STRAT, startCnt)
+        outState.putInt(SAVED_START, startCnt)
 
         super.onSaveInstanceState(outState)
     }
@@ -98,15 +99,20 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+        // 검색창에서 엔터 클릭 시
+        edit_input.setOnEditorActionListener { p0, p1, p2 ->
+            // 검색 실행
+            searchBook(false)
+            true
+        }
         // RecyclerView 의 Item들을 구분짓는 Divider을 추가!!
+//        val dividerItemDecoration = DividerItemDecoration(
+//            book_rv.context,
+//            linearLayoutManager.orientation
+//        )
+//        book_rv.addItemDecoration(dividerItemDecoration)
         // ListView : android:divider="#FF00000"
         //            android:dividerHeight="1dp"
-        val dividerItemDecoration = DividerItemDecoration(
-            book_rv.context,
-            linearLayoutManager.orientation
-        )
-        book_rv.addItemDecoration(dividerItemDecoration)
-
         // 검색 버튼 클릭 시
         btn_search.setOnClickListener {
             // 화면 최상단으로 이동
@@ -133,15 +139,13 @@ class MainActivity : AppCompatActivity() {
      * @param scrollFlag  스크롤 이벤트로 호출 시 검색조건 초기화 x
      */
     private fun searchBook(scrollFlag: Boolean){
-        val imm = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(edit_Input.windowToken, 0)
         if(!scrollFlag){
             // 검색버튼은 클릭할 때마다 처음부터 데이터 요청!!
             listData.clear()
             bookAdapter.notifyDataSetChanged()
             startCnt = 1
             // 사용자 입력값 확인
-            edit_Input.text.toString().let{
+            edit_input.text.toString().let{
                 editInput = it
                 // 공백 : 데이터 요청 x & RecyclerView item => 0개로 초기화
                 if (editInput == ""){
@@ -154,14 +158,14 @@ class MainActivity : AppCompatActivity() {
                     ).show()
                     return
                 }// 데이터 요청 : 검색어(input)에 대해 첫번째부터 displayCnt(20)개 만큼 요청
-
             }
         }
         if(bRequest){ // progressBar.visibility 상태와 같음!!
             requestBook(editInput, startCnt, displayCnt)
+            // 데이터 요청할 때 키보드 내림!!
+            val imm = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(edit_input.windowToken, 0)
         }
-
-
     }
 
     /**
@@ -171,7 +175,6 @@ class MainActivity : AppCompatActivity() {
         bRequest = false
         // 검색 Progressbar -> VISIBLE
         progressBar.visibility = View.VISIBLE
-
         RetrofitUtils.getBookService().searchBookItem(query, start, display).enqueue(object :
             retrofit2.Callback<ResponseBody> {
             override fun onResponse(
@@ -211,6 +214,16 @@ class MainActivity : AppCompatActivity() {
                 bRequest = true
             }
         })
+    }
+
+    override fun onStart() {
+        Log.d("LifeCycle_Main", "onStart() 호출!!")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d("LifeCycle_Main", "onResume() 호출!!")
+        super.onResume()
     }
 
     override fun onPause() {

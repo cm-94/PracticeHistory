@@ -3,13 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BookFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.BookFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar_info"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:progressDrawable="@drawable/progressbar_states"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progress="100"
+        android:visibility="visible"/>
 
     <WebView
         android:id="@+id/frg_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_below="@+id/title_ll"/>
 
 </LinearLayout>

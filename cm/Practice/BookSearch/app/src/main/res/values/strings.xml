@@ -7,4 +7,5 @@
 
     <string name="input_search">검색어를 입력하세요.</string>
     <string name="no_book_data">검색된 자료 없음</string>
+    <string name="load_url_txt">불러오는 중입니다</string>
 </resources>
