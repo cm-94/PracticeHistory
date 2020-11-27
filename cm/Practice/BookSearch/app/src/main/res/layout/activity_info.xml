@@ -16,13 +16,25 @@
         android:background="@color/bright_gray"
         android:visibility="visible">
 
-        <ImageView
-            android:id="@+id/btn_close"
-            android:layout_width="@dimen/close_btn_width"
-            android:layout_height="@dimen/close_btn_height"
-            android:layout_gravity="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/img_close"/>
+<!--        <ImageView-->
+<!--            android:id="@+id/btn_close"-->
+<!--            android:layout_width="@dimen/close_btn_width"-->
+<!--            android:layout_height="@dimen/close_btn_height"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_margin="10dp"-->
+<!--            android:background="@drawable/img_close"/>-->
+
+            <TextView
+                android:id="@+id/btn_close"
+                android:layout_width="@dimen/close_btn_width"
+                android:layout_height="@dimen/close_btn_height"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:gravity="center"
+                android:text="@string/btn_close_txt"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
 
         <HorizontalScrollView
             android:id="@+id/url_sv"
@@ -43,18 +55,19 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:text="test"
+                android:singleLine="false"
                 android:textColor="@color/black" />
         </HorizontalScrollView>
 
         <TextView
             android:id="@+id/btn_share"
-            style="@style/txt_size_16"
+            style="@style/txt_size_16_multilines"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_margin="10dp"
             android:gravity="center_vertical"
-            android:text="공유"
+            android:text="@string/btn_menu_popup"
             android:textColor="@color/black"
             android:textStyle="bold" />
     </LinearLayout>

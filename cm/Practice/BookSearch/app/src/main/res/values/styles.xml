@@ -28,4 +28,10 @@
         <item name="android:singleLine">true</item>
     </style>
 
+    <style name="txt_size_16_multilines">
+        <item name="android:textSize">16dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">false</item>
+    </style>
+
 </resources>

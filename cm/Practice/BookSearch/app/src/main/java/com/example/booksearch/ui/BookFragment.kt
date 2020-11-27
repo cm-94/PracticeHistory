@@ -2,6 +2,7 @@ package com.example.booksearch.ui
 
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,37 +60,34 @@ class BookFragment : Fragment() {
         val webSetting = frg_webview.settings
         webSetting.javaScriptEnabled = true
 
+
         // 웹뷰 클라이언트 설정 => 안그럼 브라우저로 강제 실행됨(브라우저 > 웹뷰)
-        frg_webview.webViewClient = object : BookWebViewClient(){
-            override fun onPageStarted(view: WebView, url: String?, favicon: Bitmap?) {
-                progressBar_info.visibility = View.VISIBLE
-                super.onPageStarted(view, url, favicon)
-            }
-
-            override fun onPageFinished(view: WebView, url: String?) {
-                progressBar_info.visibility = View.GONE
-                super.onPageFinished(view, url)
-            }
-
-
-//            override fun onProgressChanged(view: WebView?, newProgress: Int) {
-//                // Update the progress bar with page loading progress
-//                progressBar_info.progress = newProgress
-//                if (newProgress == 100) {
-//                    // Hide the progressbar
-//                    progressBar_info.visibility = View.GONE
-//                }
-//            }
-        }
+        frg_webview.webViewClient = BookWebViewClient(view)
+        // progressbar
         frg_webview.webChromeClient = object : WebChromeClient(){
-            override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
                 progressBar_info.progress = newProgress
                 super.onProgressChanged(view, newProgress)
             }
         }
+
+        // up 버튼 클릭 시 최상단 이동
+        btn_up.setOnClickListener {
+            frg_webview.isVerticalScrollBarEnabled = false
+            frg_webview.scrollTo(0,0)
+            frg_webview.isVerticalScrollBarEnabled = true
+        }
+
+        // 스크롤 이동 시 up 버튼 Visible
+        frg_webview.setOnScrollChangeListener { view, l, t, oldl, oldt ->
+            // up 버튼
+            if (t > 0) btn_up.visibility = View.VISIBLE else btn_up.visibility = View.GONE
+        }
+
         // 웹뷰 - url 로드
         frg_webview.loadUrl(bookLink)
     }
+
 
     companion object {
         /**

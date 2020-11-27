@@ -110,12 +110,12 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
                 // 1. 사용자가 클릭한 index(position) intent에 담기
                 intent.putExtra(CommonUtils.BOOK_INFO_INDEX, position)
                 // 2. 검색된 책들의 Link 담기( => BookLink : Parcelable )
-                val bookLink : BookLink = BookLink()
+                val bookLinks = arrayListOf<String>()
                 items.forEach {
-                    bookLink.add(it.link)
+                    bookLinks.add(it.link)
                 }
                 // 3. Link(List) intent에 담기
-                intent.putExtra(CommonUtils.BOOK_INFO_URL, bookLink)
+                intent.putStringArrayListExtra(CommonUtils.BOOK_INFO_URL, bookLinks)
                 // 4. 상세화면 시작하기
                 ContextCompat.startActivity(context, intent, null)
             }

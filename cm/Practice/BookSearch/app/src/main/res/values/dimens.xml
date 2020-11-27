@@ -9,8 +9,8 @@
     <dimen name="webview_title_height">60dp</dimen>
 
     <!-- X 버튼 -->
-    <dimen name="close_btn_width">20dp</dimen>
-    <dimen name="close_btn_height">20dp</dimen>
+    <dimen name="close_btn_width">30dp</dimen>
+    <dimen name="close_btn_height">30dp</dimen>
 
     <!-- 검색(돋보기) 버튼 -->
     <dimen name="search_btn_width">50dp</dimen>

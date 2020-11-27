@@ -3,6 +3,8 @@ package com.example.booksearch.ui
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_info.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class InfoActivity : AppCompatActivity() {
-    private var bookLink = BookLink()
+    private var bookLink = arrayListOf<String>()
     private var index = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,13 +26,35 @@ class InfoActivity : AppCompatActivity() {
         setContentView(R.layout.activity_info)
         Log.d("LifeCycle_Info", "onCreate() 호출!!")
 
-        // 1. 인텐트 확인
-        if(!processIntent(intent)){
-            // 전달받은 링크 0개일 때
-            finish()
+        // 1. savedInstanceState 확인
+        if (savedInstanceState == null){
+            Log.d("LifeCycle_Info", "savedInstanceState: null")
+            // 2. 인텐트 확인
+            if(!processIntent(intent)){
+                Log.d("LifeCycle_Info", "intent: null")
+                // 전달받은 링크 0개일 때
+                finish()
+            }
+        }else{
+            savedInstanceState.let {
+                index = savedInstanceState.getInt(CommonUtils.BOOK_INFO_INDEX, 0)
+                Log.d("LifeCycle_Info", "Bundle_Index : $index")
+                savedInstanceState.getStringArrayList(CommonUtils.BOOK_INFO_URL)?.let {
+                    bookLink.clear()
+                    bookLink.addAll(it)
+                }
+                bookLink.forEach {
+                    Log.d("LifeCycle_Info", "bookLink.link : $it")
+                }
+            }
         }
+//        // 2. 인텐트 확인
+//        if(!processIntent(intent)){
+//            // 전달받은 링크 0개일 때
+//            finish()
+//        }
 
-        // 2. view 초기화
+        // 3. view 초기화
         initView()
     }
 
@@ -40,18 +64,48 @@ class InfoActivity : AppCompatActivity() {
         // 인텐트 수신
         // 1. 사용자가 클릭한 item의 index 받기
         index = intent.getIntExtra(CommonUtils.BOOK_INFO_INDEX, 0)
+        Log.d("LifeCycle_Info", "Intent_Index : $index")
         // 2. Link 리스트(BookLink) 받기
-        intent.getParcelableExtra<BookLink>(CommonUtils.BOOK_INFO_URL)?.let { bookLink = it }
+        intent.getStringArrayListExtra(CommonUtils.BOOK_INFO_URL)?.let { bookLink = it }
 
         // 3. 전달받은 링크가 0개면 false, 아니면 true 리턴!!
-        return bookLink.links.size != 0
+        return bookLink.size != 0
+    }
+
+    // 데이터 저장!!
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("LifeCycle_Info", "onSaveInstanceState() 호출!!")
+        // 현재 인덱스 저장
+        outState.putInt(CommonUtils.BOOK_INFO_INDEX, index)
+        // 현재 검색창 입력 값 저장
+        outState.putStringArrayList(CommonUtils.BOOK_INFO_URL, bookLink)
+        // 현재 total & start 저장
+
+        super.onSaveInstanceState(outState)
     }
 
     private fun initView(){
+        val nightModeFlags: Int = applicationContext.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK
+        when (nightModeFlags) {
+            // DarkMode
+            Configuration.UI_MODE_NIGHT_YES ->{
+                title_ll.setBackgroundColor(Color.BLACK)
+                btn_close.setTextColor(Color.WHITE)
+                btn_share.setTextColor(Color.WHITE)
+            }
+            // Default
+            Configuration.UI_MODE_NIGHT_NO -> {
+                title_ll.setBackgroundColor(Color.WHITE)
+                btn_close.setTextColor(Color.BLACK)
+                btn_share.setTextColor(Color.BLACK)
+            }
+        }
+
         // 1. Fragment 어댑터 생성
         val fAdt = FragmentAdapter(supportFragmentManager)
         // 2. 링크 가져와 frament 추가
-        bookLink.links.forEachIndexed { i, s ->
+        bookLink.forEachIndexed { i, s ->
             fAdt.addFragment(BookFragment.newInstance(s, i), s);
         }
 
@@ -65,14 +119,14 @@ class InfoActivity : AppCompatActivity() {
         }
         // 5. Url TextView
         // - text 세팅
-        book_url.text = bookLink.links[index]
+        book_url.text = bookLink[index]
         // - 클릭 => 링크 복사 세팅
         book_url.setOnLongClickListener { //클립보드 사용 코드
             val clipboardManager: ClipboardManager =
                 applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clipData: ClipData = ClipData.newPlainText(
                 CommonUtils.BOOK_INFO_URL,
-                bookLink.links[index]
+                bookLink[index]
             ); //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
             clipboardManager.setPrimaryClip(clipData)
 
@@ -111,8 +165,8 @@ class InfoActivity : AppCompatActivity() {
             override fun onPageSelected(position: Int) {
                 index = position
                 // 변경된 링크 Text 적용
-                book_url.text = bookLink.links[index]
-                // 링크 Scroll 맨 앞으로
+                book_url.text = bookLink[index]
+                // Url Scroll 맨 앞으로
                 url_sv.scrollTo(0, 0)
             }
 
@@ -123,28 +177,28 @@ class InfoActivity : AppCompatActivity() {
     }
 
 
-    override fun onStart() {
-        Log.d("LifeCycle_Info", "onStart() 호출!!")
-        super.onStart()
-    }
-
-    override fun onResume() {
-        Log.d("LifeCycle_Info", "onResume() 호출!!")
-        super.onResume()
-    }
-
-    override fun onPause() {
-        Log.d("LifeCycle_Info", "onPause() 호출!!")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        Log.d("LifeCycle_Info", "onStop() 호출!!")
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        Log.d("LifeCycle_Info", "onDestroy() 호출!!")
-        super.onDestroy()
-    }
+//   override fun onStart() {
+//        Log.d("LifeCycle_Info", "onStart() 호출!!")
+//        super.onStart()
+//    }
+//
+//    override fun onResume() {
+//        Log.d("LifeCycle_Info", "onResume() 호출!!")
+//        super.onResume()
+//    }
+//
+//    override fun onPause() {
+//        Log.d("LifeCycle_Info", "onPause() 호출!!")
+//        super.onPause()
+//    }
+//
+//    override fun onStop() {
+//        Log.d("LifeCycle_Info", "onStop() 호출!!")
+//        super.onStop()
+//    }
+//
+//    override fun onDestroy() {
+//        Log.d("LifeCycle_Info", "onDestroy() 호출!!")
+//        super.onDestroy()
+//    }
 }

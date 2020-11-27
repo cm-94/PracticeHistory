@@ -1,12 +1,12 @@
 package com.example.booksearch.ui
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.booksearch.R
@@ -52,6 +52,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("LifeCycle_Main", "onCreate() 호출!!")
 
+        Log.d("LifeCycle_Main", "savedInstanceState: ${if(savedInstanceState == null) "null" else "NotNull"}")
+
         savedInstanceState?.let{ data ->
             // 저장된 List<BookItem>으로 listData 세팅
             data.getParcelableArrayList<BookItem>(CommonUtils.BOOK_LIST)?.let { listData = it }
@@ -63,8 +65,8 @@ class MainActivity : AppCompatActivity() {
             // 저장된 total & start로 세팅
             data.getInt(SAVED_TOTAL).let{ total = it }
             data.getInt(SAVED_START).let{ startCnt = it }
-
         }
+
         initView()
     }
 
@@ -79,8 +81,10 @@ class MainActivity : AppCompatActivity() {
         outState.putInt(SAVED_TOTAL, total)
         outState.putInt(SAVED_START, startCnt)
 
+        Log.d("LifeCycle_Main", "outState: ${if(outState == null) "null" else "NotNull"}")
         super.onSaveInstanceState(outState)
     }
+
 
     private fun initView(){
         linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
@@ -90,6 +94,9 @@ class MainActivity : AppCompatActivity() {
         book_rv.adapter = bookAdapter
         book_rv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                // 키보드 숨기기
+                val imm = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(edit_input.windowToken, 0)
                 // 최하단 스크롤 시
                 if (!book_rv.canScrollVertically(1)) {
                     if (startCnt < total && startCnt < CommonUtils.DISPLAY_MAX) {
