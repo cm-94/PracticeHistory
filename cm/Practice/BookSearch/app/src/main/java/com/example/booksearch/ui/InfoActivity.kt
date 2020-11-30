@@ -11,11 +11,9 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.example.booksearch.R
-import com.example.booksearch.data.BookLink
 import com.example.booksearch.ui.adpater.FragmentAdapter
-import com.example.booksearch.util.CommonUtils
+import com.example.booksearch.util.Constants
 import kotlinx.android.synthetic.main.activity_info.*
-import kotlinx.android.synthetic.main.activity_main.*
 
 class InfoActivity : AppCompatActivity() {
     private var bookLink = arrayListOf<String>()
@@ -37,9 +35,9 @@ class InfoActivity : AppCompatActivity() {
             }
         }else{
             savedInstanceState.let {
-                index = savedInstanceState.getInt(CommonUtils.BOOK_INFO_INDEX, 0)
+                index = savedInstanceState.getInt(Constants.BOOK_INFO_INDEX, 0)
                 Log.d("LifeCycle_Info", "Bundle_Index : $index")
-                savedInstanceState.getStringArrayList(CommonUtils.BOOK_INFO_URL)?.let {
+                savedInstanceState.getStringArrayList(Constants.BOOK_INFO_URL)?.let {
                     bookLink.clear()
                     bookLink.addAll(it)
                 }
@@ -63,10 +61,10 @@ class InfoActivity : AppCompatActivity() {
     private fun processIntent(intent: Intent) : Boolean{
         // 인텐트 수신
         // 1. 사용자가 클릭한 item의 index 받기
-        index = intent.getIntExtra(CommonUtils.BOOK_INFO_INDEX, 0)
+        index = intent.getIntExtra(Constants.BOOK_INFO_INDEX, 0)
         Log.d("LifeCycle_Info", "Intent_Index : $index")
         // 2. Link 리스트(BookLink) 받기
-        intent.getStringArrayListExtra(CommonUtils.BOOK_INFO_URL)?.let { bookLink = it }
+        intent.getStringArrayListExtra(Constants.BOOK_INFO_URL)?.let { bookLink = it }
 
         // 3. 전달받은 링크가 0개면 false, 아니면 true 리턴!!
         return bookLink.size != 0
@@ -76,9 +74,9 @@ class InfoActivity : AppCompatActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         Log.d("LifeCycle_Info", "onSaveInstanceState() 호출!!")
         // 현재 인덱스 저장
-        outState.putInt(CommonUtils.BOOK_INFO_INDEX, index)
+        outState.putInt(Constants.BOOK_INFO_INDEX, index)
         // 현재 검색창 입력 값 저장
-        outState.putStringArrayList(CommonUtils.BOOK_INFO_URL, bookLink)
+        outState.putStringArrayList(Constants.BOOK_INFO_URL, bookLink)
         // 현재 total & start 저장
 
         super.onSaveInstanceState(outState)
@@ -125,7 +123,7 @@ class InfoActivity : AppCompatActivity() {
             val clipboardManager: ClipboardManager =
                 applicationContext.getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
             val clipData: ClipData = ClipData.newPlainText(
-                CommonUtils.BOOK_INFO_URL,
+                Constants.BOOK_INFO_URL,
                 bookLink[index]
             ); //클립보드에 ID라는 이름표로 id 값을 복사하여 저장
             clipboardManager.setPrimaryClip(clipData)

@@ -1,6 +1,6 @@
 package com.example.booksearch.util
 
-object CommonUtils{
+object Constants{
     const val DEFAULT_START = 1
     const val DISPLAY_COUNT = 20
     const val DISPLAY_MAX = 1000 // MainActivity에서만 사용하므로 옮겨도..( 데이터 요청시 사용 )

@@ -1,6 +1,5 @@
 package com.example.booksearch.ui
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -13,7 +12,7 @@ import com.example.booksearch.R
 import com.example.booksearch.data.BookData
 import com.example.booksearch.data.BookItem
 import com.example.booksearch.ui.adpater.BookAdapter
-import com.example.booksearch.util.CommonUtils
+import com.example.booksearch.util.Constants
 import com.example.booksearch.util.RetrofitUtils
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
@@ -50,15 +49,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("LifeCycle_Main", "onCreate() 호출!!")
-
         Log.d("LifeCycle_Main", "savedInstanceState: ${if(savedInstanceState == null) "null" else "NotNull"}")
 
         savedInstanceState?.let{ data ->
             // 저장된 List<BookItem>으로 listData 세팅
-            data.getParcelableArrayList<BookItem>(CommonUtils.BOOK_LIST)?.let { listData = it }
+            data.getParcelableArrayList<BookItem>(Constants.BOOK_LIST)?.let { listData = it }
             // 저장된 검색어로 EditText 세팅
-            data.getString(CommonUtils.EDIT_INPUT)?.let{ it ->
+            data.getString(Constants.EDIT_INPUT)?.let{ it ->
                 editInput = it
                 edit_input.setText(it)
             }
@@ -68,21 +65,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         initView()
-    }
-
-    // 데이터 저장!!
-    override fun onSaveInstanceState(outState: Bundle) {
-        Log.d("LifeCycle_Main", "onSaveInstanceState() 호출!!")
-        // 검색된 List<BookItem> 저장
-        outState.putParcelableArrayList(CommonUtils.BOOK_LIST, listData)
-        // 현재 검색창 입력 값 저장
-        outState.putString(CommonUtils.EDIT_INPUT, edit_input.text.toString())
-        // 현재 total & start 저장
-        outState.putInt(SAVED_TOTAL, total)
-        outState.putInt(SAVED_START, startCnt)
-
-        Log.d("LifeCycle_Main", "outState: ${if(outState == null) "null" else "NotNull"}")
-        super.onSaveInstanceState(outState)
     }
 
 
@@ -99,7 +81,7 @@ class MainActivity : AppCompatActivity() {
                 imm.hideSoftInputFromWindow(edit_input.windowToken, 0)
                 // 최하단 스크롤 시
                 if (!book_rv.canScrollVertically(1)) {
-                    if (startCnt < total && startCnt < CommonUtils.DISPLAY_MAX) {
+                    if (startCnt < total && startCnt < Constants.DISPLAY_MAX) {
                         searchBook(true)
                     }
                 }// 최대 데이터 조회
@@ -136,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         // Added in API Level 15
         // Directly call any attached OnClickListener
         // Unlike performClick(), this only calls the listener, and does not do any associated clicking actions like reporting an accessibility event.
-//        btn_search.performClick()
+//        btn_search.callOnClick()
     }
 
 
@@ -246,6 +228,21 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         Log.d("LifeCycle_Main", "onDestroy() 호출!!")
         super.onDestroy()
+    }
+
+    // 데이터 저장!!
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("LifeCycle_Main", "onSaveInstanceState() 호출!!")
+        // 검색된 List<BookItem> 저장
+        outState.putParcelableArrayList(Constants.BOOK_LIST, listData)
+        // 현재 검색창 입력 값 저장
+        outState.putString(Constants.EDIT_INPUT, edit_input.text.toString())
+        // 현재 total & start 저장
+        outState.putInt(SAVED_TOTAL, total)
+        outState.putInt(SAVED_START, startCnt)
+
+        Log.d("LifeCycle_Main", "outState: ${if(outState == null) "null" else "NotNull"}")
+        super.onSaveInstanceState(outState)
     }
 }
 

@@ -3,7 +3,6 @@ package com.example.booksearch.ui.adpater
 import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Drawable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,10 +18,8 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.example.booksearch.R
 import com.example.booksearch.data.BookItem
-import com.example.booksearch.data.BookLink
-import com.example.booksearch.ui.BookFragment
 import com.example.booksearch.ui.InfoActivity
-import com.example.booksearch.util.CommonUtils
+import com.example.booksearch.util.Constants
 import kotlinx.android.synthetic.main.book_item.view.*
 import java.text.DecimalFormat
 import java.text.NumberFormat
@@ -63,11 +60,11 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
      */
     override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
         items[position].let { item: BookItem ->
-            holder.title.text = item.title.replace(CommonUtils.HTML_TAG.toRegex(),"")
+            holder.title.text = item.title.replace(Constants.HTML_TAG.toRegex(),"")
             holder.publisherAuthor.text = context.getString(
                 R.string.publisher_author,
-                item.publisher.replace(CommonUtils.HTML_TAG.toRegex(),""),
-                item.author.replace(CommonUtils.HTML_TAG.toRegex(),"")
+                item.publisher.replace(Constants.HTML_TAG.toRegex(),""),
+                item.author.replace(Constants.HTML_TAG.toRegex(),"")
             )
 
             holder.price.text = context.getString(
@@ -108,14 +105,14 @@ class BookAdapter(private val context: Context, private val items: MutableList<B
             holder.itemView.setOnClickListener {
                 val intent = Intent(context, InfoActivity::class.java)
                 // 1. 사용자가 클릭한 index(position) intent에 담기
-                intent.putExtra(CommonUtils.BOOK_INFO_INDEX, position)
+                intent.putExtra(Constants.BOOK_INFO_INDEX, position)
                 // 2. 검색된 책들의 Link 담기( => BookLink : Parcelable )
                 val bookLinks = arrayListOf<String>()
                 items.forEach {
                     bookLinks.add(it.link)
                 }
                 // 3. Link(List) intent에 담기
-                intent.putStringArrayListExtra(CommonUtils.BOOK_INFO_URL, bookLinks)
+                intent.putStringArrayListExtra(Constants.BOOK_INFO_URL, bookLinks)
                 // 4. 상세화면 시작하기
                 ContextCompat.startActivity(context, intent, null)
             }
