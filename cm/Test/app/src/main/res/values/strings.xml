@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">Test</string>
+
+    <string name="txt_intro">%s님,\n금융과세에 중요한 영향을 미치는\n금융소득과 손익통산 추이를 점검해보세요.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="txt_won">원</string>
+
+    <string name="txt_income">금융소득</string>
+    <string name="txt_total">손익통산</string>
+    <string name="txt_major_require">대주주 요건</string>
+    <string name="major_require">해당 %1$s건, 잠재 %2$s건</string>
+
+    <string name="txt_financial_assets">금융자산</string>
+    <string name="financial_assets">금융자산</string>
+
+    <string name="info_detail">상세내역 확인하기</string>
+
+    <string name="title_expect_income">예상 금융소득</string>
+    <string name="cumulative_income">누적 금융소득</string>
+    <string name="txt_expect_income">올해 말까지 지급이 예상되는 금융소득입니다.</string>
+
+    <string name="txt_expect_date">상품명 / 예상지급일</string>
+    <string name="txt_expect_payment">예상 지급금액</string>
+</resources>

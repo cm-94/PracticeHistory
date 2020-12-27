@@ -1,4 +1,4 @@
-package com.example.booksearch.ui.adpater
+    package com.example.booksearch.ui.adpater
 
 import android.content.Context
 import android.content.Intent
