@@ -5,9 +5,13 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.webkit.WebView
 import androidx.viewpager.widget.ViewPager
+import com.example.booksearch.ui.BookFragment
 import com.example.booksearch.ui.adpater.BookViewPager
 
 class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, attrs) {
+
+
+
 //    override fun overScrollBy(
 //        deltaX: Int,
 //        deltaY: Int,
@@ -47,7 +51,7 @@ class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, att
 //        }
 //        return false
 //    }
-
+//
 //    override fun onInterceptTouchEvent(event: MotionEvent): Boolean {
 //        parent.requestDisallowInterceptTouchEvent(true)
 //
@@ -66,12 +70,4 @@ class BookWebView(context: Context, attrs: AttributeSet?) : WebView(context, att
 //            position < (parent.parent as ViewPager).adapter?.count?.minus(1)!!
 //
 //    }
-//
-//
-//    var webView = BookWebView()
-//    lateinit var bookFragment : BookFragment
-//    fun setFragment(webViewFragment : BookFragment){
-//
-//    }
-
 }

@@ -3,6 +3,7 @@ package com.example.booksearch.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -10,9 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.booksearch.R
 import com.example.booksearch.data.BookData
 import com.example.booksearch.data.BookItem
-import com.example.booksearch.data.BookLink
 import com.example.booksearch.ui.adpater.BookAdapter
-import com.example.booksearch.util.CommonUtils
+import com.example.booksearch.util.Constants
 import com.example.booksearch.util.RetrofitUtils
 import com.google.gson.Gson
 import com.google.gson.stream.JsonReader
@@ -22,17 +22,21 @@ import retrofit2.Call
 import retrofit2.Response
 import java.io.StringReader
 
+
 class MainActivity : AppCompatActivity() {
+    private val SAVED_TOTAL = "SAVED_TOTAL"
+    private val SAVED_START = "SAVED_START"
+
     // 검색된 전체 데이터 수
-    private var total : Double = 0.0
+    private var total = 0
     // 전체 데이터 중 요청 보낼 시작값
     private var startCnt = 1
     // 한번에 요청 할 데이터 수
-    private val displayCnt = 5
+    private val displayCnt = 20
     // 사용자 입력 값
     private var editInput : String = ""
     // 수신된 데이터(BookItem) 담을 리스트
-    private var listData : MutableList<BookItem> = arrayListOf()
+    private var listData : ArrayList<BookItem> = arrayListOf()
 
     // 데이터 요청 시 Flag
     private var bRequest : Boolean = true
@@ -45,32 +49,59 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Log.d("LifeCycle_Main", "savedInstanceState: ${if(savedInstanceState == null) "null" else "NotNull"}")
+
+        savedInstanceState?.let{ data ->
+            // 저장된 List<BookItem>으로 listData 세팅
+            data.getParcelableArrayList<BookItem>(Constants.BOOK_LIST)?.let { listData = it }
+            // 저장된 검색어로 EditText 세팅
+            data.getString(Constants.EDIT_INPUT)?.let{ it ->
+                editInput = it
+                edit_input.setText(it)
+            }
+            // 저장된 total & start로 세팅
+            data.getInt(SAVED_TOTAL).let{ total = it }
+            data.getInt(SAVED_START).let{ startCnt = it }
+        }
 
         initView()
-
     }
 
-    // TODO 데이터 저장!!
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-    }
 
     private fun initView(){
         linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         book_rv.layoutManager = linearLayoutManager
-        // adapter
-        bookAdapter = BookAdapter(this, listData)
+        // adapter 초기화
+        bookAdapter = BookAdapter(this, listData) // => 앱 백그라운드 이후 화면 재진입 시 listData로 화면 세팅됨!!
         book_rv.adapter = bookAdapter
         book_rv.setOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                // 키보드 숨기기
+                val imm = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(edit_input.windowToken, 0)
                 // 최하단 스크롤 시
                 if (!book_rv.canScrollVertically(1)) {
-                    if (startCnt < total && startCnt < CommonUtils.DISPLAY_MAX) {
+                    if (startCnt < total && startCnt < Constants.DISPLAY_MAX) {
                         searchBook(true)
                     }
                 }// 최대 데이터 조회
             }
         })
+
+        // 검색창에서 엔터 클릭 시
+        edit_input.setOnEditorActionListener { p0, p1, p2 ->
+            // 검색 실행
+            searchBook(false)
+            true
+        }
+        // RecyclerView 의 Item들을 구분짓는 Divider을 추가!!
+//        val dividerItemDecoration = DividerItemDecoration(
+//            book_rv.context,
+//            linearLayoutManager.orientation
+//        )
+//        book_rv.addItemDecoration(dividerItemDecoration)
+        // ListView : android:divider="#FF00000"
+        //            android:dividerHeight="1dp"
         // 검색 버튼 클릭 시
         btn_search.setOnClickListener {
             // 화면 최상단으로 이동
@@ -78,7 +109,18 @@ class MainActivity : AppCompatActivity() {
             // 책 검색
             searchBook(false)
         }
+
+        // Added in API Level 1
+        // Call this view's OnClickListener, if it is defined.
+        // Performs all normal actions associated with clicking: reporting accessibility event, playing a sound, etc.
+//        btn_search.performClick()
+
+        // Added in API Level 15
+        // Directly call any attached OnClickListener
+        // Unlike performClick(), this only calls the listener, and does not do any associated clicking actions like reporting an accessibility event.
+//        btn_search.callOnClick()
     }
+
 
     /**
      * 검색조건 초기화 & 데이터 요청
@@ -87,22 +129,31 @@ class MainActivity : AppCompatActivity() {
      */
     private fun searchBook(scrollFlag: Boolean){
         if(!scrollFlag){
-            edit_Input.text.toString().let{
-                // 검색버튼은 클릭할 때마다 처음부터 데이터 요청!!
-                listData.clear()
-                bookAdapter.notifyDataSetChanged()
-                startCnt = 1
-                // 사용자 입력값 확인
+            // 검색버튼은 클릭할 때마다 처음부터 데이터 요청!!
+            listData.clear()
+            bookAdapter.notifyDataSetChanged()
+            startCnt = 1
+            // 사용자 입력값 확인
+            edit_input.text.toString().let{
                 editInput = it
                 // 공백 : 데이터 요청 x & RecyclerView item => 0개로 초기화
                 if (editInput == ""){
-                    Toast.makeText(applicationContext,getString(R.string.input_search),Toast.LENGTH_SHORT).show()
+                    // 검색된 자료없음 Text -> Visible
+                    no_book_data.visibility = View.VISIBLE
+                    Toast.makeText(
+                        applicationContext,
+                        getString(R.string.input_search),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     return
                 }// 데이터 요청 : 검색어(input)에 대해 첫번째부터 displayCnt(20)개 만큼 요청
             }
         }
         if(bRequest){ // progressBar.visibility 상태와 같음!!
             requestBook(editInput, startCnt, displayCnt)
+            // 데이터 요청할 때 키보드 내림!!
+            val imm = applicationContext.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(edit_input.windowToken, 0)
         }
     }
 
@@ -119,24 +170,89 @@ class MainActivity : AppCompatActivity() {
                 call: Call<ResponseBody>,
                 response: Response<ResponseBody>
             ) {
-                if(response.body() != null && response.isSuccessful){
-                    val res = response.body()?.string()
+                // 검색된 자료없음 Text -> Gone
+                no_book_data.visibility = View.GONE
+                val res = response.body()?.string()
+                if (res != null && response.isSuccessful) {
                     val gson = Gson()
                     val jsonReader = JsonReader(StringReader(res))
 
-                    val bookData : BookData = gson.fromJson(jsonReader,BookData::class.java)
+                    // 수신된 데이터(string)를 Object(BookData Class)로 변환!!
+                    val bookData: BookData = gson.fromJson(jsonReader, BookData::class.java)
+                    // 검색된 전체 데이터 숫자 초기화
+                    total = bookData.total
+                    // 수신된 책 데이터(list) 추가
+                    listData.addAll(bookData.items)
+                    // 새 시작 index로 세팅
+                    startCnt += bookData.items.size
 
-                    listData.addAll(bookData.getBookItems())
-
+                    // progressBar => Gone
                     progressBar.visibility = View.GONE
                     bookAdapter.notifyDataSetChanged()
+
+                    // 데이터 요청 가능하도록 검색 Flag -> true 변경!!
                     bRequest = true
                 }
+            }
 
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                // 검색 Progressbar -> GONE
+                Log.d("LifeCycle_Main", "requestBook_Failure!!")
+                progressBar.visibility = View.GONE
+                // 데이터 요청 가능하도록 검색 Flag -> true 변경!!
+                bRequest = true
+            }
+        })
+    }
+
+    override fun onStart() {
+        Log.d("LifeCycle_Main", "onStart() 호출!!")
+        super.onStart()
+    }
+
+    override fun onResume() {
+        Log.d("LifeCycle_Main", "onResume() 호출!!")
+        super.onResume()
+    }
+
+    override fun onPause() {
+        Log.d("LifeCycle_Main", "onPause() 호출!!")
+        super.onPause()
+    }
+
+    override fun onStop() {
+        Log.d("LifeCycle_Main", "onStop() 호출!!")
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        Log.d("LifeCycle_Main", "onDestroy() 호출!!")
+        super.onDestroy()
+    }
+
+    // 데이터 저장!!
+    override fun onSaveInstanceState(outState: Bundle) {
+        Log.d("LifeCycle_Main", "onSaveInstanceState() 호출!!")
+        // 검색된 List<BookItem> 저장
+        outState.putParcelableArrayList(Constants.BOOK_LIST, listData)
+        // 현재 검색창 입력 값 저장
+        outState.putString(Constants.EDIT_INPUT, edit_input.text.toString())
+        // 현재 total & start 저장
+        outState.putInt(SAVED_TOTAL, total)
+        outState.putInt(SAVED_START, startCnt)
+
+        Log.d("LifeCycle_Main", "outState: ${if(outState == null) "null" else "NotNull"}")
+        super.onSaveInstanceState(outState)
+    }
+}
+
+
+
+/*---------- HashMap으로 수신된 데이터 처리 과정 ----------*/
 //                listData.add(bookItem)
 
 
-                // 검색 Progressbar -> GONE
+// 검색 Progressbar -> GONE
 //                if (response.isSuccessful && response.body() != null) {
 //                    // 전체 데이터 개수 확인
 //                    total = response.body()?.get("total") as Double
@@ -193,94 +309,3 @@ class MainActivity : AppCompatActivity() {
 //                    // 검색 Flag => true 변경
 //                    bRequest = true
 //                }
-            }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                // 검색 Progressbar -> GONE
-                progressBar.visibility = View.GONE
-                // 검색 Flag => true 변경
-                bRequest = true
-            }
-        })
-    }
-
-
-
-    var data = "{\n" +
-            "    \"lastBuildDate\": \"Mon, 23 Nov 2020 20:37:07 +0900\",\n" +
-            "    \"total\": 8139,\n" +
-            "    \"start\": 1,\n" +
-            "    \"display\": 5,\n" +
-            "    \"items\": [\n" +
-            "    {\n" +
-            "    \"title\": \"채식주의자 (<b>한강</b> 연작소설,맨부커 인터내셔널 수상작)\",\n" +
-            "    \"link\": \"http://book.naver.com/bookdb/book_detail.php?bid=3309417\",\n" +
-            "    \"image\": \"https://bookthumb-phinf.pstatic.net/cover/033/094/03309417.jpg?type=m1&udate=20200904\",\n" +
-            "    \"author\": \"<b>한강</b>\",\n" +
-            "    \"price\": \"12000\",\n" +
-            "    \"discount\": \"10800\",\n" +
-            "    \"publisher\": \"창비\",\n" +
-            "    \"pubdate\": \"20071030\",\n" +
-            "    \"isbn\": \"8936433598 9788936433598\",\n" +
-            "    \"description\": \"표제작인 『채식주의자』는 지금까지 소설가 <b>한강</b>이 발표해온 작품에 등장하였던 욕망,식물성,죽음 등 인간 본연의 문제들을 한 편에 집약해 놓은 수작이라고 평가받는다.&#x0D;&#x0D;『채식주의자』는 육식을 거부하는 영혜를 바라보는 그의 남편 '나'의 이야기이다. '영혜'는 작가가 10년전에 발표한 단편... \"\n" +
-            "    \n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"title\": \"<b>한강</b>을 따라 흐르는 고대사를 찾아서 3\",\n" +
-            "    \"link\": \"http://book.naver.com/bookdb/book_detail.php?bid=17467387\",\n" +
-            "    \"image\": \"https://bookthumb-phinf.pstatic.net/cover/174/673/17467387.jpg?type=m1&udate=20201117\",\n" +
-            "    \"author\": \"오순제\",\n" +
-            "    \"price\": \"10000\",\n" +
-            "    \"discount\": \"\",\n" +
-            "    \"publisher\": \"수동예림\",\n" +
-            "    \"pubdate\": \"20201101\",\n" +
-            "    \"isbn\": \"1190197707 9791190197700\",\n" +
-            "    \"description\": \"역사학자 오순제 박사의 인문학적 시각으로 새로 읽는 <b>한강</b>의 흐름과 역사적 맥락인 『<b>한강</b>을 따라 흐르는 고대사를 찾아서 3』. <b>한강</b> 편은 총 3권으로 이루어졌으며 3권은 남<b>한강</b> 편으로 북<b>한강</b>과 남<b>한강</b>이 만나는 두물머리인 양평군과 남양주시, 하남시, 구리시, 서울특별시, 고양시, 파주시, 김포시, 강화군의... \"\n" +
-            "    \n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"title\": \"<b>한강</b>을 따라 흐르는 고대사를 찾아서 2\",\n" +
-            "    \"link\": \"http://book.naver.com/bookdb/book_detail.php?bid=17467394\",\n" +
-            "    \"image\": \"https://bookthumb-phinf.pstatic.net/cover/174/673/17467394.jpg?type=m1&udate=20201117\",\n" +
-            "    \"author\": \"오순제\",\n" +
-            "    \"price\": \"10000\",\n" +
-            "    \"discount\": \"\",\n" +
-            "    \"publisher\": \"수동예림\",\n" +
-            "    \"pubdate\": \"20201101\",\n" +
-            "    \"isbn\": \"1190197693 9791190197694\",\n" +
-            "    \"description\": \"역사학자 오순제 박사의 인문학적 시각으로 새로 읽는 <b>한강</b>의 흐름과 역사적 맥락인 『<b>한강</b>을 따라 흐르는 고대사를 찾아서 2』. <b>한강</b> 편은 총 3권으로 이루어졌으며 2권은 남<b>한강</b> 편으로 <b>한강</b> 본류인 남<b>한강</b>은 강원도 태백시 창죽동 금대봉(金臺峰)의 북서쪽 계곡의 고목나무샘에서 발원하여 검룡소(儉龍沼)를... \"\n" +
-            "    \n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"title\": \"<b>한강</b>을 따라 흐르는 고대사를 찾아서 1\",\n" +
-            "    \"link\": \"http://book.naver.com/bookdb/book_detail.php?bid=17467395\",\n" +
-            "    \"image\": \"https://bookthumb-phinf.pstatic.net/cover/174/673/17467395.jpg?type=m1&udate=20201117\",\n" +
-            "    \"author\": \"오순제\",\n" +
-            "    \"price\": \"10000\",\n" +
-            "    \"discount\": \"\",\n" +
-            "    \"publisher\": \"수동예림\",\n" +
-            "    \"pubdate\": \"20201101\",\n" +
-            "    \"isbn\": \"1190197685 9791190197687\",\n" +
-            "    \"description\": \"역사학자 오순제 박사의 인문학적 시각으로 새로 읽는 <b>한강</b>의 흐름과 역사적 맥락인 『<b>한강</b>을 따라 흐르는 고대사를 찾아서 1』. <b>한강</b> 편은 총 3권으로 이루어졌으며 1권은 북<b>한강</b> 편으로 북<b>한강</b>은 북한의 금강산 부근에서 발원한 금강천이 남쪽으로 흐르면서 강원도 김화군에서 금성천을 합친 후, 휴전선을 지나... \"\n" +
-            "    \n" +
-            "    },\n" +
-            "    {\n" +
-            "    \"title\": \"오! <b>한강</b> 세트 (전5권)\",\n" +
-            "    \"link\": \"http://book.naver.com/bookdb/book_detail.php?bid=14788734\",\n" +
-            "    \"image\": \"https://bookthumb-phinf.pstatic.net/cover/147/887/14788734.jpg?type=m1&udate=20190501\",\n" +
-            "    \"author\": \"김세영\",\n" +
-            "    \"price\": \"60000\",\n" +
-            "    \"discount\": \"54000\",\n" +
-            "    \"publisher\": \"가디언\",\n" +
-            "    \"pubdate\": \"20190425\",\n" +
-            "    \"isbn\": \"1189159279 9791189159276\",\n" +
-            "    \"description\": \"<b>한강</b>』!민주화 시위가 치열했던 1980년대 말, 해방 이후부터 1987년 6월 항쟁까지 우리의\" }]}"
-}
-
-
-/*
-InfoActivity - viewpager에서 좌우 스크롤 시 수신 데이터 이상 넘어가는 오류
- - MainActivity & BookAdapter(RecyclerView Adapter) 에서 BookLink(object).addItem 중복 확인 후 수정
- - 수신 데이터만큼 좌우 스크롤 정상 확인
- -
- */

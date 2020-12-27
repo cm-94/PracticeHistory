@@ -1,12 +1,17 @@
 package com.example.booksearch.ui
 
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
+import android.widget.ProgressBar
+import androidx.fragment.app.Fragment
 import com.example.booksearch.BookWebViewClient
 import com.example.booksearch.R
-import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_book.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -20,12 +25,14 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class BookFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param_link: String? = null
     private var param_index: Int? = null
 
     private var bookLink : String = ""
     private var bookIndex : Int = 0
+
+
+    private lateinit var progressBar_info : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,18 +50,44 @@ class BookFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_book, container, false)
+        val mRootView = inflater.inflate(R.layout.fragment_book, container, false)
+        progressBar_info = mRootView.findViewById(R.id.progressBar_info)
+        return mRootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         // 자바스크립트가 동작할 수 있도록 세팅
         val webSetting = frg_webview.settings
         webSetting.javaScriptEnabled = true
+
+
         // 웹뷰 클라이언트 설정 => 안그럼 브라우저로 강제 실행됨(브라우저 > 웹뷰)
-        frg_webview.webViewClient = BookWebViewClient()
+        frg_webview.webViewClient = BookWebViewClient(view)
+        // progressbar
+        frg_webview.webChromeClient = object : WebChromeClient(){
+            override fun onProgressChanged(view: WebView, newProgress: Int) {
+                progressBar_info.progress = newProgress
+                super.onProgressChanged(view, newProgress)
+            }
+        }
+
+        // up 버튼 클릭 시 최상단 이동
+        btn_up.setOnClickListener {
+            frg_webview.isVerticalScrollBarEnabled = false
+            frg_webview.scrollTo(0,0)
+            frg_webview.isVerticalScrollBarEnabled = true
+        }
+
+        // 스크롤 이동 시 up 버튼 Visible
+        frg_webview.setOnScrollChangeListener { view, l, t, oldl, oldt ->
+            // up 버튼
+            if (t > 0) btn_up.visibility = View.VISIBLE else btn_up.visibility = View.GONE
+        }
+
         // 웹뷰 - url 로드
         frg_webview.loadUrl(bookLink)
     }
+
 
     companion object {
         /**

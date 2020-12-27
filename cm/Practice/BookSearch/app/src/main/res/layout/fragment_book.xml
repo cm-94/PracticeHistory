@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.BookFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.BookFragment">
+
+    <ProgressBar
+        android:id="@+id/progressBar_info"
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:layout_alignParentTop="true"
+        android:progressDrawable="@drawable/progressbar_states"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:progress="100"
+        android:visibility="gone"/>
 
     <WebView
         android:id="@+id/frg_webview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_below="@+id/progressBar_info"/>
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/btn_up"
+        android:layout_width="@dimen/close_btn_width"
+        android:layout_height="@dimen/close_btn_height"
+        android:background="@drawable/arrow_up"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

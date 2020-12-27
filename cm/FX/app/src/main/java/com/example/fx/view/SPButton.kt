@@ -1,6 +1,5 @@
 package com.example.fx.view
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.util.AttributeSet
@@ -28,7 +27,6 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
         initView()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun initView() {
         val view = View.inflate(this.context, R.layout.button_item, this)
 
@@ -102,7 +100,7 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
      * @return true,false
      */
     fun setDataType(data: Number, type: Int):Boolean{
-        /** type == 1~3 아닐 때 */
+        /** type == 1,2,3 아닐 때 */
         if (type>3 || type<1){
             return false
         }
@@ -198,7 +196,4 @@ class SPButton(context: Context, attrs: AttributeSet) : LinearLayout(context, at
     fun getData():String{
         return dataEditText.text.toString()
     }
-
-
-
 }

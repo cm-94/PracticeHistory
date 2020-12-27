@@ -5,5 +5,16 @@
     <dimen name="pub_auth_width">180dp</dimen>
     <dimen name="pub_auth_height">50dp</dimen>
 
+    <!-- 웹뷰 타이틀 -->
+    <dimen name="webview_title_height">60dp</dimen>
+
+    <!-- X 버튼 -->
+    <dimen name="close_btn_width">30dp</dimen>
+    <dimen name="close_btn_height">30dp</dimen>
+
+    <!-- 검색(돋보기) 버튼 -->
+    <dimen name="search_btn_width">50dp</dimen>
+    <dimen name="search_btn_height">50dp</dimen>
+
 
 </resources>
