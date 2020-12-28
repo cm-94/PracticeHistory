@@ -17,5 +17,31 @@
         <item name="windowNoTitle">true</item>
     </style>
 
+    <style name="txt_bold_20">
+        <item name="android:textSize">20dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+
+    <style name="txt_default_12">
+        <item name="android:textSize">12dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+
+    <style name="txt_default_16">
+        <item name="android:textSize">16dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="txt_default_20">
+        <item name="android:textSize">20dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+    </style>
 
 </resources>

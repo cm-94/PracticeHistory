@@ -9,6 +9,10 @@
 
     <string name="txt_income">금융소득</string>
     <string name="txt_total">손익통산</string>
+
+    <string name="txt_income_info">금융소득 현황</string>
+    <string name="txt_total_info">손익통산 현황</string>
+
     <string name="txt_major_require">대주주 요건</string>
     <string name="major_require">해당 %1$s건, 잠재 %2$s건</string>
 
@@ -23,4 +27,9 @@
 
     <string name="txt_expect_date">상품명 / 예상지급일</string>
     <string name="txt_expect_payment">예상 지급금액</string>
+
+    <string name="txt_calc">금융소득 종합과세 계산기</string>
+    <string name="reset">초기화</string>
+
+    <string name="tax_base">과세표준</string>
 </resources>

@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
 
     <RadioGroup
         android:id="@+id/radio_head"
@@ -68,11 +68,12 @@
                     android:layout_toLeftOf="@+id/btn_reset"
                     android:gravity="center"
                     android:text="2020.12.12 15:00"
-                    android:textSize="12dp" />
+                    android:textColor="@color/black"
+                    android:textSize="12dp" />/>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_reset"
-                    android:layout_width="wrap_content"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
@@ -86,7 +87,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="@string/txt_intro" />
+                android:text="@string/txt_intro"
+                android:textColor="@color/black" />
 
 
             <LinearLayout
@@ -109,17 +111,22 @@
                         android:layout_alignParentTop="true"
                         android:gravity="center"
                         android:text="@string/txt_income"
+                        android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <ImageButton
+                    <TextView
+                        android:id="@+id/btn_info_income"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentTop="true"
                         android:layout_margin="10dp"
                         android:layout_toEndOf="@+id/txt_income"
                         android:layout_toRightOf="@+id/txt_income"
-                        android:gravity="center" />
+                        android:background="@drawable/btn_round"
+                        android:gravity="center"
+                        android:text="i"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/total_income"
@@ -161,25 +168,31 @@
                         android:layout_marginTop="0dp"
                         android:gravity="center"
                         android:text="@string/txt_total"
+                        android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <ImageButton
+
+                    <TextView
+                        android:id="@+id/btn_info_total"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentBottom="true"
                         android:layout_margin="10dp"
                         android:layout_toEndOf="@+id/txt_total"
                         android:layout_toRightOf="@+id/txt_total"
-                        android:gravity="center" />
+                        android:background="@drawable/btn_round"
+                        android:gravity="center"
+                        android:text="i"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/total_prof"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_toStartOf="@+id/txt_won2"
                         android:layout_toLeftOf="@+id/txt_won2"
-                        android:layout_alignParentBottom="true"
                         android:gravity="center"
                         android:text="@string/txt_total"
                         android:textColor="@color/darkblue"
@@ -190,9 +203,9 @@
                         android:id="@+id/txt_won2"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
+                        android:layout_alignParentBottom="true"
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
@@ -204,18 +217,48 @@
                 </RelativeLayout>
             </LinearLayout>
 
+            <!--            <RadioGroup-->
+            <!--                android:id="@+id/header_view"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="40dp"-->
+
+            <!--                android:background="@color/white"-->
+            <!--                android:orientation="horizontal">-->
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/radio_button_left"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:button="@null"-->
+            <!--                    android:checked="true"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="금융자산"-->
+            <!--                    android:textSize="12dp" />-->
+
+            <!--                <RadioButton-->
+            <!--                    android:id="@+id/radio_button_right"-->
+            <!--                    android:layout_width="match_parent"-->
+            <!--                    android:layout_height="40dp"-->
+            <!--                    android:layout_weight="1"-->
+            <!--                    android:button="@null"-->
+            <!--                    android:gravity="center"-->
+            <!--                    android:text="손익 종합"-->
+            <!--                    android:textSize="12dp" />-->
+            <!--            </RadioGroup>-->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/info_item_box"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:background="@drawable/info_item_box"
                 android:orientation="vertical">
 
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:gravity="center">
 
@@ -228,19 +271,22 @@
                         android:layout_alignParentTop="true"
                         android:gravity="center"
                         android:text="@string/txt_major_require"
+                        android:textColor="@color/black"
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <ImageButton
+                    <TextView
+                        android:id="@+id/btn_info_major"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_alignParentTop="true"
                         android:layout_margin="10dp"
                         android:layout_toEndOf="@+id/txt_major_require"
                         android:layout_toRightOf="@+id/txt_major_require"
-                        android:background="@color/white"
+                        android:background="@drawable/btn_round"
                         android:gravity="center"
-                        app:backgroundTint="#FFFFFF" />
+                        android:text="i"
+                        android:textColor="@color/black" />
 
                     <TextView
                         android:id="@+id/major_require"
@@ -265,49 +311,47 @@
                         android:layout_marginRight="10dp"
                         android:gravity="center"
                         android:paddingTop="5dp"
-                        android:text="@string/txt_won"
+                        android:text="^"
                         android:textColor="#4C5FA5"
                         android:textSize="16dp"
                         android:textStyle="bold" />
                 </RelativeLayout>
+
             </LinearLayout>
 
-
-            <RadioGroup
+            <com.google.android.material.tabs.TabLayout
                 android:id="@+id/header_view"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="10dp"
+                app:tabBackground="@drawable/tab_background"
+                app:tabGravity="fill"
+                app:tabIndicatorColor="@color/mint"
+                app:tabIndicatorHeight="5dp"
+                app:tabMode="fixed"
+                app:tabSelectedTextColor="@color/mint"
+                app:tabTextAppearance="@style/txt_bold_20"
+                app:tabTextColor="@color/gray">
 
-                android:background="@color/white"
-                android:orientation="horizontal">
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_income_info" />
 
-                <RadioButton
-                    android:id="@+id/radio_button_left"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:checked="true"
-                    android:gravity="center"
-                    android:text="금융자산"
-                    android:textSize="12dp" />
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/txt_total_info" />
 
-                <RadioButton
-                    android:id="@+id/radio_button_right"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="손익 종합"
-                    android:textSize="12dp" />
-            </RadioGroup>
+            </com.google.android.material.tabs.TabLayout>
 
             <include
                 android:id="@+id/tab_left"
                 layout="@layout/finacial_income_tab"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp" />
 
         </LinearLayout>
     </com.example.test.NewScrollView>
