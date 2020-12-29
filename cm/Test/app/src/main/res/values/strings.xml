@@ -21,15 +21,37 @@
 
     <string name="info_detail">상세내역 확인하기</string>
 
-    <string name="title_expect_income">예상 금융소득</string>
-    <string name="cumulative_income">누적 금융소득</string>
+    <string name="expect_income">예상 금융소득</string>
+    <string name="accumulate_income">누적 금융소득</string>
     <string name="txt_expect_income">올해 말까지 지급이 예상되는 금융소득입니다.</string>
 
     <string name="txt_expect_date">상품명 / 예상지급일</string>
     <string name="txt_expect_payment">예상 지급금액</string>
+    <string name="format_won">%s원</string>
 
     <string name="txt_calc">금융소득 종합과세 계산기</string>
     <string name="reset">초기화</string>
 
     <string name="tax_base">과세표준</string>
+
+
+    <string name="tax_stock_count">(%s주)</string>
+    <string name="tax_bond_count">(%s좌)</string>
+
+
+    <string name="calc">계산하기</string>
+
+    <string name="allocation">배당</string>
+    <string name="interest">이자</string>
+    <string name="distrib">분배</string>
+
+
+    <string-array name="tax_array">
+        <item>미선택</item>
+        <item>1,200만원 이하</item>
+        <item>4,600만원 이하</item>
+        <item>8,800만원 이하</item>
+        <item>1억5천만원 이하</item>
+        <item>1억5천만원 초과</item>
+    </string-array>
 </resources>

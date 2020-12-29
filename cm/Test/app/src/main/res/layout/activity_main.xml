@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/light_gray"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -52,34 +52,33 @@
             android:layout_marginRight="10dp"
             android:orientation="vertical">
 
-
-            <RelativeLayout
+            <LinearLayout
                 android:id="@+id/date_ll"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:layout_marginTop="10dp">
+                android:layout_marginTop="10dp"
+                android:gravity="right"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:layout_toStartOf="@+id/btn_reset"
-                    android:layout_toLeftOf="@+id/btn_reset"
                     android:gravity="center"
                     android:text="2020.12.12 15:00"
                     android:textColor="@color/black"
-                    android:textSize="12dp" />/>
+                    android:textSize="12dp" />
 
                 <ImageView
                     android:id="@+id/btn_reset"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp" />
-            </RelativeLayout>
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/reset" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txt_intro"
@@ -91,131 +90,128 @@
                 android:textColor="@color/black" />
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/info_item_box"
-                android:orientation="vertical">
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/info_item_box">
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="100dp"
-                    android:layout_margin="10dp">
+                <TextView
+                    android:id="@+id/txt_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_income"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/txt_income"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentTop="true"
-                        android:gravity="center"
-                        android:text="@string/txt_income"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/btn_info_income"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/txt_income"
+                    android:layout_toRightOf="@+id/txt_income"
+                    android:background="@drawable/btn_round"
+                    android:gravity="center"
+                    android:text="i"
+                    android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/btn_info_income"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_margin="10dp"
-                        android:layout_toEndOf="@+id/txt_income"
-                        android:layout_toRightOf="@+id/txt_income"
-                        android:background="@drawable/btn_round"
-                        android:gravity="center"
-                        android:text="i"
-                        android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/total_income"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_toStartOf="@+id/txt_won1"
+                    android:layout_toLeftOf="@+id/txt_won1"
+                    android:gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/txt_income"
+                    android:textColor="@color/darkblue"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/total_income"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_toStartOf="@+id/txt_won1"
-                        android:layout_toLeftOf="@+id/txt_won1"
-                        android:gravity="center"
-                        android:text="@string/txt_income"
-                        android:textColor="@color/darkblue"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txt_won1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_won"
+                    android:textColor="@color/darkblue"
+                    android:textSize="20dp" />
 
-                    <TextView
-                        android:id="@+id/txt_won1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:text="@string/txt_won"
-                        android:textColor="#4C5FA5"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/txt_total"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginStart="0dp"
-                        android:layout_marginLeft="0dp"
-                        android:layout_marginTop="0dp"
-                        android:gravity="center"
-                        android:text="@string/txt_total"
-                        android:textColor="@color/black"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txt_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_total"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
 
-                    <TextView
-                        android:id="@+id/btn_info_total"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_margin="10dp"
-                        android:layout_toEndOf="@+id/txt_total"
-                        android:layout_toRightOf="@+id/txt_total"
-                        android:background="@drawable/btn_round"
-                        android:gravity="center"
-                        android:text="i"
-                        android:textColor="@color/black" />
+                <TextView
+                    android:id="@+id/btn_info_total"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toEndOf="@+id/txt_total"
+                    android:layout_toRightOf="@+id/txt_total"
+                    android:background="@drawable/btn_round"
+                    android:gravity="center"
+                    android:text="i"
+                    android:textColor="@color/black" />
 
-                    <TextView
-                        android:id="@+id/total_prof"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentBottom="true"
-                        android:layout_toStartOf="@+id/txt_won2"
-                        android:layout_toLeftOf="@+id/txt_won2"
-                        android:gravity="center"
-                        android:text="@string/txt_total"
-                        android:textColor="@color/darkblue"
-                        android:textSize="20dp"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/total_prof"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toStartOf="@+id/txt_won2"
+                    android:layout_toLeftOf="@+id/txt_won2"
+                    android:layout_marginBottom="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_total"
+                    android:textColor="@color/darkblue"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/txt_won2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentBottom="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:text="@string/txt_won"
-                        android:textColor="#4C5FA5"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
-                </RelativeLayout>
-            </LinearLayout>
+                <TextView
+                    android:id="@+id/txt_won2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:gravity="center"
+                    android:text="@string/txt_won"
+                    android:textColor="@color/darkblue"
+                    android:textSize="20dp" />
+            </RelativeLayout>
 
             <!--            <RadioGroup-->
             <!--                android:id="@+id/header_view"-->
@@ -292,6 +288,7 @@
                         android:id="@+id/major_require"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_marginRight="5dp"
                         android:layout_toStartOf="@+id/txt_won3"
                         android:layout_toLeftOf="@+id/txt_won3"
                         android:gravity="center"
@@ -300,9 +297,9 @@
                         android:textSize="20dp"
                         android:textStyle="bold" />
 
-                    <TextView
+                    <ImageView
                         android:id="@+id/txt_won3"
-                        android:layout_width="wrap_content"
+                        android:layout_width="20dp"
                         android:layout_height="40dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
@@ -310,11 +307,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
-                        android:paddingTop="5dp"
-                        android:text="^"
-                        android:textColor="#4C5FA5"
-                        android:textSize="16dp"
-                        android:textStyle="bold" />
+                        android:src="@drawable/ic_arrow_down" />
                 </RelativeLayout>
 
             </LinearLayout>
@@ -330,8 +323,8 @@
                 app:tabIndicatorHeight="5dp"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/mint"
-                app:tabTextAppearance="@style/txt_bold_20"
-                app:tabTextColor="@color/gray">
+                app:tabTextAppearance="@style/txt_default_20"
+                app:tabTextColor="@color/mid_gray">
 
                 <com.google.android.material.tabs.TabItem
                     android:layout_width="wrap_content"
@@ -345,6 +338,7 @@
 
             </com.google.android.material.tabs.TabLayout>
 
+            <!-- 금융소득 현황 탭-->
             <include
                 android:id="@+id/tab_left"
                 layout="@layout/finacial_income_tab"
@@ -352,6 +346,16 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp" />
+
+            <!-- 손익통산 현황 탭-->
+            <include
+                android:id="@+id/tab_right"
+                layout="@layout/total_income_tab"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"/>
 
         </LinearLayout>
     </com.example.test.NewScrollView>

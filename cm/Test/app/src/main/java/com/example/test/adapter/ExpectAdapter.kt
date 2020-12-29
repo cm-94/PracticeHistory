@@ -1,5 +1,6 @@
-package com.example.test
+package com.example.test.adapter
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,9 +8,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
+import com.example.test.R
+import com.example.test.data.ExpectData
+import java.text.DecimalFormat
 
 
 class ExpectAdapter(private var context: Context, private var items: ArrayList<ExpectData>) : RecyclerView.Adapter<ExpectAdapter.ExViewHolder>() {
+    private val dataFormat = DecimalFormat("#,###.#")
     /** onCreateViewHolder()
      *  ViewHolder 객체가 만들어질 때 자동 호출
      *  - MyViewHolder 클래스를 통해 ticker_item(layout)에 TickerData를 각각 할당한다.
@@ -40,13 +45,24 @@ class ExpectAdapter(private var context: Context, private var items: ArrayList<E
      *  - View item에 대한 클릭 이벤트 추가
      */
     override fun onBindViewHolder(holder: ExViewHolder, position: Int) {
-            items[position].let { item: ExpectData ->
-                holder.name.text = item.product_name              // 상품명
-                holder.price.text = item.product_type             // 예상 소득
-                holder.item_type.text = item.product_price        // 상품 종류(주식, 펀드, ETF 등)
-                holder.due_date.text = item.due_date              // 예상 지급일
-                holder.price_type = item.price_type               // 배당 종류(이자, 분배, 배당 등)
+        items[position].let { item: ExpectData ->
+            if(item.price_type == "1"){ // 주식일 때
+                holder.item_type.text = context.getString(R.string.allocation)         // 배당
+            }
+            else if(item.price_type == "2"){ // 예금일 때
+                holder.item_type.text = context.getString(R.string.interest)         // 이자
+            }
+            else if(item.price_type == "3"){ // 채권일 때
+                holder.item_type.text = context.getString(R.string.distrib)         // 분배
+            }
 
+            holder.name.text = item.product_name              // 상품명
+            holder.due_date.text = item.due_date              // 예상 지급일
+
+
+            holder.price.text = context.getString(R.string.format_won,dataFormat.format(item.product_price.toFloat()).toString())
+
+            // 클릭 시 화면 전환 -> Toast로 대체
             holder.itemView.setOnClickListener {
                 Toast.makeText(context, "${items[position].product_name} 클릭됨!", Toast.LENGTH_SHORT).show()
 //                // context(MainActivity) ~> InfoActivity
@@ -58,6 +74,7 @@ class ExpectAdapter(private var context: Context, private var items: ArrayList<E
 //                ContextCompat.startActivity(holder.itemView.context, intent, null)
             }
         }
+        Log.d("item_bind!!",items[position].product_name);
     }
 
     class ExViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -65,8 +82,6 @@ class ExpectAdapter(private var context: Context, private var items: ArrayList<E
         val price : TextView = itemView.findViewById(R.id.item_price)
         val item_type : TextView = itemView.findViewById(R.id.item_type)
         val due_date : TextView = itemView.findViewById(R.id.due_date)
-
-        var price_type : String? = null
 
     }
 

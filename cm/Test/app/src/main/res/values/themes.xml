@@ -22,6 +22,7 @@
         <item name="android:typeface">sans</item>
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
 
@@ -29,19 +30,30 @@
         <item name="android:textSize">12dp</item>
         <item name="android:typeface">sans</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
 
     <style name="txt_default_16">
         <item name="android:textSize">16dp</item>
         <item name="android:typeface">sans</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+
+
+    <style name="txt_default_18">
+        <item name="android:textSize">18dp</item>
+        <item name="android:typeface">sans</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="txt_default_20">
         <item name="android:textSize">20dp</item>
         <item name="android:typeface">sans</item>
         <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
 </resources>
