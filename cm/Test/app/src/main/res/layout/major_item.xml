@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/item_name"
+        style="@style/txt_bold_20"
+        android:layout_width="200dp"
+        android:layout_height="30dp"
+        android:text="삼성전자"
+        android:textColor="@color/darkblue" />
+
+
+    <TextView
+        android:id="@+id/item_price"
+        style="@style/txt_default_18"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="750,000원" />
+
+
+    <TextView
+        android:id="@+id/item_market"
+        style="@style/txt_default_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/item_name"
+        android:gravity="center"
+        android:text="마켓" />
+
+    <TextView
+        android:id="@+id/item_count"
+        style="@style/txt_default_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_price"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_toStartOf="@+id/item_stake"
+        android:layout_toLeftOf="@+id/item_stake"
+        android:gravity="center"
+        android:text="@string/stock_count" />
+
+    <TextView
+        android:id="@+id/item_stake"
+        style="@style/txt_default_16"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_price"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text="@string/per" />
+
+</RelativeLayout>

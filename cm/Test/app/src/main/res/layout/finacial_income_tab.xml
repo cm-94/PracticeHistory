@@ -34,7 +34,7 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/total_income"
+                    android:id="@+id/tab_total_income"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toStartOf="@+id/txt_won4"
@@ -154,7 +154,7 @@
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="10dp"
                     android:layout_marginRight="10dp"
-                    android:text="@string/txt_won"
+                    android:text="@string/won"
                     android:textColor="#4C5FA5"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -166,7 +166,7 @@
                     android:layout_below="@+id/title_expect_income"
                     android:text="@string/txt_expect_income"
                     android:textColor="@color/black"
-                    android:textSize="12dp" />/>
+                    android:textSize="12dp" />
 
             </RelativeLayout>
 
@@ -223,19 +223,13 @@
                         android:layout_below="@+id/expect_date"
                         android:background="@color/darkblue" />
 
-                    <!--            <LinearLayout-->
-                    <!--                android:id="@+id/expect_area"-->
-                    <!--                android:layout_width="match_parent"-->
-                    <!--                android:layout_height="wrap_content"-->
-                    <!--                android:layout_below="@id/txt_expect_payment"-->
-                    <!--                android:orientation="vertical"-->
-                    <!--                android:padding="10dp"/>-->
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/expect_recyclerview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/expect_date"
+                        android:overScrollMode="never"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp" />
 
@@ -372,7 +366,7 @@
                         android:layout_marginRight="20dp"
                         android:ems="10"
                         android:gravity="center"
-                        android:text="@string/txt_won" />
+                        android:text="@string/won" />
 
                     <TextView
                         android:id="@+id/tt2"
@@ -422,7 +416,7 @@
                             android:layout_width="30dp"
                             android:layout_height="40dp"
                             android:gravity="center"
-                            android:text="@string/txt_won" />
+                            android:text="@string/won" />
 
                         <TextView
                             android:id="@+id/btn_delete_exp"
@@ -448,6 +442,7 @@
                     android:id="@+id/tax_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:overScrollMode="never"
                     android:layout_below="@+id/tax_ll" />
 
             </LinearLayout>

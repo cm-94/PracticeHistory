@@ -82,7 +82,6 @@ class ExpectAdapter(private var context: Context, private var items: ArrayList<E
         val price : TextView = itemView.findViewById(R.id.item_price)
         val item_type : TextView = itemView.findViewById(R.id.item_type)
         val due_date : TextView = itemView.findViewById(R.id.due_date)
-
     }
 
     /**

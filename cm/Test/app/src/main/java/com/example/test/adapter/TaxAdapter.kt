@@ -1,5 +1,7 @@
 package com.example.test.adapter
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +14,10 @@ import androidx.annotation.NonNull
 import androidx.recyclerview.widget.RecyclerView
 import com.example.test.R
 import com.example.test.data.ExpectData
-
+import java.text.DecimalFormat
 
 class TaxAdapter(private var context: Context, private var items: ArrayList<ExpectData>) : RecyclerView.Adapter<TaxAdapter.TaxViewHolder>() {
+    private val dataFormat = DecimalFormat("#,###.#")
     /** onCreateViewHolder()
      *  ViewHolder 객체가 만들어질 때 자동 호출
      *  - MyViewHolder 클래스를 통해 ticker_item(layout)에 TickerData를 각각 할당한다.
@@ -60,10 +63,22 @@ class TaxAdapter(private var context: Context, private var items: ArrayList<Expe
                 holder.item_count_type.text = "좌"
             }
 
-            holder.item_name.text = item.product_name              // 상품명
-            holder.item_count.text = item.product_count            // 보유수량
-            holder.item_valuation.text = item.product_valuation    // 평가손익
-            holder.item_yield.text = item.product_yield            // 수익률
+            // 상품명
+            holder.item_name.text = item.product_name
+
+            // 평가손익
+            if(item.product_valuation.toInt() > 0){
+                holder.item_valuation.setTextColor(Color.RED)
+                holder.item_valuation.text = context.getString(R.string.plus,dataFormat.format(item.product_valuation.toInt()).toString())
+            }else{
+                holder.item_valuation.setTextColor(Color.BLUE)
+                holder.item_valuation.text = context.getString(R.string.minus,dataFormat.format(item.product_valuation.toInt()).toString())
+            }
+
+            // 보유수량
+            holder.item_count.text = context.getString(R.string.tax_stock_count,dataFormat.format(item.product_count.toInt()).toString())
+            // 수익률
+            holder.item_yield.text = context.getString(R.string.per,item.product_yield)
 
             // X 버튼 클릭 시 입력값 초기화
             holder.btn_delete_exp.setOnClickListener {

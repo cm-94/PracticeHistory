@@ -5,7 +5,8 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="txt_won">원</string>
+    <string name="won">원</string>
+    <string name="txt_won">%s원</string>
 
     <string name="txt_income">금융소득</string>
     <string name="txt_total">손익통산</string>
@@ -14,10 +15,17 @@
     <string name="txt_total_info">손익통산 현황</string>
 
     <string name="txt_major_require">대주주 요건</string>
-    <string name="major_require">해당 %1$s건, 잠재 %2$s건</string>
+    <string name="major_require">해당 %1$d건, 잠재 %2$d건</string>
+    <string name="txt_major_in">대주주 해당</string>
+    <string name="txt_major_standard_date">%d.12.30 기준</string>
+    <string name="txt_major_fore_date">%d.11.30 기준</string>
+    <string name="txt_major_state_out">%s님은 대주주 요건에 해당하는 주식을 보유하고 있지 않습니다.</string>
+    <string name="txt_major_state_in">%1$s님은 총 %2$d개 종목에 대하여 대주주에 해당하시네요.\n대주주 해당 여부는 전년도 마지막 영업일에 해당 종목을 보유한 규모를 기준으로 판단합니다.</string>
+    <string name="txt_major_state_fore">대주주 요건을 충족하셨거나 혹은 충족할 가능성이 높은 종목들입니다.\n올해 마지막 영업일까지 현재 보유 상황이 유지된다면 내년도에는 이 종목들의 대주주에 해당하실 가능성이 다분합니다.</string>
 
-    <string name="txt_financial_assets">금융자산</string>
-    <string name="financial_assets">금융자산</string>
+
+
+    <string name="txt_major_fore">대주주 요건 충족</string>
 
     <string name="info_detail">상세내역 확인하기</string>
 
@@ -36,8 +44,12 @@
 
 
     <string name="tax_stock_count">(%s주)</string>
+    <string name="stock_count">%s주</string>
     <string name="tax_bond_count">(%s좌)</string>
 
+    <string name="per">(%s%%)</string>
+    <string name="plus">+%s</string>
+    <string name="minus">-%s</string>
 
     <string name="calc">계산하기</string>
 
