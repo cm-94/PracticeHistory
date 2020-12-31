@@ -4,10 +4,13 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.TextWatcher
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.view.animation.Animation
@@ -28,6 +31,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
+
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 class MainActivity : AppCompatActivity() {
@@ -114,6 +118,8 @@ class MainActivity : AppCompatActivity() {
     // 대주주요건 충족 여부
     private var bMajor = true
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -171,7 +177,7 @@ class MainActivity : AppCompatActivity() {
         val major_fore_count = if(arrMajorFore.size == 0) 0 else arrMajorFore.size
 
         val major_require = findViewById<TextView>(R.id.major_require)
-        major_require.text = getString(R.string.major_require,major_count,major_fore_count)
+        major_require.text = getString(R.string.major_require, major_count, major_fore_count)
 
         // 대주주 해당 없음 레이아웃
         major_out_ll = findViewById(R.id.major_out_ll)
@@ -217,7 +223,7 @@ class MainActivity : AppCompatActivity() {
         // 사용자 이름 설정
         val user_name_info = findViewById<TextView>(R.id.txt_intro)                 // 화면 상단 이름설정
         val user_name_major_in = findViewById<TextView>(R.id.txt_major_state_in)    // 대주주요건 상단(해당 주식 없음) 이름설정
-        user_name_major_in.text = getString(R.string.txt_major_state_in, uName,major_count) // 몇개 대주주인지 알려주는 TextView
+        user_name_major_in.text = getString(R.string.txt_major_state_in, uName, major_count) // 몇개 대주주인지 알려주는 TextView
         user_name_info.text = getString(R.string.txt_intro, uName)
 
 
@@ -244,6 +250,7 @@ class MainActivity : AppCompatActivity() {
             edit_expect_income.setText("0")
         }
 
+        edit_expect_income.addTextChangedListener(funNumberTextWatcherForThousand(edit_expect_income))
     }
 
     // 1. 대주주 해당
@@ -391,11 +398,11 @@ class MainActivity : AppCompatActivity() {
 
         // 대주주 해당 기준 날짜
         txt_major_standard_date = findViewById<TextView>(R.id.txt_major_standard_date)
-        txt_major_standard_date.text = getString(R.string.txt_major_standard_date,date_year)
+        txt_major_standard_date.text = getString(R.string.txt_major_standard_date, date_year)
 
         // 대주주 요건 충족 기준 날짜
         txt_major_fore_date = findViewById<TextView>(R.id.txt_major_fore_date)
-        txt_major_fore_date.text = getString(R.string.txt_major_fore_date,(date_year-1))
+        txt_major_fore_date.text = getString(R.string.txt_major_fore_date, (date_year - 1))
     }
 
     /**
@@ -404,7 +411,10 @@ class MainActivity : AppCompatActivity() {
     fun expand(v: View) {
         val matchParentMeasureSpec =
             View.MeasureSpec.makeMeasureSpec((v.parent as View).width, View.MeasureSpec.EXACTLY)
-        val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        val wrapContentMeasureSpec = View.MeasureSpec.makeMeasureSpec(
+            0,
+            View.MeasureSpec.UNSPECIFIED
+        )
         v.measure(matchParentMeasureSpec, wrapContentMeasureSpec)
         val targetHeight = v.measuredHeight
 
@@ -482,6 +492,58 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
+    }
+
+    private class funNumberTextWatcherForThousand(var editText: EditText) : TextWatcher {
+        private var bEdit = true
+
+        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+        override fun afterTextChanged(view: Editable) {
+            if(bEdit){
+                bEdit = false;
+                return;
+            }
+            bEdit = true
+            var str: String? = null
+            var a = 0
+            if(view.toString().isNotEmpty()){
+                a = view.toString().replace(",","").toInt()
+            }
+
+
+            // The comma in the format specifier does the trick
+            str = String.format("%,d", a)
+            Log.d("Test_Str",str)
+            editText.setText(str)
+            editText.text?.length?.let { editText.setSelection(it) };
+
+
+            // Set s back to the view after temporarily removing the text change listener
+
+        }
+//            override fun afterTextChanged(s: Editable) {
+//                editText.removeTextChangedListener(this)
+//                try {
+//                    var originalString = s.toString()
+//                    val longval: Long
+//                    if (originalString.contains(",")) {
+//                        originalString = originalString.replace(",".toRegex(), "")
+//                    }
+//                    longval = originalString.toLong()
+//                    val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
+//                    formatter.applyPattern("#,###,###,###")
+//                    val formattedString = formatter.format(longval)
+//
+//                    //setting text after format to EditText
+//                    editText.setText(formattedString)
+//                    editText.setSelection(editText.getText().length())
+//                } catch (nfe: NumberFormatException) {
+//                    nfe.printStackTrace()
+//                }
+//                editText.addTextChangedListener(this)
+//            }
+
     }
 }
 
