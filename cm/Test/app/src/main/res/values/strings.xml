@@ -42,13 +42,18 @@
 
     <string name="tax_base">과세표준</string>
 
+    <string name="sell_stock">매도</string>
+    <string name="sell_che">환매</string>
+    <string name="stock">주</string>
+    <string name="che">좌</string>
+
 
     <string name="tax_stock_count">(%s주)</string>
     <string name="stock_count">%s주</string>
     <string name="tax_bond_count">(%s좌)</string>
 
     <string name="per">(%s%%)</string>
-    <string name="plus">+%s</string>
+    <string name="plus">+%s원</string>
     <string name="minus">-%s</string>
 
     <string name="calc">계산하기</string>

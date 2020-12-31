@@ -112,7 +112,7 @@
                         android:layout_marginEnd="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center"
-                        android:src="@drawable/info"/>
+                        android:src="@drawable/info" />
                 </LinearLayout>
 
 
@@ -229,9 +229,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/expect_date"
-                        android:overScrollMode="never"
                         android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:overScrollMode="never" />
 
                 </RelativeLayout>
             </LinearLayout>
@@ -337,7 +337,7 @@
                         android:textColor="@color/darkblue" />
 
                     <TextView
-                        android:id="@+id/edit_accumulate_income"
+                        android:id="@+id/accumulate_income"
                         style="@style/txt_default_18"
                         android:layout_width="200dp"
                         android:layout_height="40dp"
@@ -388,7 +388,7 @@
                     <LinearLayout
                         android:layout_width="200dp"
                         android:layout_height="40dp"
-                        android:layout_below="@+id/edit_accumulate_income"
+                        android:layout_below="@+id/accumulate_income"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_marginTop="9dp"
@@ -408,12 +408,13 @@
                             android:ems="10"
                             android:gravity="center"
                             android:inputType="number"
+                            android:maxLength="18"
                             android:text="100,000"
                             android:textAlignment="viewEnd" />
 
                         <TextView
                             style="@style/txt_default_18"
-                            android:layout_width="30dp"
+                            android:layout_width="25dp"
                             android:layout_height="40dp"
                             android:gravity="center"
                             android:text="@string/won" />
@@ -422,6 +423,8 @@
                             android:id="@+id/btn_delete_exp"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
+                            android:layout_marginEnd="3dp"
+                            android:layout_marginRight="3dp"
                             android:background="@drawable/btn_round"
                             android:gravity="center"
                             android:text="X"
@@ -442,8 +445,8 @@
                     android:id="@+id/tax_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:overScrollMode="never"
-                    android:layout_below="@+id/tax_ll" />
+                    android:layout_below="@+id/tax_ll"
+                    android:overScrollMode="never" />
 
             </LinearLayout>
 

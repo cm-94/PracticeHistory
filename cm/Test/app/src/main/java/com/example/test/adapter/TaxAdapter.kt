@@ -54,13 +54,13 @@ class TaxAdapter(private var context: Context, private var items: ArrayList<Expe
                 return
             }
             else if(item.product_type == "1"){ // 주식 ( 매도, 주 )
-                holder.item_type.text = "매도"
-                holder.item_count_type.text = "주"
+                holder.item_type.text = context.getString(R.string.sell_stock)
+                holder.item_count_type.text = context.getString(R.string.stock)
 
             }
             else if(item.product_type == "3"){ // 채권 ( 환매, 좌 )
-                holder.item_type.text = "환매"
-                holder.item_count_type.text = "좌"
+                holder.item_type.text = context.getString(R.string.sell_che)
+                holder.item_count_type.text = context.getString(R.string.che)
             }
 
             // 상품명
@@ -76,7 +76,14 @@ class TaxAdapter(private var context: Context, private var items: ArrayList<Expe
             }
 
             // 보유수량
-            holder.item_count.text = context.getString(R.string.tax_stock_count,dataFormat.format(item.product_count.toInt()).toString())
+            if(item.product_type == "1"){
+                // (~주)
+                holder.item_count.text = context.getString(R.string.tax_stock_count,dataFormat.format(item.product_count.toInt()).toString())
+            }else{
+                // (~좌)
+                holder.item_count.text = context.getString(R.string.tax_bond_count,dataFormat.format(item.product_count.toInt()).toString())
+            }
+
             // 수익률
             holder.item_yield.text = context.getString(R.string.per,item.product_yield)
 

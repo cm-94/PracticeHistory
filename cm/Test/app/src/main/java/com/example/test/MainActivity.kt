@@ -4,10 +4,7 @@ import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
-import android.text.Editable
-import android.text.Spannable
-import android.text.SpannableStringBuilder
-import android.text.TextWatcher
+import android.text.*
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.util.Log
@@ -38,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     /** 임의 데이터 **/
     private val dataFormat = DecimalFormat("#,###.#")
 
-
     // 사용자이름
     private val uName = "신희아빠"
 
@@ -46,7 +42,6 @@ class MainActivity : AppCompatActivity() {
     private val total_income = "5900172"
     // 손익통산
     private val total_prof = "0"
-
 
     // Adapter에서 View를 구성하는데 쓰일 ArrayList
     private var arrData : ArrayList<ExpectData> = ArrayList()
@@ -60,20 +55,17 @@ class MainActivity : AppCompatActivity() {
     // 스크롤뷰에서 헤더로 쓰일 뷰
     var tab_ll : View? = null
 
-
     // 오늘 날짜 TextView
     private lateinit var today_tv : TextView
     // 상단 초기화 버튼 btn_resetImageView
-    private lateinit var btn_reset : ImageView
+    private lateinit var btn_reset_all : ImageView
 
     // 상단 금융소득 TextView
     private lateinit var total_income_tv : TextView
     // 상단 손익통산 TextView
     private lateinit var total_prof_tv : TextView
 
-    // 하단 누적 금융소득 TextView
-    private lateinit var tab_total_income_tv : TextView
-
+    /** 대주주 요건 **/
 
     // 대주주 해당 기준 날짜
     private lateinit var txt_major_state_out : TextView
@@ -96,8 +88,17 @@ class MainActivity : AppCompatActivity() {
     private lateinit var major_fore_ll : RelativeLayout
 
 
+    /** 금융소득 현환 **/
+
+    // 금융소득 종합 탭 Layout
+    private lateinit var tab_income : View
+
     // Recycler View 초기화 할 LinearLayoutManager
     private lateinit var linearLayoutManager: LinearLayoutManager
+
+
+    // 하단 누적 금융소득 TextView
+    private lateinit var tab_total_income_tv : TextView
 
     // 예상 금융소득 Recycler View 에 표시해줄 Adapter
     private lateinit var majorAdapter : MajorAdapter
@@ -108,11 +109,17 @@ class MainActivity : AppCompatActivity() {
     // 종합과세 Recycler View 에 표시해줄 Adapter
     private lateinit var taxAdapter : TaxAdapter
 
-
+    // 과세 계산기 -> 초기화 버튼
+    private lateinit var btn_reset_tax : Button
+    // 과세표준 스피너
+    private lateinit var spinner : Spinner
+    // 과세계산기 -> 누적 금융소득
+    private lateinit var accumulate_income : TextView
     // 예상 금융소득 EditText
     private lateinit var edit_expect_income : EditText
     // 예상 금융소득 x 버튼
     private lateinit var btn_delete_exp : TextView
+
 
 
     // 대주주요건 충족 여부
@@ -142,8 +149,7 @@ class MainActivity : AppCompatActivity() {
         setExpectRecycler()
         setTaxRecycler()
 
-        // TODO : 5. Spinner 세팅
-        setSpinner()
+
     }
 
     private fun initView(){
@@ -151,8 +157,8 @@ class MainActivity : AppCompatActivity() {
         setDate()
 
         // 상단 초기화 버튼
-        btn_reset = findViewById(R.id.btn_reset)
-        btn_reset.setOnClickListener {
+        btn_reset_all = findViewById(R.id.btn_reset)
+        btn_reset_all.setOnClickListener {
             // 1. 날짜 초기화
             setDate()
             // 2. 데이터 요청 보내기
@@ -162,6 +168,10 @@ class MainActivity : AppCompatActivity() {
         // 상단 금융소득 세팅
         total_income_tv = findViewById(R.id.total_income)
         total_income_tv.text = dataFormat.format(total_income.toInt()).toString()
+
+        // 하단 (금융소득 현황) 탭 Layout
+        tab_income = findViewById(R.id.tab_left)
+
         // 하단(탭) 금융소득 세팅
         tab_total_income_tv = findViewById(R.id.tab_total_income)
         tab_total_income_tv.text = dataFormat.format(total_income.toInt()).toString()
@@ -185,7 +195,7 @@ class MainActivity : AppCompatActivity() {
         major_ll = findViewById(R.id.major_ll)
         // 대주주 요건 충족 레이아웃
         major_fore_ll = findViewById(R.id.major_fore_ll)
-
+        // 대주주 요건 상세 레이아웃
         major_info_ll = findViewById(R.id.major_info_ll)
 
         // 확장 축소 버튼
@@ -226,8 +236,6 @@ class MainActivity : AppCompatActivity() {
         user_name_major_in.text = getString(R.string.txt_major_state_in, uName, major_count) // 몇개 대주주인지 알려주는 TextView
         user_name_info.text = getString(R.string.txt_intro, uName)
 
-
-
         val intro_txt = SpannableStringBuilder(user_name_info.text)
         intro_txt.setSpan(
             RelativeSizeSpan(1.5f),
@@ -244,13 +252,33 @@ class MainActivity : AppCompatActivity() {
         user_name_info.text = intro_txt
 
 
-        edit_expect_income = findViewById(R.id.edit_expect_income)
-        btn_delete_exp = findViewById(R.id.btn_delete_exp)
+
+        // 1. 과세표준 스피너
+        setSpinner()
+
+        // 2. 누적 금융소득
+        accumulate_income = findViewById(R.id.accumulate_income)
+        accumulate_income.text = dataFormat.format(total_income.toInt()).toString()
+
+        // 3. 예상 금융소득
+        edit_expect_income = findViewById(R.id.edit_expect_income)  // 입력란 EditText
+        btn_delete_exp = tab_income.findViewById(R.id.btn_delete_exp)          // x 버튼
         btn_delete_exp.setOnClickListener{
             edit_expect_income.setText("0")
         }
+        // 예상 금융소득 입력란 TextWatcher 세팅
+        edit_expect_income.addTextChangedListener(NumberTextWatcherThousand(edit_expect_income))
 
-        edit_expect_income.addTextChangedListener(funNumberTextWatcherForThousand(edit_expect_income))
+        // 4. 과세 계산기 Layout 세팅
+        btn_reset_tax = tab_income.findViewById(R.id.btn_reset)
+        btn_reset_tax.setOnClickListener {
+            // 스피너 초기화
+            spinner.setSelection(0)
+            edit_expect_income.setText("0")
+            // TODO RecyclerView의 EditText도 0으로 초기화 하기..!!
+        }
+
+
     }
 
     // 1. 대주주 해당
@@ -465,7 +493,7 @@ class MainActivity : AppCompatActivity() {
      * 과세표준 스피너 세팅 함수
      */
     private fun setSpinner(){
-        val spinner: Spinner = findViewById(R.id.tax_spinner)
+        spinner = findViewById(R.id.tax_spinner)
         ArrayAdapter.createFromResource(
             this,
             R.array.tax_array,
@@ -494,57 +522,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private class funNumberTextWatcherForThousand(var editText: EditText) : TextWatcher {
-        private var bEdit = true
 
-        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
-        override fun afterTextChanged(view: Editable) {
-            if(bEdit){
-                bEdit = false;
-                return;
-            }
-            bEdit = true
-            var str: String? = null
-            var a = 0
-            if(view.toString().isNotEmpty()){
-                a = view.toString().replace(",","").toInt()
-            }
-
-
-            // The comma in the format specifier does the trick
-            str = String.format("%,d", a)
-            Log.d("Test_Str",str)
-            editText.setText(str)
-            editText.text?.length?.let { editText.setSelection(it) };
-
-
-            // Set s back to the view after temporarily removing the text change listener
-
-        }
-//            override fun afterTextChanged(s: Editable) {
-//                editText.removeTextChangedListener(this)
-//                try {
-//                    var originalString = s.toString()
-//                    val longval: Long
-//                    if (originalString.contains(",")) {
-//                        originalString = originalString.replace(",".toRegex(), "")
-//                    }
-//                    longval = originalString.toLong()
-//                    val formatter = NumberFormat.getInstance(Locale.US) as DecimalFormat
-//                    formatter.applyPattern("#,###,###,###")
-//                    val formattedString = formatter.format(longval)
-//
-//                    //setting text after format to EditText
-//                    editText.setText(formattedString)
-//                    editText.setSelection(editText.getText().length())
-//                } catch (nfe: NumberFormatException) {
-//                    nfe.printStackTrace()
-//                }
-//                editText.addTextChangedListener(this)
-//            }
-
-    }
 }
 
 //    fun setData(){
