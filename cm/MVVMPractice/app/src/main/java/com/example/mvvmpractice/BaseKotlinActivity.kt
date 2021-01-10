@@ -46,7 +46,7 @@ abstract class BaseKotlinActivity <T : ViewDataBinding, R : BaseKotlinViewModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewDataBinding = DataBindingUtil.setContentView(this, layoutResourceId)
+//        viewDataBinding = DataBindingUtil.setContentView(this, layoutResourceId)
 
         initStartView()
         initDataBinding()

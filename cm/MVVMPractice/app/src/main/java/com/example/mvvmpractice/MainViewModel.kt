@@ -1,25 +1,19 @@
 package com.example.mvvmpractice
 
+import android.view.Display
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.disposables.Disposable
 
-open class MainViewModel : ViewModel() {
+class MainViewModel : ViewModel() {
+    private var _data = MutableLiveData<ArrayList<Model>>()
+    val data : LiveData<ArrayList<Model>> get() = _data
+    val items = ArrayList<Model>()
 
-    /**
-     * RxJava 의 observing을 위한 부분.
-     * addDisposable을 이용하여 추가하기만 하면 된다
-     */
-    private val compositeDisposable = CompositeDisposable()
+    fun requestNewData(count : Int){
+        val dummyData = Model("",0)
+        items.addAll(dummyData.requestNewData())
+        _data.postValue(items)
 
-    fun addDisposable(disposable: Disposable) {
-        compositeDisposable.add(disposable)
     }
-
-    override fun onCleared() {
-        compositeDisposable.clear()
-        super.onCleared()
-    }
-
-
 }
