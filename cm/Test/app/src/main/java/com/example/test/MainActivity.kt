@@ -237,18 +237,10 @@ class MainActivity : AppCompatActivity() {
         user_name_info.text = getString(R.string.txt_intro, uName)
 
         val intro_txt = SpannableStringBuilder(user_name_info.text)
-        intro_txt.setSpan(
-            RelativeSizeSpan(1.5f),
-            0,
-            uName.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        ) // 이름 크기 ↑
-        intro_txt.setSpan(
-            StyleSpan(Typeface.BOLD),
-            0,
-            uName.length,
-            Spannable.SPAN_INCLUSIVE_INCLUSIVE
-        ) // Style : Bold
+        // 이름 크기 ↑
+        intro_txt.setSpan(RelativeSizeSpan(1.5f),0,uName.length,Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+        // Style : Bold
+        intro_txt.setSpan(StyleSpan(Typeface.BOLD), 0, uName.length, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
         user_name_info.text = intro_txt
 
 

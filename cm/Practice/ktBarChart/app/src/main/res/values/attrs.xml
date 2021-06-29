@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="BarChart">
+        <attr name="showText" format="boolean" />
+        <attr name="barColor" format="color"/>
+
+    </declare-styleable>
+</resources>
