@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -14,8 +15,11 @@ import com.example.ktbarchart.control.BarItem
 
 class ChartLayout : RelativeLayout {
 
-    var chartHeight : Int = 0;
-    var chartWidth : Int = 0;
+    var chartHeight : Int = 0
+    var chartWidth : Int = 0
+
+    var xAxis : String = ""
+    var yAxis : String = ""
 
     lateinit var viewMain : View
 
@@ -37,6 +41,25 @@ class ChartLayout : RelativeLayout {
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+        chartHeight = height - 20
+        chartWidth = width - 20
+
+        viewMain = LayoutInflater.from(context).inflate(R.layout.chart_layout,this)
+        chartLayout = viewMain.findViewById(R.id.chartLayout)
+        axis_bottom = viewMain.findViewById(R.id.axisBottom)
+        axis_right = viewMain.findViewById(R.id.axisRight)
+
+        txt_bottom = axis_bottom.findViewById(R.id.txtBottom)
+        txt_right = axis_right.findViewById(R.id.txtRight)
+
+        txt_bottom.text = xAxis
+        txt_right.text = yAxis
+
+
+        chartHeight = chartLayout.layoutParams.height
+        chartWidth = chartLayout.layoutParams.width
+
+        Log.d("Chart_Size","onDraw ==> window_Height: $height, window_Width: $width, chart_Height: $chartHeight, chart_width: $chartWidth")
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -47,27 +70,35 @@ class ChartLayout : RelativeLayout {
         super.onLayout(changed, l, t, r, b)
         if(changed){
             // 생성
+            chartHeight = height - 20
+            chartWidth = width - 20
 
+            viewMain = LayoutInflater.from(context).inflate(R.layout.chart_layout,this)
+            chartLayout = viewMain.findViewById(R.id.chartLayout)
+            axis_bottom = viewMain.findViewById(R.id.axisBottom)
+            axis_right = viewMain.findViewById(R.id.axisRight)
+
+            txt_bottom = axis_bottom.findViewById(R.id.txtBottom)
+            txt_right = axis_right.findViewById(R.id.txtRight)
+
+            txt_bottom.text = xAxis
+            txt_right.text = yAxis
+
+
+            chartHeight = chartLayout.layoutParams.height
+            chartWidth = chartLayout.layoutParams.width
+
+            Log.d("Chart_Size","onLayout ==> window_Height: $height, window_Width: $width, chart_Height: $chartHeight, chart_width: $chartWidth")
         }
     }
 
     private fun init(){
-        chartHeight = height - 20
-        chartWidth = width - 20
         viewMain = LayoutInflater.from(context).inflate(R.layout.chart_layout,this)
         chartLayout = viewMain.findViewById(R.id.chartLayout)
         axis_bottom = viewMain.findViewById(R.id.axisBottom)
         axis_right = viewMain.findViewById(R.id.axisRight)
-
-
-        chartHeight = chartLayout.layoutParams.height
-        chartWidth = chartLayout.layoutParams.height
-
         txt_bottom = axis_bottom.findViewById(R.id.txtBottom)
         txt_right = axis_right.findViewById(R.id.txtRight)
-        txt_bottom.text = "bottom"
-        txt_right.text = "right"
-        invalidate()
     }
 
     var BG_BLUE :Int = 0
@@ -88,5 +119,36 @@ class ChartLayout : RelativeLayout {
 
 
         init()
+    }
+
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+        chartHeight = height - 20
+        chartWidth = width - 20
+
+        viewMain = LayoutInflater.from(context).inflate(R.layout.chart_layout,this)
+        chartLayout = viewMain.findViewById(R.id.chartLayout)
+        axis_bottom = viewMain.findViewById(R.id.axisBottom)
+        axis_right = viewMain.findViewById(R.id.axisRight)
+
+        txt_bottom = axis_bottom.findViewById(R.id.txtBottom)
+        txt_right = axis_right.findViewById(R.id.txtRight)
+
+        txt_bottom.text = xAxis
+        txt_right.text = yAxis
+
+
+        chartHeight = chartLayout.layoutParams.height
+        chartWidth = chartLayout.layoutParams.width
+
+        Log.d("Chart_Size","onDraw ==> window_Height: $height, window_Width: $width, chart_Height: $chartHeight, chart_width: $chartWidth")
+    }
+
+    public fun setData(xValue : String, yValue : String){
+
+        xAxis = xValue
+        yAxis = yValue
+
+        invalidate()
     }
 }

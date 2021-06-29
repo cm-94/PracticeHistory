@@ -7,7 +7,7 @@ git remote add origin https://github.com/cm-94/BITProject
 git push --set-upstream origin master
 or origin brch_cm 등등..
 
-+ git 들어가서 pull reques
++ git 들어가서 pull request
 
 ★master 업데이트 반영하기
 git checkout master
