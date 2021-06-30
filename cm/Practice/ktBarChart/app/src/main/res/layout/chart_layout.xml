@@ -8,8 +8,9 @@
     <LinearLayout
         android:id="@+id/axisRight"
         android:layout_width="40dp"
-        android:layout_alignParentRight="true"
         android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:orientation="vertical">
 
         <TextView
@@ -19,23 +20,23 @@
             android:gravity="center"
             android:text="세로"
             android:textColor="@color/black"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/chartLayout"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginRight="40dp"
         android:layout_marginBottom="40dp"
-        android:layout_marginRight="40dp">
+        android:orientation="horizontal">
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/axisBottom"
         android:layout_width="match_parent"
-        android:layout_alignParentBottom="true"
         android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
         <TextView
@@ -45,6 +46,6 @@
             android:gravity="center"
             android:text="가로"
             android:textColor="@color/black"
-            android:textSize="20dp"/>
+            android:textSize="20dp" />
     </LinearLayout>
 </RelativeLayout>

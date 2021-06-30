@@ -8,8 +8,18 @@
     tools:context=".MainActivity" >
 
 
-    <com.example.ktbarchart.ChartLayout
+    <com.example.ktbarchart.view.ChartLayout
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="550dp">
+    </com.example.ktbarchart.view.ChartLayout>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:text="차트 테스트" />
+
 </LinearLayout>
