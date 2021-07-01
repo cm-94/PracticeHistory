@@ -8,12 +8,11 @@
     tools:context=".MainActivity" >
 
 
-    <com.example.ktbarchart.view.ChartLayout
+    <com.example.chartpractice.view.BongChartLayout
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:padding="50dp"
-        android:layout_height="550dp">
-    </com.example.ktbarchart.view.ChartLayout>
+        android:layout_height="500dp"
+        android:layout_margin="50dp"/>
 
     <TextView
         android:id="@+id/textView"

@@ -1,19 +1,20 @@
-package com.example.ktbarchart
+package com.example.chartpractice
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import com.example.ktbarchart.data.ChartData
 import com.example.ktbarchart.data.ChartDataSet
-import com.example.ktbarchart.view.BongItem
-import com.example.ktbarchart.view.ChartLayout
+import com.example.chartpractice.view.BongChartLayout
 
 class MainActivity : AppCompatActivity() {
-    lateinit var chartLayout : ChartLayout
+    lateinit var chartLayout : BongChartLayout
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        // Dark모드 막음
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
     }
 
     override fun onResume() {

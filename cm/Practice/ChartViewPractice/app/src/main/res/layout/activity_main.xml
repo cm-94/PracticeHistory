@@ -5,23 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity">
 
-
-    <com.example.ktbarchart.view.ChartLayout
+    <com.example.chartpractice.view.ChartLayout
         android:id="@+id/chart"
         android:layout_width="match_parent"
-        android:padding="50dp"
-        android:layout_height="550dp">
-    </com.example.ktbarchart.view.ChartLayout>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_margin="50dp"/>
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:textSize="20dp"
+        android:layout_height="50dp"
         android:gravity="center"
-        android:textColor="@color/black"
-        android:text="차트 테스트" />
+        android:background="@color/blue"
+        android:text="차트 테스트"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@color/black"/>
 
 </LinearLayout>
