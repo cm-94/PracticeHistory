@@ -26,7 +26,7 @@ class BongItem : View {
 
         // 한 봉의 사각형 너비 잡기(영역 / 2)
         // 시가 & 종가(사각형) 시작점 X,Y (왼쪽부터 그릴 때)
-        // TODO : 임의로 한 봉의 너비의 10분의 1만큼 죄우 여백을 준다
+        // TODO : 임의로 한 봉의 너비의 100분의 1만큼 죄우 여백을 준다
         val bongWidth = width - (width / 100) * 2 // 좌우 1/100 만큼 여백 둠
         var startBongX = (width / 100).toFloat()
         var startBongY = 0F

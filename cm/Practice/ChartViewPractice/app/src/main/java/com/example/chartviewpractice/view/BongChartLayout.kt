@@ -45,6 +45,20 @@ class BongChartLayout : LinearLayout {
         //  BongItem 그릴 때 너비가 int라 약간 남은 공간에 또 그림
         //  일단 매번 자식뷰 지우도록..
         chartLayout.removeAllViews()
+
+//            // 아래측 X축일 때
+//            canvas.drawLine(paddingLeft + 0F, height.toFloat() - paddingBottom, width.toFloat() - paddingRight, height.toFloat() - paddingBottom, paint)
+//            // 상단 X축일 때
+////            canvas.drawLine(paddingLeft + 0F, paddingBottom + 0F, width.toFloat() - paddingRight,paddingBottom + 0F, paint)
+//
+//            /** draw the Y axis */
+//            // 우측 Y축일 때
+//            canvas.drawLine(width.toFloat() - paddingRight, height.toFloat() - paddingBottom, width.toFloat() - paddingRight, paddingTop + 0F, paint)
+//            // 좌측 Y축일 때
+////            canvas.drawLine(paddingLeft + 0F, height.toFloat() - paddingBottom, paddingLeft - 0F, paddingTop + 0F, paint)
+
+
+
         // 차트 영역 크기
         val chartWidth = width - paddingLeft - paddingRight - paddingInsideLeft - paddingInsideRight
         val chartHeight = height - paddingTop - paddingBottom - paddingInsideTop - paddingInsideBottom
