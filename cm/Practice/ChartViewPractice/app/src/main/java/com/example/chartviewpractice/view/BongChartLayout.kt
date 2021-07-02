@@ -44,7 +44,7 @@ class BongChartLayout : LinearLayout {
         // TODO : onDraw를 여러번 호출해서 자꾸 childView가 쌓임..
         //  BongItem 그릴 때 너비가 int라 약간 남은 공간에 또 그림
         //  일단 매번 자식뷰 지우도록..
-        chartLayout.removeAllViews()
+//        chartLayout.removeAllViews()
 
 //            // 아래측 X축일 때
 //            canvas.drawLine(paddingLeft + 0F, height.toFloat() - paddingBottom, width.toFloat() - paddingRight, height.toFloat() - paddingBottom, paint)
