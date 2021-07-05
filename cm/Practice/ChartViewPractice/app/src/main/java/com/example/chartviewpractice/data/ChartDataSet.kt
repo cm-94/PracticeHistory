@@ -17,7 +17,7 @@ class ChartDataSet {
         this.data = newData
     }
 
-    public fun clear(){
+    fun clear(){
         this.data.clear()
         this.minValue = Int.MAX_VALUE
         this.maxValue = Int.MIN_VALUE
