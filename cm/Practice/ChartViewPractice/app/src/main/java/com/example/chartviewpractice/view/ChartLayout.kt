@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.Log
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -14,7 +15,8 @@ import com.example.ktbarchart.data.ChartData
 import com.example.ktbarchart.data.ChartDataSet
 import kotlin.math.absoluteValue
 
-class ChartLayout : RelativeLayout, View.OnTouchListener{
+
+class ChartLayout : RelativeLayout, GestureDetector.OnGestureListener{
     /** data **/
     private var dataCnt = 5
     var startCnt = 0
@@ -57,7 +59,7 @@ class ChartLayout : RelativeLayout, View.OnTouchListener{
     fun init() {
         val v: View = LayoutInflater.from(context).inflate(R.layout.chart_layout, this, true)
         chartLayout = v.findViewById(R.id.bongChartLayout)
-        chartLayout.setOnTouchListener(this)
+//        chartLayout.setOnTouchListener(this)
     }
 
     fun setData(chartDataSet: ChartDataSet){
@@ -102,7 +104,7 @@ class ChartLayout : RelativeLayout, View.OnTouchListener{
         }
         chartLayout.setData(ChartDataSet(chartData))
         // 시작위치 & 이동거리 초기화
-        initializeTouchPoint()
+        moveX = 0F
     }
 
     fun setXAxisTitle(title: String){
@@ -112,35 +114,100 @@ class ChartLayout : RelativeLayout, View.OnTouchListener{
         yAxis.text = title
     }
 
-    override fun onTouch(v: View, event: MotionEvent): Boolean {
-        if(v.id == chartLayout.id){
-            if(event.action == MotionEvent.ACTION_DOWN){
-                startX = event.x
-            } else if(event.action == MotionEvent.ACTION_MOVE){
-                if(startX == 0F){
-                    startX = event.x
-                }else{
-                    moveX = startX - event.x
-                }
-            } else if(event.action == MotionEvent.ACTION_UP){
-                initializeTouchPoint()
-            }
-            // 한 봉 길이보다 더 움직일 경우
-            if(moveX.absoluteValue > (chartLayout.width / dataCnt)){
-                if(moveX < 0){
-                    setChartData(CHART_MOVE_DIRECTION_NAGATIVE)
-                }else {
-                    setChartData(CHART_MOVE_DIRECTION_POSITIVE)
-                }
-            }
-        }
-        return true
-    }
+//    override fun onTouch(v: View, event: MotionEvent): Boolean {
+//        Log.d("ChartLayout_onTouch","event: " + event.toString())
+//        if(v.id == chartLayout.id){
+//            if(event.action == MotionEvent.ACTION_DOWN){
+//                startX = event.x
+//            } else if(event.action == MotionEvent.ACTION_MOVE){
+//                if(startX == 0F){
+//                    startX = event.x
+//                }else{
+//                    moveX = startX - event.x
+//                }
+//            } else if(event.action == MotionEvent.ACTION_UP){
+//                initializeTouchPoint()
+//            }
+//            // 한 봉 길이보다 더 움직일 경우
+//            if(moveX.absoluteValue > (chartLayout.width / dataCnt)){
+//                if(moveX < 0){
+//                    setChartData(CHART_MOVE_DIRECTION_NAGATIVE)
+//                }else {
+//                    setChartData(CHART_MOVE_DIRECTION_POSITIVE)
+//                }
+//            }
+//        }
+//        return false
+//    }
 
     /** 시작위치 & 이동거리 초기화 */
     private fun initializeTouchPoint(){
         startX = 0F
         moveX = 0F
+    }
+
+
+    var gestureListener = GestureDetector(this)
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        onTouchEvent(ev)
+        return true
+    }
+
+    override fun onTouchEvent(event: MotionEvent?): Boolean {
+        Log.d("ChartLayout_onTouch","event: " + event.toString())
+        return gestureListener.onTouchEvent(event)
+    }
+
+    override fun onShowPress(e: MotionEvent?) {
+        Log.d("ChartLayout_onShowPress","event: " + e.toString())
+    }
+
+    override fun onSingleTapUp(e: MotionEvent?): Boolean {
+        Log.d("ChartLayout_onSingleTap","event: " + e.toString())
+        return true
+    }
+
+    override fun onDown(e: MotionEvent?): Boolean {
+        Log.d("ChartLayout_onDown","event: " + e.toString())
+        //        if(e1.action == MotionEvent.ACTION_DOWN){
+//            startX = event.x
+//        } else if(event.action == MotionEvent.ACTION_MOVE){
+//
+//        } else if(event.action == MotionEvent.ACTION_UP){
+//            initializeTouchPoint()
+//        }
+//        // 한 봉 길이보다 더 움직일 경우
+//        if(moveX.absoluteValue > (chartLayout.width / dataCnt)){
+//            if(moveX < 0){
+//                setChartData(CHART_MOVE_DIRECTION_NAGATIVE)
+//            }else {
+//                setChartData(CHART_MOVE_DIRECTION_POSITIVE)
+//            }
+//        }
+        return true
+    }
+
+    override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+        Log.d("ChartLayout_onFling","e1: " + e1.toString() + ", e2: " + e2.toString() + ", velocityX: " + velocityX + ", velocityY: " + velocityY)
+        return true
+    }
+
+    override fun onScroll(e1: MotionEvent, e2: MotionEvent, distanceX: Float, distanceY: Float): Boolean {
+        Log.d("ChartLayout_onScroll","e1: " + e1.action + ", e2: " + e2.action + ", distanceX: " + distanceX + ", e1.x: " + e1.x)
+        moveX += distanceX
+        if(moveX.absoluteValue > (chartLayout.width / dataCnt)){
+            if(moveX < 0){
+                setChartData(CHART_MOVE_DIRECTION_NAGATIVE)
+            }else {
+                setChartData(CHART_MOVE_DIRECTION_POSITIVE)
+            }
+        }
+        return true
+    }
+
+    override fun onLongPress(e: MotionEvent?) {
+        Log.d("ChartLayout_onLongPress","e: " + e.toString())
     }
 
     private val CHART_MOVE_DIRECTION_POSITIVE = 1
