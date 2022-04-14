@@ -59,7 +59,7 @@ class IntroPageState extends State<IntroPage> {
       setState(() {
         _time++;
         if(_time == 3){
-          _timer?.cancel();
+          _timer.cancel();
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
             return CameraPage();
           }));
