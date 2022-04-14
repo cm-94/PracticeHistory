@@ -29,7 +29,8 @@ class MyApp extends StatelessWidget {
               color: Colors.white),
         ),
         backgroundColor: Colors.lightBlue[200],
-      )
+      ),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
