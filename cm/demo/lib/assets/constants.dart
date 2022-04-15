@@ -10,11 +10,14 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:intl/intl.dart';
 
 /// 공통색상
-const Color mBaseColor = Color.fromRGBO(252, 200, 10, 1.0);
+const Color mColorWhite = Color.fromRGBO(255, 255, 255, 1.0);
+const Color mLightBlueColor = Color.fromRGBO(173, 216, 230, 1.0);
+const Color mLightSkyBlueColor = Color.fromRGBO(135, 206, 250, 1.0);
 const Color mBGColor = Color.fromRGBO(255, 255, 255, 1.0);
 const Color mLightGray = Color.fromRGBO(230, 230, 230, 1.0);
 const Color mMediumGray = Color.fromRGBO(176, 176, 176, 1.0);
 const Color mIntroColor = Color.fromRGBO(232, 231, 210, 1.0);
+const Color mCamColor = Color.fromRGBO(210, 223, 205, 1.0);
 
 showToast(BuildContext context, Widget child) {
   FToast().init(context).showToast(child: child);

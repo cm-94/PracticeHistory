@@ -16,30 +16,23 @@ class IntroPage extends StatefulWidget {
 
 class IntroPageState extends State<IntroPage> {
   late CameraPage cameraPage;
-  late Timer _timer;
-  var _time = 0;
 
   @override
   void initState() {
     super.initState();
-    _start();
+
   }
 
   @override
   Widget build(BuildContext context) {
-    double width = (MediaQuery.of(context).size.width) / 2;
+    double width = (MediaQuery.of(context).size.width);
 
-    return Scaffold(
-      body: SafeArea(
-        child: Container(
-          padding: EdgeInsets.only(bottom: width),
-          color: mIntroColor,
-          child: Center(
-            child: SizedBox(
-              width: width,
-              child: const Text("인트로 화면"),
-            ),
-          ),
+    return Align(
+      alignment: Alignment.center,
+      child: Center(
+        child: SizedBox(
+          width: width,
+          child: Image.asset('lib/assets/images/app_icon.png', width: 240,height: 240,),
         ),
       ),
     );
@@ -50,21 +43,5 @@ class IntroPageState extends State<IntroPage> {
     // Get.to(() => CameraPage()); //페이지 이동
     // Get.to(CameraPage());
     // Get.offAll(CameraPage()); //모든 정보를 지우고 페이지를 이동할 때 사용
-
-
-  }
-
-  void _start() {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _time++;
-        if(_time == 3){
-          _timer.cancel();
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) {
-            return CameraPage();
-          }));
-        }
-      });
-    });
   }
 }
