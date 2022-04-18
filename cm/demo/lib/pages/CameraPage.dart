@@ -1,10 +1,16 @@
 import 'dart:io';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
-
 import '../assets/constants.dart';
 import '../utils/LOGCAT.dart';
+import 'CameraMainController.dart';
+import 'TopWidget.dart';
+import 'package:image_picker/image_picker.dart';
+
 
 /// //////////////////
 /// 카메라 메인 화면 ///
@@ -15,17 +21,23 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
-  CameraController? _cameraController;
+  CameraController? _cameraController; /// 카메라 라이브러리 컨트롤러
   Future<void>? _initCameraControllerFuture;
-  int cameraIndex = 0;
+  final CameraMainController _cameraMainController = Get.find<CameraMainController>();
+  int cameraIndex = 0; /// 0 : 후면, 1: 전면
+  File? captureImage;  /// 촬영 이미지
+  /// 상단 메뉴바
+  TopWidget topWidget = TopWidget();
 
-  bool isCapture = false;
-  File? captureImage;
+
 
   @override
   void initState() {
     super.initState();
     _initCamera();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+      SystemUiOverlay.bottom
+    ]);
   }
 
   Future<void> _initCamera() async {
@@ -39,42 +51,59 @@ class _CameraPageState extends State<CameraPage> {
 
   @override
   void dispose() {
-    _cameraController!.dispose();
     super.dispose();
+    _cameraController!.dispose();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);  // to re-show bars
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    // double width = (MediaQuery.of(context).size.width) / 2;
-
-    return Scaffold(
-      backgroundColor: mCamColor,
-      body: isCapture
-          ? Column(
-              children: [
-                /// 촬영 된 이미지 출력
-                Flexible(
-                  flex: 4,
-                  fit: FlexFit.tight,
-                  child: Container(
-                    width: size.width,
-                    height: size.width,
-                    child: ClipRect(
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: SizedBox(
-                          width: size.width,
-                          child: AspectRatio(
-                            aspectRatio:
-                                1 / _cameraController!.value.aspectRatio,
-                            child: Container(
-                              width: size.width,
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                image: MemoryImage(
-                                    captureImage!.readAsBytesSync()),
-                              )),
+    return WillPopScope(    // <-  WillPopScope로 감싼다.
+      onWillPop: () {
+        setState(() {
+          if(topWidget.getMenuState()){
+            topWidget.closeMenu();
+          }
+          else if(topWidget.getCaptureState()){
+            topWidget.setCaptureState(false);
+          }
+          else {
+            // TODO : 종료 팝업 뒤
+            showToast(context,"종료하시겠습니까?", size: 16);
+          }
+        });
+        return Future(() => false);
+      },
+      child: Scaffold(
+        backgroundColor: mCamColor,
+        body: Obx(() {
+          return Column(
+            children: [
+              topWidget,
+              _cameraMainController.getCaptureState() ?
+              /// 편집 모드
+              Flexible(
+                flex: 4,
+                fit: FlexFit.tight,
+                child: SizedBox(
+                  width: size.width,
+                  height: size.width,
+                  child: ClipRect(
+                    child: FittedBox(
+                      fit: BoxFit.fitWidth,
+                      child: SizedBox(
+                        width: size.width,
+                        child: AspectRatio(
+                          aspectRatio:
+                          1 / _cameraController!.value.aspectRatio,
+                          child: Container(
+                            width: size.width,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: MemoryImage(
+                                      captureImage!.readAsBytesSync()),
+                                )
                             ),
                           ),
                         ),
@@ -82,153 +111,173 @@ class _CameraPageState extends State<CameraPage> {
                     ),
                   ),
                 ),
-                Flexible(
-                  flex: 1,
-                  fit: FlexFit.tight,
-                  child: InkWell(
-                    onTap: () {
-                      /// 재촬영 선택시 카메라 삭제 및 상태 변경
-                      captureImage!.delete();
-                      captureImage = null;
-                      setState(() {
-                        isCapture = false;
-                      });
-                    },
-                    child: Container(
-                      width: double.infinity,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            Icons.file_download,
-                            color: Colors.white,
+              ) :
+              /// 카메라 모드
+              Flexible(
+                flex: 4,
+                fit: FlexFit.tight,
+                child: FutureBuilder<void>(
+                  future: _initCameraControllerFuture,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return SizedBox(
+                        width: size.width,
+                        height: size.width,
+                        child: ClipRect(
+                          child: FittedBox(
+                            fit: BoxFit.fitWidth,
+                            child: SizedBox(
+                              width: size.width,
+                              child: AspectRatio(
+                                  aspectRatio: 1 /
+                                      _cameraController!.value.aspectRatio,
+                                  child: CameraPreview(_cameraController!)),
+                            ),
                           ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            "저장",
-                            style: TextStyle(
-                                fontSize: 16.0,
+                        ),
+                      );
+                    } else {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                  },
+                ),
+              ),
+              SizedBox(
+                width: size.width,
+                height: 200,
+                child: Stack(
+                  children: [
+                    /// 하단 버튼 영역
+                    Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(horizontal: 48.0),
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          Align(
+                              alignment: Alignment.centerLeft,
+                              child: Obx((){
+                                /// 편집 모드
+                                if(_cameraMainController.getCaptureState()){
+                                  return IconButton(
+                                    onPressed: () async {
+                                      /// TODO : 저장 로직 추가 필요
+                                      showToast(context, '저장 완료', size: 18);
+                                    },
+                                    icon: const Icon(
+                                      Icons.file_download,
+                                      color: Colors.white,
+                                      size: 34.0,
+                                    ),
+                                  );
+                                }
+                                /// 촬영 모드
+                                else {
+                                  return IconButton(
+                                    onPressed: () async {
+                                      /// TODO : 로컬 이미지 호출 필요
+                                      showToast(context, '이미지 불러오기', size: 18);
+                                    },
+                                    icon: const Icon(
+                                      Icons.file_copy,
+                                      color: Colors.white,
+                                      size: 34.0,
+                                    ),
+                                  );
+                                }
+                              })
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              try {
+                                await _cameraController!
+                                    .takePicture()
+                                    .then((value) {
+                                  captureImage = File(value.path);
+                                });
+
+                                /// 화면 상태 변경 및 이미지 저장
+                                setState(() {
+                                  _cameraMainController.setCaptureState(true);
+                                });
+                              } catch (e) {
+                                LOGCAT.e("Capture_Error", "$e");
+                              }
+                            },
+                            child: Container(
+                              height: 80.0,
+                              width: 80.0,
+                              padding: const EdgeInsets.all(1.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border:
+                                Border.all(color: Colors.black, width: 1.0),
                                 color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                              ),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border:
+                                  Border.all(color: Colors.black, width: 3.0),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                              alignment: Alignment.centerRight,
+                              child: Obx((){
+                                /// 편집 모드
+                                if(_cameraMainController.getCaptureState()){
+                                  return IconButton(
+                                    onPressed: () async {
+                                      /// TODO : 로컬 이미지 호출 필요
+                                      showToast(context, '파일 공유하기', size: 18);
+                                    },
+                                    icon: const Icon(
+                                      Icons.share,
+                                      color: Colors.white,
+                                      size: 34.0,
+                                    ),
+                                  );
+                                }
+                                /// 촬영 모드
+                                else {
+                                  return IconButton(
+                                    onPressed: () async {
+                                      /// 후면 카메라 <-> 전면 카메라 변경
+                                      cameraIndex = cameraIndex == 0 ? 1 : 0;
+                                      await _initCamera();
+                                      //  _cameraMainController.setCaptureState(false);
+                                    },
+                                    icon: const Icon(
+                                      Icons.flip_camera_android,
+                                      color: Colors.white,
+                                      size: 34.0,
+                                    ),
+                                  );
+                                }
+                              })
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ),
-              ],
-            )
-          : Column(
-              children: [
-                Flexible(
-                  flex: 3,
-                  fit: FlexFit.tight,
-                  child: FutureBuilder<void>(
-                    future: _initCameraControllerFuture,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return SizedBox(
+                    /// TODO : 카메라 필터 세팅 메뉴
+                    Positioned(
+                        top: 0,
+                        left: 0,
+                        child: Container(
                           width: size.width,
-                          height: size.width,
-                          child: ClipRect(
-                            child: FittedBox(
-                              fit: BoxFit.fitWidth,
-                              child: SizedBox(
-                                width: size.width,
-                                child: AspectRatio(
-                                    aspectRatio: 1 /
-                                        _cameraController!.value.aspectRatio,
-                                    child: CameraPreview(_cameraController!)),
-                              ),
-                            ),
-                          ),
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    },
-                  ),
-                ),
-                Flexible(
-                  flex: 1,
-                  child: Container(
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 48.0),
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: IconButton(
-                            onPressed: () async {
-                              /// 후면 카메라 <-> 전면 카메라 변경
-                              cameraIndex = cameraIndex == 0 ? 1 : 0;
-                              await _initCamera();
-                            },
-                            icon: Icon(
-                              Icons.file_download,
-                              color: Colors.white,
-                              size: 34.0,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            try {
-                              await _cameraController!
-                                  .takePicture()
-                                  .then((value) {
-                                captureImage = File(value.path);
-                              });
-
-                              /// 화면 상태 변경 및 이미지 저장
-                              setState(() {
-                                isCapture = true;
-                              });
-                            } catch (e) {
-                              LOGCAT.e("Capture_Error", "$e");
-                            }
-                          },
-                          child: Container(
-                            height: 80.0,
-                            width: 80.0,
-                            padding: const EdgeInsets.all(1.0),
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border:
-                                  Border.all(color: Colors.black, width: 1.0),
-                              color: Colors.white,
-                            ),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border:
-                                    Border.all(color: Colors.black, width: 3.0),
-                              ),
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            onPressed: () async {
-                              /// 후면 카메라 <-> 전면 카메라 변경
-                              cameraIndex = cameraIndex == 0 ? 1 : 0;
-                              await _initCamera();
-                            },
-                            icon: Icon(
-                              Icons.flip_camera_android,
-                              color: Colors.white,
-                              size: 34.0,
-                            ),
-                          ),
-                        ),
-                      ],
+                          height: 50,
+                          color: mLightBlueColor,
+                        )
                     ),
-                  ),
+                  ]
                 ),
-              ],
-            ),
+              ),
+            ],
+          );
+        }),
+      ),
     );
   }
 

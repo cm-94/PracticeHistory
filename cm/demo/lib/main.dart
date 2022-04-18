@@ -8,13 +8,15 @@ import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'assets/constants.dart';
+import 'pages/CameraMainController.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    CameraMainController _cameraMainController =  Get.put(CameraMainController());
+
     // checkPermission().then((val) {
     //   if(!val){ /// 카메라 권한 X
     //     exit(0); /// TODO : 앱 종료
