@@ -46,100 +46,84 @@ class _TopWidgetState extends State<TopWidget> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     // double width = (MediaQuery.of(context).size.width) / 2;
-
-    return Stack(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            /// <- 버튼
-            Obx((){
-              return Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: InkWell(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        child: Container(
-                            padding: EdgeInsets.all(5),
-                            child: IconButton(
-                              onPressed: () async {
-                                if(_controller.isCapture.value){
-                                  _controller.setCaptureState(false);
-                                }
-                              },
-                              icon: Icon(
-                                Icons.arrow_back,
-                                color: _controller.isCapture.value? Colors.white : Colors.transparent,
-                                size: 20.0,
-                              ),
-                            )
+    return Container(
+      width: size.width,
+      child: Stack(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              /// <- 버튼
+              Obx((){
+                return Container(
+                    child: InkWell(
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                          child: Container(
+                              child: IconButton(
+                                onPressed: () async {
+                                  if(_controller.isCapture.value){
+                                    _controller.setCaptureState(false);
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.arrow_back,
+                                  color: _controller.isCapture.value? Colors.white : Colors.transparent,
+                                  size: 20.0,
+                                ),
+                              )
+                          ),
                         ),
-                      ),
-                      onTap: () {
-                        _controller.isCapture(!_controller.isCapture.value);
-                        // setChartType();
-                      }
-                  )
-              );
-            }),
-            /// 타이틀
-            Obx((){
-              return Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: InkWell(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        child: Container(
-                            child: Text((_controller.isCapture.value)? '편집' : '촬영', style: TextStyle(color: Colors.black, fontSize: 20),)
+                        onTap: () {
+                          _controller.isCapture(!_controller.isCapture.value);
+                          // setChartType();
+                        }
+                    )
+                );
+              }),
+              /// 타이틀
+              Obx((){
+                return Text((_controller.isCapture.value)? '편집' : '촬영', style: TextStyle(color: mColorWhite, fontSize: 20));
+              }),
+              /// 메뉴 버튼
+              Obx((){
+                return Container(
+                    child: InkWell(
+                        child: ClipRRect(
+                          child: Container(
+                              child: IconButton(
+                                onPressed: () async {
+                                  ///
+                                  if(!_controller.isCapture.value){
+                                    _controller.setMenuState(!_controller.isMenu.value);
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.menu,
+                                  color: !_controller.isCapture.value? Colors.white : Colors.transparent,
+                                  size: 20.0,
+                                ),
+                              )
+                          ),
                         ),
-                      ),
-                      onTap: () {
-
-                      }
-                  )
-              );
-            }),
-            /// 메뉴 버튼
-            Obx((){
-              return Container(
-                  margin: EdgeInsets.only(right: 10),
-                  child: InkWell(
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        child: Container(
-                            padding: EdgeInsets.all(5),
-                            child: IconButton(
-                              onPressed: () async {
-                                ///
-                                if(!_controller.isCapture.value){
-                                  _controller.setMenuState(!_controller.isMenu.value);
-                                }
-                              },
-                              icon: Icon(
-                                Icons.menu,
-                                color: !_controller.isCapture.value? Colors.white : Colors.transparent,
-                                size: 20.0,
-                              ),
-                            )
-                        ),
-                      ),
-                      onTap: () {
-                        _controller.isCapture(!_controller.isCapture.value);
-                        // setChartType();
-                      }
-                  )
-              );
-            })
-          ],
-        ),
-        Obx((){
-          if(_controller.getMenuState()){
-            return menuPopup;
-          }else {
-            return SizedBox(width: 0, height: 0,);
-          }
-        })
-      ],
+                        onTap: () {
+                          _controller.isCapture(!_controller.isCapture.value);
+                          // setChartType();
+                        }
+                    )
+                );
+              })
+            ],
+          ),
+          Obx((){
+            if(_controller.getMenuState()){
+              return menuPopup;
+            }else {
+              return SizedBox(width: 0, height: 0,);
+            }
+          })
+        ],
+      ),
     );
   }
 }

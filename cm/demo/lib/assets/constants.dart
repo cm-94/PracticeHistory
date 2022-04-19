@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:camerademo/comm/CameraOption.dart';
 import 'package:camerademo/comm/MenuItem.dart';
 import 'package:encrypt/encrypt.dart' as Encrypt;
 import 'package:flutter/cupertino.dart';
@@ -24,6 +25,7 @@ const Color mMediumGray = Color.fromRGBO(176, 176, 176, 1.0);
 const Color mIntroColor = Color.fromRGBO(232, 231, 210, 1.0);
 const Color mColorTransparent = Colors.transparent;
 const Color mCamColor = Color.fromRGBO(210, 223, 205, 1.0);
+const Color mControlColor = Color.fromRGBO(242,255,255, 0.2);
 const Color textColor = Color.fromRGBO(255, 255, 255, 1.0);
 
 typedef PickerCallback = void Function(int index);

@@ -25,6 +25,7 @@ class _MenuPopupState extends State<MenuPopup> {
     Size size = MediaQuery.of(context).size;
     // double width = (MediaQuery.of(context).size.width) / 2;
 
+    print("popup_height ==> " + size.height.toString());
     return Container(
       padding: const EdgeInsets.only(top: 5, right: 20),
       width: size.width,

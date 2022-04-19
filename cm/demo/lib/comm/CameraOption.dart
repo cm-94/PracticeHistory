@@ -5,6 +5,7 @@
 enum CAMERA_TYPE { CAMERA, VIDEO }
 enum FILTER_TYPE { BRIGHT, MEDIUM, DARK, NONE }
 enum MENU_TYPE { START, EDIT, MENU, CAPTURE }
+enum SIZE_TYPE { DEFAULT, THREETOFOUR, NINETOSIXTEEN, FULL }
 
 class CameraOption {
   static const String TYPE_CAMERA = "TYPE_CAMERA";
@@ -19,6 +20,11 @@ class CameraOption {
   static const String TYPE_EDIT = "TYPE_EDIT";
   static const String TYPE_MENU = "TYPE_MENU";
   static const String TYPE_CAPTURE = "TYPE_CAPTURE";
+
+  static const String SIZE_DEFAULT = "1:1";
+  static const String SIZE_THREETOFOUR = "3:4";
+  static const String SIZE_NINETOSIXTEEN = "9:16";
+  static const String SIZE_FULL = "FULL";
 
   static String convertOptionString(Object object) {
     if (object is CAMERA_TYPE) {
@@ -56,6 +62,37 @@ class CameraOption {
       }
     }
 
+    if(object is SIZE_TYPE){
+      switch(object){
+        case SIZE_TYPE.DEFAULT:
+          return SIZE_DEFAULT;
+        case SIZE_TYPE.THREETOFOUR:
+          return SIZE_THREETOFOUR;
+        case SIZE_TYPE.NINETOSIXTEEN:
+          return SIZE_NINETOSIXTEEN;
+        case SIZE_TYPE.FULL:
+          return SIZE_FULL;
+      }
+    }
     return '';
+  }
+
+  List<String> getSizeList(){
+    return [SIZE_DEFAULT, SIZE_THREETOFOUR, SIZE_NINETOSIXTEEN, SIZE_FULL];
+  }
+
+  SIZE_TYPE getSizeOption(String type){
+    switch(type){
+      case SIZE_DEFAULT:
+        return SIZE_TYPE.DEFAULT;
+      case SIZE_THREETOFOUR:
+        return SIZE_TYPE.THREETOFOUR;
+      case SIZE_NINETOSIXTEEN:
+        return SIZE_TYPE.NINETOSIXTEEN;
+      case SIZE_FULL:
+        return SIZE_TYPE.FULL;
+
+    }
+    return SIZE_TYPE.DEFAULT;
   }
 }

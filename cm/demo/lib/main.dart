@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CameraMainController _cameraMainController =  Get.put(CameraMainController());
+    _cameraMainController.init();
 
     // checkPermission().then((val) {
     //   if(!val){ /// 카메라 권한 X
