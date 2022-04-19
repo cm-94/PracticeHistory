@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import '../assets/constants.dart';
 import '../comm/CameraOption.dart';
 
 class CameraMainController extends GetxController {
@@ -7,6 +8,7 @@ class CameraMainController extends GetxController {
   var camHeight = 1.obs;
   var isCapture = false.obs;
   var isMenu = false.obs;
+  var filterType = "".obs;
 
   bool getMenuState() {
     return isMenu.value;
@@ -29,9 +31,14 @@ class CameraMainController extends GetxController {
     return isCapture.value;
   }
 
+  void setFilter(int idx){
+    filterType.value = filterList[idx].filterCode;
+  }
+
   void init() {
     cameraMode.value = CameraOption.convertOptionString(CAMERA_TYPE.CAMERA); // TODO : 기본 설정값 호출 후 사용
     isCapture.value = false;
+    filterType.value = filterList[0].filterCode;
 
   }
 }

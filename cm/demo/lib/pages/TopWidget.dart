@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:camera/camera.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:camerademo/pages/CameraMainController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -111,10 +111,9 @@ class _TopWidgetState extends State<TopWidget> {
                             child: IconButton(
                               onPressed: () async {
                                 ///
-                                if(_controller.isCapture.value){
-
+                                if(!_controller.isCapture.value){
+                                  _controller.setMenuState(!_controller.isMenu.value);
                                 }
-                                _controller.setMenuState(!_controller.isMenu.value);
                               },
                               icon: Icon(
                                 Icons.menu,
