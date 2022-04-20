@@ -1,12 +1,8 @@
-import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:camerademo/pages/CameraMainController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
-
 import '../assets/constants.dart';
-import '../utils/LOGCAT.dart';
 import 'MenuPopup.dart';
 
 /// //////////////////
@@ -68,7 +64,7 @@ class _TopWidgetState extends State<TopWidget> {
                                 },
                                 icon: Icon(
                                   Icons.arrow_back,
-                                  color: _controller.isCapture.value? Colors.white : Colors.transparent,
+                                  color: _controller.isCapture.value? mColorWhite : Colors.transparent,
                                   size: 20.0,
                                 ),
                               )
@@ -100,7 +96,7 @@ class _TopWidgetState extends State<TopWidget> {
                                 },
                                 icon: Icon(
                                   Icons.menu,
-                                  color: !_controller.isCapture.value? Colors.white : Colors.transparent,
+                                  color: !_controller.isCapture.value? mColorWhite : Colors.transparent,
                                   size: 20.0,
                                 ),
                               )

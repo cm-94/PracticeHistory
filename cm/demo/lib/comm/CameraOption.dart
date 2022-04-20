@@ -78,7 +78,7 @@ class CameraOption {
   }
 
   List<String> getSizeList(){
-    return [SIZE_DEFAULT, SIZE_THREETOFOUR, SIZE_NINETOSIXTEEN, SIZE_FULL];
+    return [SIZE_DEFAULT, SIZE_THREETOFOUR, SIZE_NINETOSIXTEEN/*, SIZE_FULL*/];
   }
 
   SIZE_TYPE getSizeOption(String type){

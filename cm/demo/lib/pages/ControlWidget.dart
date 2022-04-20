@@ -1,23 +1,15 @@
-import 'dart:io';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:permission_handler/permission_handler.dart';
 import '../assets/constants.dart';
-import '../utils/LOGCAT.dart';
 import 'CameraMainController.dart';
-import 'TopWidget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 
 typedef CameraControlCallback = void Function(String type);
 
 class ControlWidget extends StatelessWidget {
   CameraControlCallback captureCallback; // 버튼 클릭 시 이벤트 콜백
-  final CameraMainController _cameraMainController = Get.put(CameraMainController());
+  final CameraMainController _cameraMainController = Get.find<CameraMainController>();
 
   ControlWidget(this.captureCallback);
 
@@ -67,11 +59,11 @@ class ControlWidget extends StatelessWidget {
                             return IconButton(
                               onPressed: () async {
                                 /// TODO : 저장 로직 추가 필요
-                                showToast(context, '저장 완료', size: 18);
+                                captureCallback('SELECT');
                               },
                               icon: const Icon(
                                 Icons.file_download,
-                                color: Colors.white,
+                                color: mColorWhite,
                                 size: 34.0,
                               ),
                             );
@@ -85,7 +77,7 @@ class ControlWidget extends StatelessWidget {
                               },
                               icon: const Icon(
                                 Icons.file_copy,
-                                color: Colors.white,
+                                color: mColorWhite,
                                 size: 34.0,
                               ),
                             );
@@ -95,7 +87,7 @@ class ControlWidget extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         /// TODO 카메라 클릭
-                        captureCallback("CAPTURE");
+                        if(!_cameraMainController.getCaptureState()) captureCallback("CAPTURE");
                       },
                       child: Container(
                         height: 80.0,
@@ -105,7 +97,7 @@ class ControlWidget extends StatelessWidget {
                           shape: BoxShape.circle,
                           border:
                           Border.all(color: Colors.black, width: 1.0),
-                          color: Colors.white,
+                          color: mColorWhite,
                         ),
                         child: Container(
                           decoration: BoxDecoration(
@@ -128,7 +120,7 @@ class ControlWidget extends StatelessWidget {
                               },
                               icon: const Icon(
                                 Icons.share,
-                                color: Colors.white,
+                                color: mColorWhite,
                                 size: 34.0,
                               ),
                             );
@@ -137,17 +129,14 @@ class ControlWidget extends StatelessWidget {
                           else {
                             return IconButton(
                               onPressed: () async {
-                                showPicker(context, (value){
-                                  LOGCAT.d('callback', value.toString());
-                                });
-                                // /// 후면 카메라 <-> 전면 카메라 변경
-                                // cameraIndex = cameraIndex == 0 ? 1 : 0;
-                                // await _initCamera();
-                                // //  _cameraMainController.setCaptureState(false);
+                                /// 후면 카메라 <-> 전면 카메라 변경
+                                captureCallback("FILP");
+
+                                //  _cameraMainController.setCaptureState(false);
                               },
                               icon: const Icon(
                                 Icons.flip_camera_android,
-                                color: Colors.white,
+                                color: mColorWhite,
                                 size: 34.0,
                               ),
                             );

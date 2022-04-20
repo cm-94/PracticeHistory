@@ -12,12 +12,15 @@ class CameraMainController extends GetxController {
   var camHeight = 0.0.obs;
   var camMaxHeight = 0.0.obs;
   var camMarginTop = 0.0.obs;
-  var camRatio = "".obs;
+  var strCamRatio = "".obs;
+  var iCamRatio = 0.0.obs;
 
   var isCapture = false.obs; /// true : 촬영완료, false : 촬영대기
   var isMenu = false.obs;    /// 메뉴 활성화 여부
   var filterType = "".obs;   /// 필터 카테고리 타입
   File? captureImage;        /// 촬영 이미지
+
+  var flashToggle = [false,true,false].obs; // 촬영 , 편집 모드
 
   bool getMenuState() {
     return isMenu.value;
@@ -45,10 +48,10 @@ class CameraMainController extends GetxController {
   }
 
   void setRatio(SIZE_TYPE ratio, Size size){
-    camRatio.value = CameraOption.convertOptionString(ratio);
+    strCamRatio.value = CameraOption.convertOptionString(ratio);
 
     camWidth.value = size.width;
-    switch(camRatio.value){
+    switch(strCamRatio.value){
       case CameraOption.SIZE_DEFAULT:
         camHeight.value = size.width;
         camMarginTop.value = 50;
@@ -66,11 +69,21 @@ class CameraMainController extends GetxController {
         camMarginTop.value = 50;
         break;
     }
-    print("new_camHeight ==> " + camHeight.value.toString());
+    iCamRatio.value = camWidth.value / camHeight.value;
   }
 
-  String getRatio(){
-    return camRatio.value;
+  double getRatio(){
+    return iCamRatio.value;
+  }
+
+  void setFlash(int index){
+    for(var i = 0; i < flashToggle.length; i++){
+      if(i == index){
+        flashToggle.value[i] = true;
+      }else{
+        flashToggle.value[i] = false;
+      }
+    }
   }
 
   void init() {
@@ -78,7 +91,8 @@ class CameraMainController extends GetxController {
     camMarginTop.value = 0.0;
     isCapture.value = false;
     filterType.value = filterList[0].filterCode;
-    camRatio.value = CameraOption.convertOptionString(SIZE_TYPE.NINETOSIXTEEN);
+    strCamRatio.value = CameraOption.convertOptionString(SIZE_TYPE.DEFAULT);
+    iCamRatio.value = 1;
   }
 }
 

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../assets/constants.dart';
+import '../comm/CameraOption.dart';
 import 'CameraMainController.dart';
 import 'ControlWidget.dart';
 import 'TopWidget.dart';
@@ -31,8 +32,11 @@ class _CameraPageState extends State<CameraPage> {
       case "CAPTURE":
         cameraWidget.cameraCapture();
         break;
-      case "RESET":
-        cameraWidget.cameraCapture();
+      case "SELECT":
+        cameraWidget.saveImage();
+        break;
+      case "FILP":
+        cameraWidget.flipCamera();
         break;
     }
   }
@@ -56,7 +60,10 @@ class _CameraPageState extends State<CameraPage> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    if(_cameraMainController.camMaxHeight.value == 0.0) _cameraMainController.camMaxHeight.value = size.height;
+    if(_cameraMainController.camMaxHeight.value == 0.0) {
+      _cameraMainController.camMaxHeight.value = size.height;
+      _cameraMainController.setRatio(CameraOption().getSizeOption(CameraOption.SIZE_DEFAULT), size);
+    }
 
     return WillPopScope(    // <-  WillPopScope로 감싼다.
       onWillPop: () {
@@ -69,7 +76,7 @@ class _CameraPageState extends State<CameraPage> {
           }
           else {
             // TODO : 종료 팝업 뒤
-            showToast(context,"종료하시겠습니까?", size: 16);
+            showMessageBox(context, "종료하시겠습니까?", MSG_TYPE.EXIT);
           }
         });
         return Future(() => false);
