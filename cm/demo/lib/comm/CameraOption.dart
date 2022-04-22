@@ -3,7 +3,7 @@
 ///    - hand : 이동하는 포인트 기준으로 변경
 ///    - middle : 두 포인트의 가운데 기준으로 변경
 enum CAMERA_TYPE { CAMERA, VIDEO }
-enum FILTER_TYPE { BRIGHT, MEDIUM, DARK, NONE }
+enum FILTER_TYPE { DEFUALT, BACKGROUND, TEXT, NONE }
 enum MENU_TYPE { START, EDIT, MENU, CAPTURE }
 enum SIZE_TYPE { DEFAULT, THREETOFOUR, NINETOSIXTEEN, FULL }
 
@@ -11,10 +11,11 @@ class CameraOption {
   static const String TYPE_CAMERA = "TYPE_CAMERA";
   static const String TYPE_VIDEO = "TYPE_VIDEO";
 
-  static const String TYPE_BRIGHT = "TYPE_BRIGHT";
-  static const String TYPE_MEDIUM = "TYPE_MEDIUM";
-  static const String TYPE_DARK = "TYPE_DARK";
-  static const String TYPE_NONE = "TYPE_NONE";
+  static const String FILTER_DEFAULT = "FILTER_DEFAULT";
+  static const String FILTER_BACKGROUND = "FILTER_BACKGROUND";
+  static const String FILTER_COVER = "FILTER_COVER";
+  static const String FILTER_TEXT = "FILTER_TEXT";
+  static const String FILTER_NONE = "FILTER_NONE";
 
   static const String TYPE_START = "TYPE_START";
   static const String TYPE_EDIT = "TYPE_EDIT";
@@ -38,14 +39,14 @@ class CameraOption {
 
     if (object is FILTER_TYPE) {
       switch (object) {
-        case FILTER_TYPE.BRIGHT:
-          return TYPE_BRIGHT;
-        case FILTER_TYPE.MEDIUM:
-          return TYPE_MEDIUM;
-        case FILTER_TYPE.DARK:
-          return TYPE_DARK;
+        case FILTER_TYPE.DEFUALT:
+          return FILTER_DEFAULT;
+        case FILTER_TYPE.BACKGROUND:
+          return FILTER_BACKGROUND;
+        case FILTER_TYPE.TEXT:
+          return FILTER_TEXT;
         case FILTER_TYPE.NONE:
-          return TYPE_NONE;
+          return FILTER_NONE;
       }
     }
 

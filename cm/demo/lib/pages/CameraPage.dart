@@ -8,6 +8,8 @@ import '../assets/constants.dart';
 import '../comm/CameraOption.dart';
 import 'CameraMainController.dart';
 import 'ControlWidget.dart';
+import 'SelectFilterController.dart';
+import 'SelectFilterPage.dart';
 import 'TopWidget.dart';
 
 /// //////////////////
@@ -19,7 +21,10 @@ class CameraPage extends StatefulWidget {
 }
 
 class _CameraPageState extends State<CameraPage> {
+  /// 카메라 뷰 컨트롤러
   final CameraMainController _cameraMainController = Get.find<CameraMainController>();
+  /// 필터 뷰 컨트롤러
+  final SelectFilterController _selectFilterController = Get.find<SelectFilterController>();
 
   /// 상단 메뉴바
   TopWidget topWidget = TopWidget();
@@ -45,15 +50,17 @@ class _CameraPageState extends State<CameraPage> {
   void initState() {
     super.initState();
     controlWidget = ControlWidget(cameraCaptureListener);
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-      SystemUiOverlay.bottom
-    ]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    //   SystemUiOverlay.bottom
+    // ]);
   }
+
+
 
   @override
   void dispose() {
     super.dispose();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);  // to re-show bars
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);  // to re-show bars
   }
 
   @override
@@ -65,15 +72,23 @@ class _CameraPageState extends State<CameraPage> {
       _cameraMainController.setRatio(CameraOption().getSizeOption(CameraOption.SIZE_DEFAULT), size);
     }
 
-    return WillPopScope(    // <-  WillPopScope로 감싼다.
+    return WillPopScope(
       onWillPop: () {
         setState(() {
+          /// 1. 메뉴 닫기
           if(topWidget.getMenuState()){
             topWidget.closeMenu();
           }
-          else if(topWidget.getCaptureState()){
+          /// 2. 필터 닫기
+          else if(_selectFilterController.getFilterType() != CameraOption.FILTER_DEFAULT){
             topWidget.setCaptureState(false);
           }
+          /// TODO : 3. 팝업 닫기
+          /// 4. 편집모드 -> 촬영모드
+          else if(topWidget.getCaptureState()){
+            _selectFilterController.setFilterType(0);
+          }
+          /// 앱 종료 팝업
           else {
             // TODO : 종료 팝업 뒤
             showMessageBox(context, "종료하시겠습니까?", MSG_TYPE.EXIT);
@@ -101,6 +116,11 @@ class _CameraPageState extends State<CameraPage> {
                 top: 0,
                 child: topWidget
               ),
+              Positioned(
+                left: 0,
+                bottom: 152,
+                child: SelectFilterPage(),
+              )
             ],
           )
       ),
@@ -126,4 +146,41 @@ class _CameraPageState extends State<CameraPage> {
 
     return per;
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: AnimatedSwitcher(
+  //       duration: const Duration(milliseconds: 300),
+  //       child: loading ? Container(
+  //         key: Key("loading"),
+  //         color: Theme.of(context).scaffoldBackgroundColor,
+  //         child: Center(
+  //           child: SizedBox(
+  //             width: 24,
+  //             height: 24,
+  //             child: GestureDetector(
+  //               onTap: _toggle,
+  //               child: const CircularProgressIndicator(),
+  //             ),
+  //           ),
+  //         ),
+  //       ) : Container(
+  //         key: Key("normal"),
+  //         child: Center(
+  //           child: GestureDetector(
+  //             onTap: _toggle,
+  //             child: const Text("WELCOME"),
+  //           ),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  //
+  // _toggle() {
+  //   setState(() {
+  //     loading = !loading;
+  //   });
+  // }
 }

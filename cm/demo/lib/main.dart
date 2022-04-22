@@ -4,18 +4,26 @@ import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:camerademo/pages/CameraPage.dart';
 import 'package:camerademo/pages/IntroPage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'assets/constants.dart';
 import 'pages/CameraMainController.dart';
+import 'pages/SelectFilterController.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setEnabledSystemUIOverlays([]);
+
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     CameraMainController _cameraMainController =  Get.put(CameraMainController());
+    SelectFilterController _selectFilterController =  Get.put(SelectFilterController());
     _cameraMainController.init();
 
     // checkPermission().then((val) {

@@ -8,6 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:scroll_snap_list/scroll_snap_list.dart';
 import '../assets/constants.dart';
 import '../comm/CameraOption.dart';
@@ -49,19 +50,21 @@ class _CameraWidgetState extends State<CameraWidget> {
 
   List<String> sizeList = CameraOption().getSizeList();
 
+
   @override
   void initState() {
     super.initState();
     _initCamera();
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-      SystemUiOverlay.bottom
-    ]);
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
+    //   SystemUiOverlay.bottom
+    // ]);
   }
 
   @override
   void dispose() {
     super.dispose();
     _cameraController!.dispose();
+    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: SystemUiOverlay.values);  // to re-show bars
   }
 
   void cameraCapture() async {
@@ -89,7 +92,7 @@ class _CameraWidgetState extends State<CameraWidget> {
       var newImage =  await File(_cameraMainController.captureImage!.path).writeAsBytes(img.encodeJpg(orientedImage!));
 
       final result = await newImage.readAsBytes();
-      var isSave = await ImageGallerySaver.saveImage(result, quality: 60, name: "One_Shot_"); /// TODO : 파일명 설정 필요
+      var isSave = await ImageGallerySaver.saveImage(result, quality: 60, name: "one_shot_${DateFormat("yyyyMMdd_hhmmss").format(DateTime.now())}");
       if(isSave['isSuccess']){
         showToast(context, '저장 완료', size: 18);
       }else {
@@ -105,6 +108,10 @@ class _CameraWidgetState extends State<CameraWidget> {
       setState(() { });
     });
     _cameraController?.setFlashMode(FlashMode.off);
+
+    Size size = MediaQuery.of(context).size;
+    print('status_aaa');
+
   }
 
   Widget _getSizeList(BuildContext context, int index) {
@@ -118,8 +125,6 @@ class _CameraWidgetState extends State<CameraWidget> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Stack(
       children: [
         Obx((){
@@ -159,7 +164,6 @@ class _CameraWidgetState extends State<CameraWidget> {
                   return Container(
                     width: _cameraMainController.camWidth.value,
                     height: _cameraMainController.camHeight.value,
-                    color: Colors.red,
                     child: ClipRect(
                       child: FittedBox(
                         fit: BoxFit.fitWidth,
@@ -175,43 +179,53 @@ class _CameraWidgetState extends State<CameraWidget> {
                   );
                 });
               } else {
-                return const Center(child: CircularProgressIndicator());
+                return Container(
+                  width: _cameraMainController.camWidth.value,
+                  height: _cameraMainController.camHeight.value,
+                  child: const Center(child: CircularProgressIndicator()),
+                );
               }
             },
           );
         }),
         /// TODO : 카메라 사이즈 세팅 메뉴
         Obx((){
-          return Visibility(
-            visible: !_cameraMainController.getCaptureState(),
-            child: Positioned(
-                top: 0,
-                left: 0,
-                child: Container(
-                    width: _cameraMainController.camWidth.value,
-                    height: 40,
-                    child: Container(
+            int index = CameraOption().getSizeList().indexOf(_cameraMainController.getStrCamRatio());
+            if(index == -1) index = 0;
+
+            return Visibility(
+              visible: !_cameraMainController.getCaptureState(),
+              child: Positioned(
+                  top: 0,
+                  left: 0,
+                  child: Container(
                       width: _cameraMainController.camWidth.value,
-                      child: Column(
-                        children: <Widget>[
-                          Expanded(
-                            child: ScrollSnapList(
-                              onItemFocus: (value) {
-                                _cameraMainController.setRatio(CameraOption().getSizeOption(sizeList[value]), size);
-                              },
-                              itemSize: 50,
-                              itemBuilder: _getSizeList,
-                              itemCount: sizeList.length,
-                              dynamicItemSize: true,
-                              // dynamicSizeEquation: customEquation, //optional
+                      height: 40,
+                      child: Container(
+                        width: _cameraMainController.camWidth.value,
+                        child: Column(
+                          children: <Widget>[
+                            Expanded(
+                              child: ScrollSnapList(
+                                scrollPhysics: ScrollPhysics(),
+                                listController: ScrollController(initialScrollOffset: index * 50),
+                                onItemFocus: (value) {
+                                  _cameraMainController.setRatio(CameraOption().getSizeOption(sizeList[value]), MediaQuery.of(context).size);
+                                },
+                                itemSize: 50,
+                                itemBuilder: _getSizeList,
+                                itemCount: sizeList.length,
+                                dynamicItemSize: true,
+                                // dynamicSizeEquation: customEquation, //optional
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    )
-                )
-            ),
-          );
+                          ],
+                        ),
+                      )
+                  )
+              )
+            );
+
         }),
         /// 카메라 플래쉬 세팅 아이콘
         Obx((){
@@ -221,6 +235,7 @@ class _CameraWidgetState extends State<CameraWidget> {
                 top: 40,
                 right: 10,
                 child: Container(
+                  width: 160,
                   height: 36,
                   alignment: Alignment.centerRight,
                   child: ToggleButtons(

@@ -20,6 +20,8 @@ class CameraMainController extends GetxController {
   var filterType = "".obs;   /// 필터 카테고리 타입
   File? captureImage;        /// 촬영 이미지
 
+  String isFilter = ""; /// true : 필터 섩정창 on, false : off
+
   var flashToggle = [false,true,false].obs; // 촬영 , 편집 모드
 
   bool getMenuState() {
@@ -43,37 +45,43 @@ class CameraMainController extends GetxController {
     return isCapture.value;
   }
 
-  void setFilter(int idx){
-    filterType.value = filterList[idx].filterCode;
+  void setFilter(int index){
+    filterType.value = filterList[index].filterCode;
+  }
+
+  String getFilter(int idx){
+    return filterList[idx].filterCode;
+  }
+
+  String getCurrentFilter(){
+    return filterType.value;
   }
 
   void setRatio(SIZE_TYPE ratio, Size size){
     strCamRatio.value = CameraOption.convertOptionString(ratio);
 
     camWidth.value = size.width;
+    camMarginTop.value = 50;
     switch(strCamRatio.value){
       case CameraOption.SIZE_DEFAULT:
         camHeight.value = size.width;
-        camMarginTop.value = 50;
         break;
       case CameraOption.SIZE_THREETOFOUR:
         camHeight.value = size.width / 3 * 4;
-        camMarginTop.value = 50;
         break;
       case CameraOption.SIZE_NINETOSIXTEEN:
         camHeight.value = size.width / 9 * 16;
-        camMarginTop.value = 50;
         break;
       case CameraOption.SIZE_FULL:
         camHeight.value = camMaxHeight.value;
-        camMarginTop.value = 50;
+        camMarginTop.value = 0;
         break;
     }
     iCamRatio.value = camWidth.value / camHeight.value;
   }
 
-  double getRatio(){
-    return iCamRatio.value;
+  String getStrCamRatio(){
+    return strCamRatio.value;
   }
 
   void setFlash(int index){

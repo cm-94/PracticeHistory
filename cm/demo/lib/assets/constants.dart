@@ -128,7 +128,8 @@ List<MenuItem> menuList = [
 ];
 
 List<FilterItem> filterList = [
-  FilterItem("기본", '0000'),
-  FilterItem("필터", '0001'),
-  FilterItem("텍스트", '0003'),
+  FilterItem("기본", CameraOption.FILTER_DEFAULT),
+  FilterItem("배경", CameraOption.FILTER_BACKGROUND),
+  FilterItem("필터", CameraOption.FILTER_COVER),
+  FilterItem("텍스트", CameraOption.FILTER_TEXT),
 ];
