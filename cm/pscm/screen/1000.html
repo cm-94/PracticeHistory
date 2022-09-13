@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="./screen/1000.js"></script>
+        <script type="text/javascript" src="/screen/1000.js"></script>
     </head>
     <body>
         <div class="contentScreen s1000">
+            <div style="margin-bottom: 12px;">
+                <button class="btn_list active" onclick="changeType()">리스트</button>
+                <button class="btn_group" onclick="changeType()">이미지</button>
+            </div>
+            <!-- 테이블(리스트) 그룹 -->
             <table class = "dataTable">
                 <tr class="headerRow">
-                    <td class = "hName">상품명</td>
-                    <td class = "hPrice">가격</td>
-                    <td class = "hInputCd">입력바코드</td>
-                    <td class = "hOutputCd">출력바코드</td>
-                    <td class = "hEtc">기타</td>
+                    <td class = "name">상품명</td>
+                    <td class = "price">가격</td>
+                    <td class = "inputCd">입력바코드</td>
+                    <td class = "outputCd">출력바코드</td>
+                    <td class = "etc">기타</td>
                 </tr>
                 <tr class="dataRow">
                     <td class = "name"></td>
@@ -20,6 +25,18 @@
                     <td class = "outputCd"></td>
                     <td class = "etc"></td>
                 </tr>
+            </table>
+            <!-- 이미지 그룹 -->
+            <div class="dataGroup" style="display: flex;">
+                <div class="gItem">
+                    <div class="image"></div>
+                    <div class="name"></div>
+                </div>
+            </div>
+            <!-- 페이지 버튼  -->
+            <div style="margin-top: 12px;justify-content: center;display: flex;">
+                <button style="margin-right: 10px;" class="btn_prev" onclick="pagePrev()">이전</button>
+                <button style="margin-left: 10px;" class="btn_next" onclick="pageNext()">다음</button>
             </div>
         </div> 
     </body>

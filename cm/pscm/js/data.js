@@ -13,40 +13,16 @@ dataManager.putData = function(inputData,type){
 }
 
 dataManager.getData = function(type,callback) {
-    var url = type;
-    $.when(
-        $.get(url),
-    ).done(function (data, result) {
-        if (result == "success") {
-            if(url == DATA_URL_PRODUCT){
-                dataManager.products = [];
-                processFile(data,DATA_TPYE_PRODUCT);
-                if(callback) callback(dataManager.products);
+    if(type == DATA_URL_PRODUCT){
+        requestApi('/products',"GET",{},function(data,textStatus){
+            if(textStatus ='success' && data && data.length > 0){
+                dataManager.products = data;
+            }else{
+                dataManager.products;
             }
-        }
-    })
-}
-
-const processFile = function(data,type){
-    if(!data || data.length == 0){
-        return null;
-    }
-    var lines = data.split('\n');
-    
-    for(var i = 0; i < lines.length; i++){
-        if(type == DATA_TPYE_PRODUCT && lines[i].indexOf('|') > -1){
-            var arrData = lines[i].split('|');
-            dataManager.products.push(
-                {
-                    name : arrData[0],
-                    price : arrData[1],
-                    inputCd : arrData[2],
-                    outputCd : arrData[3],
-                    etc : arrData[4],
-                }
-            )
-        }    
-    }
+            if(callback) callback(dataManager.products);
+        });
+    }    
 }
 
 const DATA_URL_PRODUCT = "./published/data/product.txt";

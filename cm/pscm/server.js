@@ -1,4 +1,4 @@
-const DPORT = 8300;
+const DPORT = 3306;
 const express = require('express');
 const bodyParser = require('body-parser');
 

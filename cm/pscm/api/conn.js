@@ -11,15 +11,23 @@ var iconvLite = require('iconv-lite');
 var contentDisposition = require('content-disposition')
 
 const initConn = (app) => {
-    /* admin */ 
-    // 관리자 로그인
+    app.get('/products', (req, res) => {
+        let query = `SELECT * FROM products`;
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err,"error");
+            else return res.send(data,"success");
+        });
+    });
+
     app.get('/admLogin', (req, res) => {
+        console.log("CONN - admLogin");
         let query = `SELECT * FROM g5_member WHERE mb_id = '${req.query.id}' and mb_password = '${req.query.pw}'`;
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
         });
     });
+
     // 회원관리 목록 조회
     app.get('/memberList', (req, res) => {
         debugger

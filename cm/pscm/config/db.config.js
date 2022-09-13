@@ -1,6 +1,6 @@
 module.exports = {
-    HOST: "panopticon.shop",
-    USER: "root",
-    PASSWORD: "asdf7410",
-    DB:"dbmoden1085"
+    HOST: "panopticon.cbpaukxijslr.us-west-1.rds.amazonaws.com",
+    USER: "admin",
+    PASSWORD: "panopticon",
+    DB:"panopticonDB"
 };
