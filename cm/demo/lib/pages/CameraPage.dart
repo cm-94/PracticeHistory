@@ -81,7 +81,7 @@ class _CameraPageState extends State<CameraPage> {
           }
           /// 2. 필터 닫기
           else if(_selectFilterController.getFilterType() != CameraOption.FILTER_DEFAULT){
-            topWidget.setCaptureState(false);
+            _selectFilterController.setFilterType(0);
           }
           /// TODO : 3. 팝업 닫기
           /// 4. 편집모드 -> 촬영모드

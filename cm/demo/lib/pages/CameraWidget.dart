@@ -55,9 +55,6 @@ class _CameraWidgetState extends State<CameraWidget> {
   void initState() {
     super.initState();
     _initCamera();
-    // SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: [
-    //   SystemUiOverlay.bottom
-    // ]);
   }
 
   @override
@@ -92,7 +89,7 @@ class _CameraWidgetState extends State<CameraWidget> {
       var newImage =  await File(_cameraMainController.captureImage!.path).writeAsBytes(img.encodeJpg(orientedImage!));
 
       final result = await newImage.readAsBytes();
-      var isSave = await ImageGallerySaver.saveImage(result, quality: 60, name: "one_shot_${DateFormat("yyyyMMdd_hhmmss").format(DateTime.now())}");
+      var isSave = await ImageGallerySaver.saveImage(result, quality: 100, name: "one_shot_${DateFormat("yyyyMMdd_hhmmss").format(DateTime.now())}");
       if(isSave['isSuccess']){
         showToast(context, '저장 완료', size: 18);
       }else {
@@ -103,15 +100,11 @@ class _CameraWidgetState extends State<CameraWidget> {
 
   Future<void> _initCamera() async {
     final cameras = await availableCameras();
-    _cameraController = CameraController(cameras[cameraIndex], ResolutionPreset.veryHigh);
+    _cameraController = CameraController(cameras[cameraIndex], ResolutionPreset.max);
     _initCameraControllerFuture = _cameraController!.initialize().then((value) {
       setState(() { });
     });
     _cameraController?.setFlashMode(FlashMode.off);
-
-    Size size = MediaQuery.of(context).size;
-    print('status_aaa');
-
   }
 
   Widget _getSizeList(BuildContext context, int index) {
@@ -133,7 +126,9 @@ class _CameraWidgetState extends State<CameraWidget> {
           Container(
             width: _cameraMainController.camWidth.value,
             height: _cameraMainController.camHeight.value,
-            child: ClipRect(
+            child:
+            /// TODO : 컬러 필터 넣기
+            ClipRect(
               child: FittedBox(
                 fit: BoxFit.fitWidth,
                 child: SizedBox(
@@ -182,7 +177,8 @@ class _CameraWidgetState extends State<CameraWidget> {
                 return Container(
                   width: _cameraMainController.camWidth.value,
                   height: _cameraMainController.camHeight.value,
-                  child: const Center(child: CircularProgressIndicator()),
+                  alignment: Alignment.center,
+                  child: const CircularProgressIndicator(),
                 );
               }
             },
