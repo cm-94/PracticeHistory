@@ -14,7 +14,7 @@ const initConn = (app) => {
     app.get('/products', (req, res) => {
         let query = `SELECT * FROM products`;
         sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err,"error");
+            if (err) return res.status(500).send(err);
             else return res.send(data,"success");
         });
     });

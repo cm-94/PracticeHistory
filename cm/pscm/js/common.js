@@ -52,7 +52,7 @@ var requestApi = function(url,type,data,callback){
             if(callback) callback(data,textStatus)
         },
         error: function(err) {
-            if(callback) callback(err,textStatus)
+            if(callback) callback(err)
         }
     });
 }
