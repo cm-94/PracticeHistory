@@ -19,11 +19,7 @@ const sqlquery = (query, cb, db) => {
         if (err) {
             return cb(err);
         }
-        if(db){
-            connection.changeUser({
-                database: db
-            });
-        }
+        
         connection.query(query, (err, data) => {
             connection.release();
             cb(err, data);

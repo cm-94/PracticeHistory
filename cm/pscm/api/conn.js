@@ -11,26 +11,100 @@ var iconvLite = require('iconv-lite');
 var contentDisposition = require('content-disposition')
 
 const initConn = (app) => {
+    /* 상품 관리 */
     app.get('/products', (req, res) => {
-        let query = `SELECT * FROM products`;
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data,"success");
-        });
-    });
-
-    app.get('/admLogin', (req, res) => {
-        console.log("CONN - admLogin");
-        let query = `SELECT * FROM g5_member WHERE mb_id = '${req.query.id}' and mb_password = '${req.query.pw}'`;
+        let query = `SELECT * FROM product`;
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
         });
     });
 
+    app.post('/productsInsert', (req, res) => {
+        var data = req.body;
+        let query = `INSERT INTO product
+            VALUES ('${data.name}', '${data.price}', '${data.inputCd}', '${data.outputCd}', '${data.etc}', '${data.image}');`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    app.post('/productsUpdate', (req, res) => {
+        let query = `Update product SET 
+            name = '${req.body.name}',
+            price = '${req.body.price}',
+            inputCd = '${req.body.inputCd}',
+            outputCd = '${req.body.outputCd}',
+            etc = '${req.body.etc}',
+            image = '${req.body.image}'
+            WHERE inputCd = '${req.query.inputCd}'`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    app.post('/productsDelete', (req, res) => {
+        let query = `DELETE FROM product WHERE inputCd = '${req.body.inputCd}';`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    /* 입출고 관리 */
+    app.get('/orders', (req, res) => {
+        let query = `SELECT * FROM orders`;
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err,"success");
+            else return res.send(data,"success");
+        });
+    });
+
+    app.post('/ordersInsert', (req, res) => {
+        var data = req.body;
+        let query = `INSERT INTO order
+            VALUES ('${data.name}', '${data.price}', '${data.inputCd}', '${data.outputCd}', '${data.etc}', '${data.image}');`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    app.post('/ordersUpdate', (req, res) => {
+        let query = `Update order SET 
+            name = '${req.body.name}',
+            price = '${req.body.price}',
+            inputCd = '${req.body.inputCd}',
+            outputCd = '${req.body.outputCd}',
+            etc = '${req.body.etc}',
+            image = '${req.body.image}'
+            WHERE inputCd = '${req.query.inputCd}'`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    app.post('/ordersDELETE', (req, res) => {
+        let query = `DELETE FROM order WHERE inputCd = '${req.body.inputCd}';`;
+
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+
+    /* 예시 */
     // 회원관리 목록 조회
     app.get('/memberList', (req, res) => {
-        debugger
         let query = 'SELECT * FROM g5_member LIMIT 100';
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
@@ -39,7 +113,6 @@ const initConn = (app) => {
     });
     // 회원관리 데이터 조회
     app.get('/getMemberInfo', (req, res) => {
-        debugger
         let query = `SELECT * FROM g5_member WHERE mb_id = '${req.query.mb_id}'`;
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
@@ -48,7 +121,6 @@ const initConn = (app) => {
     });
     // 회원관리 데이터 조회
     app.post('/postMemberInfo', (req, res) => {
-        debugger
         let query = `UPDATE g5_member SET
             
             WHERE mb_id = '${req.query.mb_id}'`;
@@ -168,7 +240,6 @@ const initConn = (app) => {
     /* User */
     // 고객지원 - 공지사항
     app.get('/noticeList', (req, res) => {
-        debugger
         let query = '';
         query = `select * from ${(req.query.lang == "ENG")? 'g5_write_notice_en' : 'g5_write_notice'} where wr_is_comment = 0 order by wr_num ${(req.query.start && req.query.end)? `limit ${req.query.start}, ${req.query.end}` : ''}`;
         sqlquery(query, (err, data) => {

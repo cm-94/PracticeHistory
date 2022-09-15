@@ -38,6 +38,10 @@ body{ height: 100%; margin: 0px;}
 .s1000 .gItem { width: 300px; min-height: 260px; font-size: 16px; border: 1px solid rgb(178,180,191);margin: 4px;padding: 12px;}
 .s1000 .gItem .image { min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
 
-.dialog{width: 100%;height: 100%; background-color: rgba(178,180,191,0.45);position: absolute;top: 0;text-align: -webkit-center;}
-.dialog_header{background-color: #7bbd8c;color: #fff;width: 50%;height: 40px;}
-.dialog_body{background-color: #7bbd8c;color: #fff;width: 50%;height: auto;}
+.dialog{width: 100%;height: 100%; background-color: rgba(178,180,191,0.45);position: absolute;top: 0;}
+.dialog_header{background-color: #7bbd8c;color: #fff;width: 100%;height: 40px;}
+.dialog_main{margin:auto;padding: 12px;background-color: #7bbd8c;}
+.dialog_body{background-color: #7bbd8c;color: #fff;width: 100%;height: auto;display: flex;flex-direction: column;}
+
+.marginHauto {margin-left: auto!important;margin-right: auto!important;}
+.marginVauto {margin-top: auto!important;margin-bottom: auto!important;}

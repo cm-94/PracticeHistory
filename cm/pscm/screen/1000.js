@@ -5,10 +5,9 @@ var pageSize = 10;
 var dispType = "LIST";
 
 $(document).ready(function(){
-    dataManager.getData(DATA_URL_PRODUCT,function(res){
-        debugger
-        arrProduct = res;
-        if(arrProduct.length > 0){
+    dataManager.getData(RQ_SELECT_PRODUCTS,function(data,result){
+        if(result == 'success' && data.length > 0){
+            arrProduct = data;
             createPage(arrProduct,pageNum);
         }
     });
@@ -92,7 +91,6 @@ function createPage(data,page){
 }
 
 function changeType(){
-    debugger
     if(!event.target.classList.contains('active')){
         if(event.target.classList.contains('btn_list')){
             dispType = "LIST"
@@ -100,7 +98,6 @@ function changeType(){
             dispType = "IMAGE"
         }
 
-        debugger
         $('.active').removeClass('active');
         event.target.classList.add('active');
         
