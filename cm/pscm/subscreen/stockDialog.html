@@ -1,37 +1,37 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="/subscreen/productDialog.js"></script>
+        <script type="text/javascript" src="/subscreen/stockDialog.js"></script>
     </head>
     <body>
-        <div style="width: 400px;height: auto;padding: 24px;text-align: center;">
-            <div>
-                <img class="image" style="width: 100%; min-height: 250px;"></img>
-                <input class="inputImg" accept="image/*" style="display: none;" type="file" id="myFile" />
-                <button class="btn_image fSize14" style="width:120px;height:36px;" onclick="selectImage()">이미지 수정</button>
+        <div style="width: calc(100vw - 140px);height: calc(100vh - 140px);padding: 24px;text-align: center;">
+            <!-- 테이블(리스트) 그룹 -->
+            <table class = "dataTable" style="border-collapse: collapse;display: none;margin-bottom: 12px;">
+                <tr class="headerRow">
+                    <td class = "name">상품명</td>
+                    <td class = "price">가격</td>
+                    <td class = "restQT">재고 수량</td>
+                    <td class = "recvWaitQT">입고 대기</td>
+                    <td class = "deliWaitQT">출고 대기</td>
+                    <td class = "etc">기타</td>
+                    <td class = "arrow_down"></td>
+                </tr>
+                <tr class="dataRow">
+                    <td class = "name">상품명</td>
+                    <td class = "price">가격</td>
+                    <td class = "restQT">재고 수량</td>
+                    <td class = "recvWaitQT">입고 대기</td>
+                    <td class = "deliWaitQT">출고 대기</td>
+                    <td class = "etc">기타</td>
+                    <td class = "arrow_down"></td>
+                </tr>
+            </table>
+            <!-- 페이지 버튼  -->
+            <div style="margin-top: auto;justify-content: center;display: flex;">
+                <button style="margin-right: 10px;" class="btn_prev" onclick="pagePrev()">이전</button>
+                <div class="pageArea" style="display: flex;" ></div>
+                <button style="margin-left: 10px;" class="btn_next" onclick="pageNext()">다음</button>
             </div>
-            
-            <div style="display: flex;margin-top:12px">
-                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">상품명</div>
-                <input class="name fSize20" style="width: 70%;" type="text"></input>
-            </div>
-            <div style="display: flex;margin-top:12px">
-                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">가격</div>
-                <input class="price fSize20" style="width: 70%;" type="number"></input>
-            </div>
-            <div style="display: flex;margin-top:12px">
-                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입력바코드</div>
-                <input class="inputCd fSize20" style="width: 70%;" type="number"></input>
-            </div>
-            <div style="display: flex;margin-top:12px">
-                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">출력바코드</div>
-                <input class="outputCd fSize20" style="width: 70%;" type="number"></input>
-            </div>
-            <div style="display: flex;margin-top:12px">
-                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">기타</div>
-                <textarea class="etc fSize20" style="width: 70%;height: auto;min-height: 120px;" type="text"></textarea>
-            </div>
-            <button class="marginHauto" style="width: 56px;height: 36px; margin-top: 40px;" onclick="saveData()">저장</button>
         </div>
     </body>
 </html>

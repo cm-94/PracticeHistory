@@ -1,81 +1,53 @@
-var objData = {
-    name : "",
-    price : "",
-    inputCd : "",
-    outputCd : "",
-    etc : "",
-    image : ""
-};
+var inputCd = "";
+
+var arrOrders = [
+    {
+
+    },
+];
+
+var pageNum = 0;
+var pageSize = 10;
 
 $(document).ready(function(){
     if(dialogData) {
-        objData = dialogData;
-        if(objData.type == "UPDATE") setData();
+        inputCd = dialogData.inputCd;
+        dataManager.requestApi(RQ_SELECT_ORDERPLACE, { inputCd : inputCd }, function(data,result){
+            if(result == 'success' && data.length > 0){
+                arrOrders = data;
+                createPage(arrOrders, $('.dataTable'), null, pageNum);
+                createPagination(arrOrders, pageSize, $('.pageArea'));
+            }
+        });
     }
-
-    $('.inputImg').on('change',function(){
-        var reader = new FileReader();
-        reader.readAsDataURL(this.files[0]);
-
-        reader.onload = function () {
-            objData.image = reader.result;
-            if(reader.result.length > 0){
-                $('.dialog .image')[0].src = objData.image;
-            }            
-        };
-    });
 });
 
-function setData(){
-    $('.dialog .name')[0].value = objData.name;
-    $('.dialog .price')[0].value = objData.price;
-    $('.dialog .inputCd')[0].value = objData.inputCd;
-    $('.dialog .outputCd')[0].value = objData.outputCd;
-    $('.dialog .etc')[0].value = objData.etc;
+function onItemClick(){
+    var tdClass = event.target.classList;
+    var idx = event.target.getAttribute('dataIdx');
+    var data = arrStocks[idx];
 
-    if(objData.image.length > 0){
-        $('.dialog .image')[0].src = objData.image;
-    }
 }
 
-function selectImage(){
-    document.querySelector('.inputImg').click();
+function pagePrev(){
+    if(pageNum == 0) return;
+    else pageNum--;
+
+    var activePageBtn = $('.btn_pageIdx.active');
+    if(activePageBtn.length > 0) activePageBtn.removeClass('active');    
+    $('.page_' + pageNum)[0].classList.add("active");
+
+    createPage(arrOrders, $('.dataTable'), null, pageNum);
 }
 
-function saveData(){
-    var msg = "";
-    var type = {};
-    
-    if(objData.type == "INSERT"){
-        type = RQ_INSERT_PRODUCTS;
-    }
-    else if(objData.type == "UPDATE"){
-        type = RQ_UPDATE_PRODUCTS;
-    }
+function pageNext(){
+    var lastIdx = (pageNum + 1) * pageSize;
+    if(arrOrders.length < lastIdx) return;
+    else pageNum++;
 
-    var name = $('.dialog .name')[0].value;
-    var price = $('.dialog .price')[0].value;
-    var inputCd = $('.dialog .inputCd')[0].value;
-    var outputCd = $('.dialog .outputCd')[0].value;
-    var etc = $('.dialog .etc')[0].value;
+    var activePageBtn = $('.btn_pageIdx.active');
+    if(activePageBtn.length > 0) activePageBtn.removeClass('active');
+    $('.page_' + pageNum)[0].classList.add("active");
 
-    if(name.length > 0 && price.length > 0 && inputCd.length > 0){
-        objData.name = name;
-        objData.price = price;
-        objData.inputCd = inputCd;
-        objData.outputCd = outputCd;
-        objData.etc = etc;
-        if(!objData.image) objData.image = "";
-    }
-    else{
-        alert('입력값을 확인하세요');
-        return;
-    }
-
-    dataManager.requestApi(type,objData,function(data,result){
-        if(result == 'success'){
-            closeDialog(true);
-        }
-        alert(result);
-    });
+    createPage(arrOrders, $('.dataTable'), null, pageNum);
 }

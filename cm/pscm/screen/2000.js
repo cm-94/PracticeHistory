@@ -1,4 +1,4 @@
-var arrOrders = [];
+var arrStocks = [];
 // {
 //     name : "",      // 상품명
 //     price : "",     // 가격
@@ -16,9 +16,9 @@ var pageSize = 10;
 $(document).ready(function(){
     dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
         if(result == 'success' && data.length > 0){
-            arrOrders = data;
-            createPage(arrOrders, $('.dataTable'), null, pageNum);
-            createPagination(arrOrders, pageSize, $('.pageArea'));
+            arrStocks = data;
+            createPage(arrStocks, $('.dataTable'), null, pageNum);
+            createPagination(arrStocks, pageSize, $('.pageArea'));
         }
     });
 });
@@ -30,14 +30,14 @@ function onBtnPageClick(event){
         if(activePageBtn.length > 0) activePageBtn.removeClass('active');
         
         event.target.classList.add("active");
-        createPage(arrOrders, $('.dataTable'), null, parseInt(idx));
+        createPage(arrStocks, $('.dataTable'), null, parseInt(idx));
     }
 }
 
 function onItemClick(){
     var tdClass = event.target.classList;
     var idx = event.target.getAttribute('dataIdx');
-    var data = arrOrders[idx];
+    var data = arrStocks[idx];
 
     if(tdClass.contains('arrow_down') || tdClass.contains('arrow_up')){
         if(tdClass.contains('arrow_down')){
@@ -69,19 +69,19 @@ function pagePrev(){
     if(activePageBtn.length > 0) activePageBtn.removeClass('active');    
     $('.page_' + pageNum)[0].classList.add("active");
 
-    createPage(arrOrders, $('.dataTable'), null, pageNum);
+    createPage(arrStocks, $('.dataTable'), null, pageNum);
 }
 
 function pageNext(){
     var lastIdx = (pageNum + 1) * pageSize;
-    if(arrOrders.length < lastIdx) return;
+    if(arrStocks.length < lastIdx) return;
     else pageNum++;
 
     var activePageBtn = $('.btn_pageIdx.active');
     if(activePageBtn.length > 0) activePageBtn.removeClass('active');
     $('.page_' + pageNum)[0].classList.add("active");
 
-    createPage(arrOrders, $('.dataTable'), null, pageNum);
+    createPage(arrStocks, $('.dataTable'), null, pageNum);
 }
 
 var dummyData = [
