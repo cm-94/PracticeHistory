@@ -1,11 +1,45 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script type="text/javascript" src="./screen/2000.js"></script>
+        <script type="text/javascript" src="/screen/2000.js"></script>
     </head>
     <body>
-        <div class="contentScreen 2000">
-            메뉴 2번
+        <div class="contentScreen s2000" style="height: 100%; display: flex; flex-direction: column;">
+            <!-- 테이블(리스트) 그룹 -->
+            <table class = "dataTable" style="border-collapse: collapse;display: none;margin-bottom: 12px;">
+                <tr class="headerRow">
+                    <td class = "name">상품명</td>
+                    <td class = "price">가격</td>
+                    <td class = "restQT">재고 수량</td>
+                    <td class = "recvWaitQT">입고 대기</td>
+                    <td class = "deliWaitQT">출고 대기</td>
+                    <td class = "etc">기타</td>
+                    <td class = "arrow_down"></td>
+                </tr>
+                <tr class="dataRow">
+                    <td class = "name">상품명</td>
+                    <td class = "price">가격</td>
+                    <td class = "restQT">재고 수량</td>
+                    <td class = "recvWaitQT">입고 대기</td>
+                    <td class = "deliWaitQT">출고 대기</td>
+                    <td class = "etc">기타</td>
+                    <td class = "arrow_down"></td>
+                </tr>
+            </table>
+            <!-- 이미지 그룹 -->
+            <div class="dataGroup"  style="display: none;">
+                <div class="gItem">
+                    <img class="image"></img>
+                    <div class="name"></div>
+                    <div class="price"></div>
+                </div>
+            </div>
+            <!-- 페이지 버튼  -->
+            <div style="margin-top: auto;justify-content: center;display: flex;">
+                <button style="margin-right: 10px;" class="btn_prev" onclick="pagePrev()">이전</button>
+                <div class="pageArea" style="display: flex;" ></div>
+                <button style="margin-left: 10px;" class="btn_next" onclick="pageNext()">다음</button>
+            </div>
         </div> 
     </body>
 </html>

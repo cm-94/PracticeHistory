@@ -4,19 +4,24 @@
         <script type="text/javascript" src="/screen/1000.js"></script>
     </head>
     <body>
-        <div class="contentScreen s1000">
-            <div style="margin-bottom: 12px;">
-                <button class="btn_list active" onclick="changeType()">리스트</button>
-                <button class="btn_group" onclick="changeType()">이미지</button>
+        <div class="contentScreen s1000" style="height: 100%; display: flex; flex-direction: column;">
+            <div class="topArea" style="display: flex; margin-bottom: 12px;">
+                <button class="btn_list active" style="margin:0px 8px;width: 80px;height: 32px;" onclick="changeType()">리스트</button>
+                <button class="btn_group" style="margin:0px 8px;width: 80px;height: 32px;" onclick="changeType()">이미지</button>
+                <button class="btn_add" style="margin:0px 8px 0px auto;width: 60px;height: 32px;" onclick="onItemAdd()">추가</button>
+                <button class="btn_delete" style="margin:0px 8px;width: 60px;height: 32px;" onclick="onItemDelete()">삭제</button>
             </div>
             <!-- 테이블(리스트) 그룹 -->
-            <table class = "dataTable" style="display: none;">
+            <table class = "dataTable" style="border-collapse: collapse;display: none;margin-bottom: 12px;">
                 <tr class="headerRow">
                     <td class = "name">상품명</td>
                     <td class = "price">가격</td>
                     <td class = "inputCd">입력바코드</td>
                     <td class = "outputCd">출력바코드</td>
                     <td class = "etc">기타</td>
+                    <td class = "check">
+                        <input class="checkAll" type="checkbox" onchange="onCheckHeaderClick()"></input>
+                    </td>
                 </tr>
                 <tr class="dataRow">
                     <td class = "name"></td>
@@ -24,19 +29,24 @@
                     <td class = "inputCd"></td>
                     <td class = "outputCd"></td>
                     <td class = "etc"></td>
+                    <td class = "check">
+                        <input class="tItemChk" type="checkbox"></input>
+                    </td>
                 </tr>
             </table>
             <!-- 이미지 그룹 -->
             <div class="dataGroup"  style="display: none;">
                 <div class="gItem">
-                    <div class="image"></div>
+                    <img class="image"></img>
                     <div class="name"></div>
+                    <div class="price"></div>
                 </div>
             </div>
             <!-- 페이지 버튼  -->
-            <div style="margin-top: 12px;justify-content: center;display: flex;">
-                <button style="margin-right: 10px;" class="btn_prev" onclick="pagePrev()">이전</button>
-                <button style="margin-left: 10px;" class="btn_next" onclick="pageNext()">다음</button>
+            <div style="margin-top: auto;justify-content: center;display: flex;">
+                <button style="margin-right: 10px;width: 60px;height: 32px;" class="btn_prev" onclick="pagePrev()">이전</button>
+                <div class="pageArea" style="display: flex;" ></div>
+                <button style="margin-left: 10px;width: 60px;height: 32px;" class="btn_next" onclick="pageNext()">다음</button>
             </div>
         </div> 
     </body>

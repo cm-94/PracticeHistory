@@ -1,22 +1,22 @@
 html{ height:100%;}
 body{ height: 100%; margin: 0px;}
-.header{ width: 100%; height: 60px; display: block; font-size: 24px;font-weight: 700; text-align: center;line-height: 48px;border-bottom: 1px solid #7bbd8c;}
+.header{ width: 100%; height: 60px; display: block; font-size: 24px;font-weight: 700; text-align: center;line-height: 48px;border-bottom: 1px solid #a1c5e9;}
 
 .menu{ width: 100%; }
 
 .i_menu #menu_u_info { display: block; }
 .i_menu .menu { background-color: #FFF; }
 
-#menu_list{ display: flex; height: 100%; width: 100%;top: 40px;border-bottom: 1px solid #7bbd8c;}
+#menu_list{ display: flex; height: 100%; width: 100%;top: 40px;border-bottom: 1px solid #a1c5e9;}
 #menu_list li { background-color: #69945c;list-style: none; position: relative; background: #FFF;line-height: 25px;width: 25%;font-size: 14px;}
 #menu_list li li { width: 100px; list-style: none; position: relative; background: #FFF; right: 120px;  }
 #menu_list li a { width: auto; height: 48px; display: block; line-height: 48px;text-decoration: none; text-align: center; color:#000; font-weight: 400; }
 #menu_list li .clicked { font-size: 18px; font-weight: bold; }
 
-.contents{width: 100%;height: 100%;}
+.contents{width: 100%;height: calc(100% - 140px);}
 .contentScreen{padding: 16px;}
 @media screen and (max-width: 768px) {
-    /* .header{ width: 100%; height: 48px; display: block;position: absolute; font-size: 24px;font-weight: bold; text-align: center;line-height: 48px;border-bottom: 1px solid #7bbd8c;}
+    /* .header{ width: 100%; height: 48px; display: block;position: absolute; font-size: 24px;font-weight: bold; text-align: center;line-height: 48px;border-bottom: 1px solid #a1c5e9;}
 	body { background-color: rgb(144, 238, 144); }
     .menu{ left: 0; margin-left: auto; max-width: 100%;}
     .searchMain{ display: block; }
@@ -24,24 +24,42 @@ body{ height: 100%; margin: 0px;}
     #menu_list{ width: 120px; position: absolute; left: 0; } */
 }
 
-
+/* 상품 관리 */
 .s1000 .dataTable {width: 100%;text-align: center;}
 .s1000 .headerRow { height: 48px; background-color: #000; color: #FFF; font-size: 18px; }
-.s1000 .dataRow { height: 80px; font-size: 16px; border-bottom: 1px solid rgb(21,26,19);}
+.s1000 .dataRow { height: 76px; font-size: 16px; border-bottom: 1px solid rgb(21,26,19);cursor:pointer;}
 .s1000 .dataRow .name { width: 20%;}
 .s1000 .dataRow .price { width: 10%;}
 .s1000 .dataRow .inputCd { width: 15%;}
 .s1000 .dataRow .outputCd { width: 15%;}
-.s1000 .dataRow .etx { width: 40%;}
+.s1000 .dataRow .etc { width: 35%;}
+.s1000 .dataRow .check { width: 5%;}
 
 .s1000 .dataGroup { flex-flow: wrap; justify-content: space-between;}
 .s1000 .gItem { width: 300px; min-height: 260px; font-size: 16px; border: 1px solid rgb(178,180,191);margin: 4px;padding: 12px;}
-.s1000 .gItem .image { min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
+.s1000 .gItem .image { width:inherit; min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
+.s1000 .btn_pageIdx { width: 20px; font-size: 20px; text-align: center;cursor:pointer; }
+.s1000 .btn_pageIdx.active { font-size: 22px;font-weight: bold; line-height:24px; }
 
-.dialog{width: 100%;height: 100%; background-color: rgba(178,180,191,0.45);position: absolute;top: 0;}
-.dialog_header{background-color: #7bbd8c;color: #fff;width: 100%;height: 40px;}
-.dialog_main{margin:auto;padding: 12px;background-color: #7bbd8c;}
-.dialog_body{background-color: #7bbd8c;color: #fff;width: 100%;height: auto;display: flex;flex-direction: column;}
+/* 입출고 관리 */
+.s2000 .dataTable {width: 100%;text-align: center;}
+.s2000 .headerRow { height: 48px; background-color: #000; color: #FFF; font-size: 18px; }
+.s2000 .dataRow { height: 76px; font-size: 16px; border-bottom: 1px solid rgb(21,26,19);cursor:pointer;}
+.s2000 .dataRow .name { width: 20%;}
+.s2000 .dataRow .price { width: 10%;}
+.s2000 .dataRow .inputCd { width: 15%;}
+.s2000 .dataRow .outputCd { width: 15%;}
+.s2000 .dataRow .etc { width: 35%;}
+.s2000 .dataRow .check { width: 5%;}
 
-.marginHauto {margin-left: auto!important;margin-right: auto!important;}
-.marginVauto {margin-top: auto!important;margin-bottom: auto!important;}
+.s2000 .dataGroup { flex-flow: wrap; justify-content: space-between;}
+.s2000 .gItem { width: 300px; min-height: 260px; font-size: 16px; border: 1px solid rgb(178,180,191);margin: 4px;padding: 12px;}
+.s2000 .gItem .image { width:inherit; min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
+.s2000 .btn_pageIdx { width: 20px; font-size: 20px; text-align: center;cursor:pointer; }
+.s2000 .btn_pageIdx.active { font-size: 22px;font-weight: bold; line-height:24px; }
+
+.dialog{width: 100%;height: 100%; background-color: rgba(178,180,191,0.45);position: absolute;top: 0;opacity : 0; transition:opacity 0.3s;display: flex;visibility: hidden/*visible*/;}
+.dialog_header{background-color: #a1c5e9;color: #fff;width: 100%;height: 40px;}
+.dialog_main{width: fit-content; margin:auto;padding: 12px;background-color: #a1c5e9;border-radius: 12px;}
+.dialog_body{width: fit-content;height: auto;background-color: #a1c5e9;color: #fff;display: flex;flex-direction: column;}
+.dialog.act { opacity : 1; visibility: visible; }

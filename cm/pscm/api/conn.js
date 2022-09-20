@@ -8,10 +8,12 @@ var fs = require('fs')
 var path = require('path');
 var mime = require('mime');
 var iconvLite = require('iconv-lite');
-var contentDisposition = require('content-disposition')
+var contentDisposition = require('content-disposition');
+const { Console } = require('console');
 
 const initConn = (app) => {
-    /* 상품 관리 */
+    /* 1. 상품 관리 */
+    /// 1.1 상품 조회
     app.get('/products', (req, res) => {
         let query = `SELECT * FROM product`;
         sqlquery(query, (err, data) => {
@@ -19,27 +21,38 @@ const initConn = (app) => {
             else return res.send(data);
         });
     });
-
+    /// 1.2 상품 추가
     app.post('/productsInsert', (req, res) => {
-        var data = req.body;
-        let query = `INSERT INTO product
-            VALUES ('${data.name}', '${data.price}', '${data.inputCd}', '${data.outputCd}', '${data.etc}', '${data.image}');`;
+        var body = req.body;
+        
+        let query1 = `INSERT INTO product VALUES ('${body.name}', '${body.price}', '${body.inputCd}', '${body.outputCd}', '${body.etc}', '${body.image}');`;
+        let query2 = `INSERT INTO stock VALUES ('${body.name}', '${body.price}', '${body.inputCd}', '${body.etc}', 0, 0, 0);`;
 
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data);
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else {
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else return res.send(data2);
+                });
+            }
         });
     });
-
+    
+    /// 1.3 상품 수정
     app.post('/productsUpdate', (req, res) => {
-        let query = `Update product SET 
-            name = '${req.body.name}',
-            price = '${req.body.price}',
-            inputCd = '${req.body.inputCd}',
-            outputCd = '${req.body.outputCd}',
-            etc = '${req.body.etc}',
-            image = '${req.body.image}'
-            WHERE inputCd = '${req.query.inputCd}'`;
+        let query = `Update product AS a, stock AS b
+        SET a.name = '${req.body.name}',
+            a.price = '${req.body.price}',
+            a.inputCd = '${req.body.inputCd}',
+            a.outputCd = '${req.body.outputCd}',
+            a.etc = '${req.body.etc}',
+            a.image = '${req.body.image}',
+            b.name = '${req.body.name}',
+            b.price = '${req.body.price}',
+            b.inputCd = '${req.body.inputCd}'
+
+            WHERE a.inputCd = '${req.body.inputCd}' AND b.inputCd = '${req.body.inputCd}'`;
 
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
@@ -47,8 +60,160 @@ const initConn = (app) => {
         });
     });
 
+    /// 1.4 상품 삭제
     app.post('/productsDelete', (req, res) => {
-        let query = `DELETE FROM product WHERE inputCd = '${req.body.inputCd}';`;
+        var items = req.body.items;
+        let query1 = `DELETE FROM product WHERE `
+        for (var i = 0; i < items.length; i++){
+            query1 += `inputCd = '${items[i].inputCd}' OR `;
+        }
+        query1 = query1.substr(0,query1.length-4);
+
+        let query2 = `DELETE FROM stock WHERE `
+        for (var i = 0; i < items.length; i++){
+            query2 += `inputCd = '${items[i].inputCd}' OR `;
+        }
+        query2 = query2.substr(0,query2.length-4);
+
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else {
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else return res.send(data2);
+                });
+            }
+        });
+    });
+
+    /* 2. 제고 현황 */
+    /// 2.1 재고 현황 조회
+    app.get('/stocks', (req, res) => {
+        let query = `SELECT * FROM stock`;
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    /// 2.2 재고 현황 수정
+    app.post('/stocksUpdate', (req, res) => {
+        let query = `UPDATE stock SET
+        name = ${req.body.name},
+        price = ${req.body.price},
+        inputCd = ${req.body.inputCd},
+        etc = ${req.body.etc},
+        restQT = ${req.body.restQT},
+        recvWaitQ = ${req.body.recvWaitQ},
+        deliWaitQ = ${req.body.deliWaitQ}
+        WHERE inputCd = '${req.body.name}'
+        `;
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    /* 3. 입출고 내역 */
+    /// 3.1 입출고 내역 조회
+    app.get('/orderlist', (req, res) => {
+        let query = '';
+
+        if(req.query){
+            query = `SELECT * FROM orderlist WHERE inputCd = '${req.query.inputCd}' UNION SELECT image, price FROM product WHERE inputCd = '${req.query.inputCd}';`;
+        }
+        else {
+            query = `SELECT * FROM orderlist UNION SELECT image, price FROM product;`;
+        }
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    /// 3.2 입출고 내역 추가
+    app.post('/orderlistInsert', (req, res) => {
+        var body = req.body;
+        var type = body.orderType;
+        
+        let query1 = "INSERT INTO orderlist VALUES";
+        orderCd = body.inputCd + body.orderDT;
+        /// 입고 입력
+        if(type == "01"){
+            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', "", '${body.orderType}', '${orderCd}',
+            '${body.recvQT}', null, '${body.orderDT}', null, null, '${body.etc}');`;
+        }
+        /// 입고 확정
+        if(type == "02"){
+            query1 = `UPDATE orderlist SET
+            recvDT = '${body.recvDT}'
+            WHERE orderCd = '${body.orderCd}';`
+        }
+        /// 줄고 입력
+        else if(type == "03"){
+            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', '${body.orderPlace}', '${body.orderType}', '${orderCd}',
+            null, "${body.deliQT}", '${body.orderDT}', null, null, '${body.etc}');`;
+        }
+        /// 줄고 확정
+        else if(type == "04"){
+            query1 = `UPDATE orderlist SET
+            deliDT = '${body.deliDT}'
+            WHERE orderCd = '${body.orderCd}';`
+        }
+
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else{
+                var query2 = "UPDATE stock SET";
+                
+                /// 입고 대기
+                if(type == "01"){
+                    query2 += ` recvWaitQT = recvWaitQT + ${body.recvQT}
+                    WHERE inputCd = '${body.inputCd}';
+                    `
+                }
+                /// 입고 확정
+                if(type == "02"){
+                    query2 += ` recvWaitQT = recvWaitQT - ${body.recvQT}
+                    WHERE inputCd = '${body.inputCd}';
+                    `
+                }
+                /// 줄고 대기
+                else if(type == "03"){
+                    query2 += `deliWaitQT = deliWaitQT + ${body.deliQT}
+                    WHERE inputCd = '${body.inputCd}';
+                    `
+                }
+                /// 출고 확정
+                if(type == "04"){
+                    query2 += `deliWaitQT = deliWaitQT - ${body.deliQT}
+                    WHERE inputCd = '${body.inputCd}';
+                    `
+                }
+                
+                
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else return res.send(data2);
+                });
+            }
+        });
+    });
+    
+    /// 3.3 입출고 내역 수정
+    app.post('/orderlistUpdate', (req, res) => {
+        let query = `Update orderlist
+        SET a.name = '${req.body.name}',
+            a.price = '${req.body.price}',
+            a.inputCd = '${req.body.inputCd}',
+            a.outputCd = '${req.body.outputCd}',
+            a.etc = '${req.body.etc}',
+            a.image = '${req.body.image}',
+            b.name = '${req.body.name}',
+            b.price = '${req.body.price}',
+            b.inputCd = '${req.body.inputCd}'
+
+            WHERE a.inputCd = '${req.body.inputCd}' AND b.inputCd = '${req.body.inputCd}'`;
 
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
@@ -56,48 +221,29 @@ const initConn = (app) => {
         });
     });
 
-    /* 입출고 관리 */
-    app.get('/orders', (req, res) => {
-        let query = `SELECT * FROM orders`;
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err,"success");
-            else return res.send(data,"success");
-        });
-    });
+    /// 1.4 상품 삭제
+    app.post('/orderlistDelete', (req, res) => {
+        var items = req.body.items;
+        let query1 = `DELETE FROM product WHERE `
+        for (var i = 0; i < items.length; i++){
+            query1 += `inputCd = '${items[i].inputCd}' OR `;
+        }
+        query1 = query1.substr(0,query1.length-4);
 
-    app.post('/ordersInsert', (req, res) => {
-        var data = req.body;
-        let query = `INSERT INTO order
-            VALUES ('${data.name}', '${data.price}', '${data.inputCd}', '${data.outputCd}', '${data.etc}', '${data.image}');`;
+        let query2 = `DELETE FROM stock WHERE `
+        for (var i = 0; i < items.length; i++){
+            query2 += `inputCd = '${items[i].inputCd}' OR `;
+        }
+        query2 = query2.substr(0,query2.length-4);
 
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data);
-        });
-    });
-
-    app.post('/ordersUpdate', (req, res) => {
-        let query = `Update order SET 
-            name = '${req.body.name}',
-            price = '${req.body.price}',
-            inputCd = '${req.body.inputCd}',
-            outputCd = '${req.body.outputCd}',
-            etc = '${req.body.etc}',
-            image = '${req.body.image}'
-            WHERE inputCd = '${req.query.inputCd}'`;
-
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data);
-        });
-    });
-
-    app.post('/ordersDELETE', (req, res) => {
-        let query = `DELETE FROM order WHERE inputCd = '${req.body.inputCd}';`;
-
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data);
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else {
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else return res.send(data2);
+                });
+            }
         });
     });
 
@@ -141,47 +287,6 @@ const initConn = (app) => {
     app.post('/postBasicSettings', (req, res) => {
         var query = `UPDATE g5_config SET
         cf_title = '${req.body.cf_title}',
-        cf_admin = '${req.body.cf_admin}',
-        cf_admin_email = '${req.body.cf_admin_email}',
-        cf_admin_email_name = '${req.body.cf_admin_email_name}',
-        cf_cut_name = '${req.body.cf_cut_name}',
-        cf_new_del = '${req.body.cf_new_del}',
-        cf_write_pages = '${req.body.cf_write_pages}',
-        cf_mobile_pages = '${req.body.cf_mobile_pages}',
-        cf_editor = '${req.body.cf_editor}',
-        cf_captcha = '${req.body.cf_captcha}',
-        cf_captcha_mp3 = '${req.body.cf_captcha_mp3}',
-        cf_recaptcha_site_key = '${req.body.cf_recaptcha_site_key}',
-        cf_recaptcha_secret_key = '${req.body.cf_recaptcha_secret_key}',
-        cf_possible_ip = '${req.body.cf_possible_ip}',
-        cf_intercept_ip = '${req.body.cf_intercept_ip}',
-        cf_analytics = '${req.body.cf_analytics}',
-        cf_add_meta = '${req.body.cf_add_meta}',
-        cf_syndi_token = '${req.body.cf_syndi_token}',
-        cf_syndi_except = '${req.body.cf_syndi_except}',
-        cf_delay_sec = '${req.body.cf_delay_sec}',
-        cf_link_target = '${req.body.cf_link_target}',
-        cf_search_part = '${req.body.cf_search_part}',
-        cf_image_extension = '${req.body.cf_image_extension}',
-        cf_flash_extension = '${req.body.cf_flash_extension}',
-        cf_movie_extension = '${req.body.cf_movie_extension}',
-        cf_filter = '${req.body.cf_filter}',
-        cf_privacy = '${req.body.cf_privacy}',
-        cf_privacy_en = '${req.body.cf_privacy_en}',
-        cf_bbs_rewrite = '${req.body.cf_bbs_rewrite}',
-        cf_email_use = '${req.body.cf_email_use}',
-        cf_use_email_certify = '${req.body.cf_use_email_certify}',
-        cf_formmail_is_member = '${req.body.cf_formmail_is_member}',
-        cf_email_wr_super_admin = '${req.body.cf_email_wr_super_admin}',
-        cf_email_wr_group_admin = '${req.body.cf_email_wr_group_admin}',
-        cf_email_wr_board_admin = '${req.body.cf_email_wr_board_admin}',
-        cf_email_wr_write = '${req.body.cf_email_wr_write}',
-        cf_email_wr_comment_all = '${req.body.cf_email_wr_comment_all}',
-        cf_add_script = '${req.body.cf_add_script}',
-        cf_sms_use = '${req.body.cf_sms_use}',
-        cf_sms_type = '${req.body.cf_sms_type}',
-        cf_icode_id = '${req.body.cf_icode_id}',
-        cf_icode_pw = '${req.body.cf_icode_pw}',
         cf_icode_server_ip = '${req.body.cf_icode_server_ip}',
         cf_icode_server_port = '${req.body.cf_icode_server_port}'
         `
@@ -203,13 +308,6 @@ const initConn = (app) => {
         let sql = `
             UPDATE g5_shop_default
             SET de_admin_company_name       = '${req.body.de_admin_company_name}',
-                de_admin_company_saupja_no  = '${req.body.de_admin_company_saupja_no}',
-                de_admin_company_owner      = '${req.body.de_admin_company_owner}',
-                de_admin_company_tel        = '${req.body.de_admin_company_tel}',
-                de_admin_company_fax        = '${req.body.de_admin_company_fax}',
-                de_admin_tongsin_no         = '${req.body.de_admin_tongsin_no}',
-                de_admin_buga_no            = '${req.body.de_admin_buga_no}',
-                de_admin_company_zip        = '${req.body.de_admin_company_zip}',
                 de_admin_company_addr       = '${req.body.de_admin_company_addr}',
                 de_admin_info_name          = '${req.body.de_admin_info_name}',
                 de_admin_info_email         = '${req.body.de_admin_info_email}'

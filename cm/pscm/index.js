@@ -9,10 +9,3 @@ $(document).ready(function(){
         }
     });
 });
-
-const moveScreen = function(screenId){
-    $('.contentScreen').remove();
-
-    var screenNo = screenId.replaceAll('#','');
-    $('.contents').load(`./screen/${screenNo}.html`);
-}

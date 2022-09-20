@@ -18,10 +18,6 @@
 	<link rel="stylesheet" type='text/css' href="lib/pqgrid-6.2.4/themes/default/pqgrid.css?cb=1">
     
     <script type="text/javascript" src="lib/bignumber/bignumber.js"></script>
-    <script type="text/javascript" src="lib/draggable/draggable-latest-beta.js"></script>
-    <script type="text/javascript" src="lib/draggable/TweenMax.min.js"></script>
-
-    <script type="text/javascript" src="lib/socket.io-client-4.4.1/socket.io.js"></script>
 	<script type="text/javascript" src="lib/swiper/js/swiper.min.js"></script>
 
 	<script type="text/javascript" src="lib/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -36,6 +32,7 @@
     <!-- js 파일 -->
     <script type="text/javascript" src="js/data.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/commAPI.js"></script>
 </head>
 <body>
     <div class="header">P a n S C M</div>
@@ -50,7 +47,11 @@
         </div>
     </div> 
     <div class="contents"></div>
-    <div class="dialog" style="display: none;">
+    <div class="dialog">
+    </div>
+
+    <div class="dialog_loading">
+        <div class="loading"></div>
     </div>
 </body>
 </html>

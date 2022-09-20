@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="/subscreen/orderDetailScreen.js"></script>
+    </head>
+    <body>
+        <div class="orderSpread" style="height: 350px;padding: 24px;background-color: #a1c5e9;display: flex;">
+            <img class="image" style="min-width: 30%;"></img>
+            <div class="orderDetailContents" style="width:-webkit-fill-available;">
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">상품명</div>
+                    <input class="name fSize20" style="width: 70%;" type="text" disabled="true"></input>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">가격</div>
+                    <input class="price fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입력바코드</div>
+                    <input class="inputCd fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">재고 수량</div>
+                    <input class="restQT fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                </div>
+            </div>
+            <div class="orderDetailContents" style="width:-webkit-fill-available;">
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">주문 유형</div>
+                    <select id="orderType" name="orderType" onchange="onTypeSelectChange()">
+                        <option value="none">=== 선택 ===</option>
+                        <option value="01">입고</option>
+                        <option value="03">출고</option>
+                    </select>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입고 수량</div>
+                    <input class="recvWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">출고 수량</div>
+                    <input class="deliWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">주문 유형</div>
+                    <select id="orderPlace" name="orderPlace" onchange="onPlaceSelectChange()">
+                        <option value="none">=== 선택 ===</option>
+                        <option value="01">입고</option>
+                        <option value="03">출고</option>
+                    </select>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">기타</div>
+                    <textarea class="etc fSize20" style="width: 70%;height: auto;min-height: 40px;" type="text"></textarea>
+                </div>
+                <button class="btn_save" style="margin:0px 8px;width: 60px;height: 32px;" onclick="onOrderClick()">저장</button>
+            </div>
+        </div>
+    </body>
+</html>
