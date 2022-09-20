@@ -33,7 +33,7 @@ $(document).ready(function(){
 
 function setData(){
     $('.orderSpread .name')[0].value = objData.name;
-    $('.orderSpread .price')[0].value = objData.price;
+    $('.orderSpread .price')[0].value = putThousandSeparate(objData.price) + '원';
     $('.orderSpread .inputCd')[0].value = objData.inputCd;
     $('.orderSpread .restQT')[0].value = objData.restQT || "0";
     $('.orderSpread .etc')[0].value = objData.etc;

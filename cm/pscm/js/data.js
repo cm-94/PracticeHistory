@@ -11,6 +11,11 @@ const RQ_INSERT_ORDER_LIST = {url : '/orderlistInsert', type : "POST"};
 const RQ_UPDATE_ORDER_LIST = {url : '/orderlistUpdate', type : "POST"};
 const RQ_DELETE_ORDER_LIST = {url : '/orderlistDelete', type : "POST"};
 
+const RQ_SELECT_ORDERPLACE = {url : '/orderplace', type : "GET"};
+const RQ_INSERT_ORDERPLACE = {url : '/orderplaceInsert', type : "POST"};
+const RQ_UPDATE_ORDERPLACE = {url : '/orderplaceUpdate', type : "POST"};
+const RQ_DELETE_ORDERPLACE = {url : '/orderplaceDelete', type : "POST"};
+
 var dataManager = {
     products : [],
     orders : [],
