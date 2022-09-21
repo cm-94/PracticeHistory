@@ -26,7 +26,7 @@ const initConn = (app) => {
         var body = req.body;
         
         let query1 = `INSERT INTO product VALUES ('${body.name}', '${body.price}', '${body.inputCd}', '${body.outputCd}', '${body.etc}', '${body.image}');`;
-        let query2 = `INSERT INTO stock VALUES ('${body.name}', '${body.price}', '${body.inputCd}', '${body.etc}', 0, 0, 0);`;
+        let query2 = `INSERT INTO stock VALUES ('${body.name}', '${body.price}', '${body.image}', '${body.inputCd}', '${body.etc}', 0, 0, 0);`;
 
         sqlquery(query1, (err1, data1) => {
             if (err1) return res.status(500).send(err1);
@@ -50,6 +50,7 @@ const initConn = (app) => {
             a.image = '${req.body.image}',
             b.name = '${req.body.name}',
             b.price = '${req.body.price}',
+            b.image = '${req.body.image}',
             b.inputCd = '${req.body.inputCd}'
 
             WHERE a.inputCd = '${req.body.inputCd}' AND b.inputCd = '${req.body.inputCd}'`;
@@ -90,6 +91,7 @@ const initConn = (app) => {
     /// 2.1 재고 현황 조회
     app.get('/stocks', (req, res) => {
         let query = `SELECT * FROM stock`;
+        
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
@@ -115,16 +117,15 @@ const initConn = (app) => {
     });
 
     /* 3. 입출고 내역 */
+    /// 01 : 입고 입력(수정), 02 : 입고 확정, 03 : 출고 입력(수정), 04 : 출고 확정, 00 : 확정 내역
     /// 3.1 입출고 내역 조회
     app.get('/orderlist', (req, res) => {
-        let query = '';
+        let query = `SELECT * FROM orderlist`
+        
+        if(req.query && req.query.inputCd){
+            query += ` WHERE inputCd = ${req.query.inputCd};`
+        }
 
-        if(req.query){
-            query = `SELECT * FROM orderlist WHERE inputCd = '${req.query.inputCd}' UNION SELECT image, price FROM product WHERE inputCd = '${req.query.inputCd}';`;
-        }
-        else {
-            query = `SELECT * FROM orderlist UNION SELECT image, price FROM product;`;
-        }
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
@@ -143,22 +144,10 @@ const initConn = (app) => {
             query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', "", '${body.orderType}', '${orderCd}',
             '${body.recvQT}', null, '${body.orderDT}', null, null, '${body.etc}');`;
         }
-        /// 입고 확정
-        if(type == "02"){
-            query1 = `UPDATE orderlist SET
-            recvDT = '${body.recvDT}'
-            WHERE orderCd = '${body.orderCd}';`
-        }
         /// 줄고 입력
         else if(type == "03"){
             query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', '${body.orderPlace}', '${body.orderType}', '${orderCd}',
             null, "${body.deliQT}", '${body.orderDT}', null, null, '${body.etc}');`;
-        }
-        /// 줄고 확정
-        else if(type == "04"){
-            query1 = `UPDATE orderlist SET
-            deliDT = '${body.deliDT}'
-            WHERE orderCd = '${body.orderCd}';`
         }
 
         sqlquery(query1, (err1, data1) => {
@@ -166,31 +155,18 @@ const initConn = (app) => {
             else{
                 var query2 = "UPDATE stock SET";
                 
-                /// 입고 대기
+                /// 입고 입력
                 if(type == "01"){
                     query2 += ` recvWaitQT = recvWaitQT + ${body.recvQT}
                     WHERE inputCd = '${body.inputCd}';
                     `
                 }
-                /// 입고 확정
-                if(type == "02"){
-                    query2 += ` recvWaitQT = recvWaitQT - ${body.recvQT}
-                    WHERE inputCd = '${body.inputCd}';
-                    `
-                }
-                /// 줄고 대기
+                /// 줄고 입력
                 else if(type == "03"){
                     query2 += `deliWaitQT = deliWaitQT + ${body.deliQT}
                     WHERE inputCd = '${body.inputCd}';
                     `
                 }
-                /// 출고 확정
-                if(type == "04"){
-                    query2 += `deliWaitQT = deliWaitQT - ${body.deliQT}
-                    WHERE inputCd = '${body.inputCd}';
-                    `
-                }
-                
                 
                 sqlquery(query2, (err2, data2) => {
                     if (err2) return res.status(500).send(err2);
@@ -202,48 +178,52 @@ const initConn = (app) => {
     
     /// 3.3 입출고 내역 수정
     app.post('/orderlistUpdate', (req, res) => {
-        let query = `Update orderlist
-        SET a.name = '${req.body.name}',
-            a.price = '${req.body.price}',
-            a.inputCd = '${req.body.inputCd}',
-            a.outputCd = '${req.body.outputCd}',
-            a.etc = '${req.body.etc}',
-            a.image = '${req.body.image}',
-            b.name = '${req.body.name}',
-            b.price = '${req.body.price}',
-            b.inputCd = '${req.body.inputCd}'
-
-            WHERE a.inputCd = '${req.body.inputCd}' AND b.inputCd = '${req.body.inputCd}'`;
-
-        sqlquery(query, (err, data) => {
-            if (err) return res.status(500).send(err);
-            else return res.send(data);
-        });
-    });
-
-    /// 1.4 상품 삭제
-    app.post('/orderlistDelete', (req, res) => {
-        var items = req.body.items;
-        let query1 = `DELETE FROM product WHERE `
-        for (var i = 0; i < items.length; i++){
-            query1 += `inputCd = '${items[i].inputCd}' OR `;
-        }
-        query1 = query1.substr(0,query1.length-4);
-
-        let query2 = `DELETE FROM stock WHERE `
-        for (var i = 0; i < items.length; i++){
-            query2 += `inputCd = '${items[i].inputCd}' OR `;
-        }
-        query2 = query2.substr(0,query2.length-4);
+        let query1 = "UPDATE orderlist SET ";
+        var body = req.body;
+        var type = req.body.orderType;
+        
+        /// 입고 수정
+        if(type == "01") query1 += `recvQT = ${body.recvNewQT}`;
+        /// 입고 확정
+        else if(type == "02") query1 += `recvQT = '${body.recvQT}', recvDT = '${body.recvDT}', orderType = '00'`;
+        /// 출고 수정
+        else if(type == "03") query1 += `deliQT = ${body.deliQT}`;
+        /// 출고 확정
+        else if(type == "04") query1 += `deliDT = '${body.deliDT}', orderType = '00'`;
+        
+        query1 += ` WHERE orderCd = '${body.orderCd}';`;
 
         sqlquery(query1, (err1, data1) => {
             if (err1) return res.status(500).send(err1);
             else {
+                var query2 = "UPDATE stock SET ";
+
+                /// 입고 수정
+                if(type == "01") query2 += `recvWaitQT = recvWaitQT + ${body.recvNewQT - body.recvQT}`;
+                /// 입고 확정
+                else if(type == "02") query2 += `restQT = restQT + ${body.recvQT}, recvWaitQT = recvWaitQT - ${body.recvQT}`;
+                /// 출고 수정
+                else if(type == "03") query2 += `deliWaitQT = deliWaitQT + ${body.deliNewQT - body.deliQT}`;
+                /// 출고 확정
+                else if(type == "04") query2 += `restQT = restQT - ${body.deliQT}, deliWaitQT = deliWaitQT - ${body.deliQT}`;
+                
+                query2 += ` WHERE inputCd = '${body.inputCd}'`;
+
                 sqlquery(query2, (err2, data2) => {
                     if (err2) return res.status(500).send(err2);
                     else return res.send(data2);
                 });
             }
+        });
+    });
+
+    /// 3.4 입출고 내역 삭제
+    app.post('/orderlistDelete', (req, res) => {
+        let query = `DELETE FROM orderlist WHERE orderCd = ${req.body.orderCd};`
+        
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
         });
     });
 

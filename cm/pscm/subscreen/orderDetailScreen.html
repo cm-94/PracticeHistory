@@ -23,8 +23,6 @@
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">재고 수량</div>
                     <input class="restQT fSize20" style="width: 70%;" type="number" disabled="true"></input>
                 </div>
-            </div>
-            <div class="orderDetailContents" style="width:-webkit-fill-available;">
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">주문 유형</div>
                     <select id="orderType" name="orderType" style="width: 70%; text-align: center;" onchange="onTypeSelectChange()">
@@ -33,6 +31,8 @@
                         <option value="03">출고</option>
                     </select>
                 </div>
+            </div>
+            <div class="orderDetailContents" style="width:-webkit-fill-available;">
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입고 수량</div>
                     <input class="recvWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
@@ -42,12 +42,16 @@
                     <input class="deliWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
-                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">주문 유형</div>
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">매장 선택</div>
                     <select id="orderPlace" name="orderPlace" style="width: 70%; text-align: center;" onchange="onPlaceSelectChange()">
                         <option value="none">=== 선택 ===</option>
                         <option value="01">입고</option>
                         <option value="03">출고</option>
                     </select>
+                </div>
+                <div style="display: flex;margin-top:12px;">
+                    <div class="fSize20 line200" style="margin-right: auto;width: 30%;">날짜</div>
+                    <input class="orderDT fSize20" style="width: 70%;" type="number"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">기타</div>

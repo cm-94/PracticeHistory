@@ -72,7 +72,6 @@ function onPlaceSelectChange(){
     var orderPlace = orderSelect.options[orderSelect.selectedIndex].value;
     
     if(orderType != 'none'){
-        debugger
         orderData.orderType = orderType;
         if(orderType == "01"){
             $('.recvWaitQ').removeAttr('disabled');
@@ -107,13 +106,9 @@ function onOrderClick(){
             orderData.deliQT = $('.orderSpread .recvWaitQ')[0].value; // 출고 수량
         }
 
-        debugger
         dataManager.requestApi(RQ_INSERT_ORDER_LIST,orderData,function(data,result){
-            debugger
             if(result == 'success' && data.length > 0){
-                arrOrders = data;
-                createPage(arrOrders, $('.dataTable'), null, pageNum);
-                createPagination(arrOrders, pageSize, $('.pageArea'));
+                spreadPage(false);
             }
         });
     }

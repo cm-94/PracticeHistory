@@ -8,24 +8,23 @@ $(document).ready(function(){
     dataManager.requestApi(RQ_SELECT_PRODUCTS,null,function(data,result){
         if(result == 'success' && data.length > 0){
             arrProduct = data;
-            createPage(arrProduct, $('.dataTable'), $('.dataGroup'), pageNum, dispType);
-            createPagination(arrProduct, pageSize, $('.pageArea'));
+            createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', 'dataRow', pageNum, dispType, onItemClick);
+            createPagination(arrProduct, pageSize, $('.pageArea'),onProductPageClick);
         }
     });
 });
 
-function onBtnPageClick(event){
+function onProductPageClick(event){
     if(!event.target.classList.contains('active')){
         var idx = event.target.classList[0].split('_')[1];
         var activePageBtn = $('.btn_pageIdx.active');
         if(activePageBtn.length > 0) activePageBtn.removeClass('active');
         
         event.target.classList.add("active");
-        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), parseInt(idx), dispType);
+        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", parseInt(idx), dispType, onItemClick);
     }
 }
 function changeType(){
-    debugger
     if(!event.target.classList.contains('active')){
         if(event.target.classList.contains('btn_list')) dispType = "LIST";
         else dispType = "IMAGE";
@@ -37,7 +36,7 @@ function changeType(){
         $('.topArea .active').removeClass('active');
         event.target.classList.add('active');
         
-        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), pageNum, dispType);
+        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", pageNum, dispType, onItemClick);
     }
 }
 
@@ -68,7 +67,7 @@ function onItemDelete(){
                 if(result == 'success'){
                     alert('삭제 완료');
                 }
-                else alert('result');
+                else alert(result);
             });
         }else{ }        
     }
@@ -86,7 +85,7 @@ function pagePrev(){
     if(activePageBtn.length > 0) activePageBtn.removeClass('active');    
     $('.page_' + pageNum)[0].classList.add("active");
 
-    createPage(arrProduct, $('.dataTable'), $('.dataGroup'), pageNum, dispType);
+    createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", pageNum, dispType, onItemClick);
 }
 
 function pageNext(){
@@ -98,5 +97,5 @@ function pageNext(){
     if(activePageBtn.length > 0) activePageBtn.removeClass('active');
     $('.page_' + pageNum)[0].classList.add("active");
 
-    createPage(arrProduct, $('.dataTable'), $('.dataGroup'), pageNum, dispType);
+    createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", pageNum, dispType, onItemClick);
 }

@@ -58,13 +58,13 @@ function showDialog(state){
     else $('.dialog_loading').css('display','none')
 }
 
-function createPage(data, table, group, pageIdx, dispType){
+function createPage(data, table, group, header, child, pageIdx, dispType, onItemClick){
     if(data.length == 0) return;
     pageNum = pageIdx;
     var startIdx = pageNum * pageSize;
     var endIdx = startIdx + pageSize;
 
-    if($('.dataRow').length > 0) $('.dataRow').remove();
+    if($('.' + child).length > 0) $('.' + child).remove();
     if($('.gItem').length > 0) $('.gItem').remove();
     if($('.spreadRow').length > 0) $('.spreadRow').remove();        
 
@@ -76,29 +76,30 @@ function createPage(data, table, group, pageIdx, dispType){
             if(!data[i]) break;
 
             var dataRow = document.createElement('tr');
-            dataRow.classList.add('dataRow');
+            dataRow.classList.add(child);
             table.append(dataRow);
 
-            var arrTd = document.getElementsByClassName('headerRow')[0].children;
+            var arrTd = document.getElementsByClassName(header)[0].children;
             
             for(var j = 0; j < arrTd.length; j++){
-                var td = document.createElement('td');
+                var td = arrTd[j].cloneNode(true);
                 var tdClass = arrTd[j].classList[0]
                 var text = data[i][tdClass];
 
                 if(tdClass == 'id' || tdClass == 'image') continue;
-
-                td.classList.add(tdClass);
+                
+                
                 if(tdClass.indexOf("check") > -1){
-                    var chk = document.createElement('input');
-                    chk.classList.add("chk_" + i);
-                    chk.classList.add("chk_delete");
-                    chk.type = "checkbox";
-                    td.append(chk);
+                    td.children[0].classList.add("chk_" + i);
+                    td.children[0].classList.add("chk_delete");
+                    td.children[0].onchange = null;
+                }
+                else if(tdClass.indexOf("btn") > -1){
+                    td.children[0].classList.add("btn_" + i);
                 }
                 else{
                     if(!text && text != 0){
-                        // td.textContent = '-';
+                        td.textContent = '-';
                     }
                     else if(tdClass == "price"){
                         td.textContent = putThousandSeparate(text) + '원';
@@ -115,6 +116,7 @@ function createPage(data, table, group, pageIdx, dispType){
                 dataRow.append(td);
             }
         }
+        if(onItemClick) $('.' + child).on('click',onItemClick);
     }
     else{
         if(table) table.css('display','none');
@@ -152,12 +154,11 @@ function createPage(data, table, group, pageIdx, dispType){
             dataItem.append(itemName);
             dataItem.append(itemPrice);
         }
+        if(onItemClick) $('.' + child).on('click',onItemClick);
     }
-    $('.dataRow').on('click',onItemClick);
-    $('.gItem').on('click',onItemClick);
 }
 
-function createPagination(data, pageSize, pageArea){
+function createPagination(data, pageSize, pageArea, onClickListener){
     if(data.length == 0) return;
 
     var lastIdx = Math.ceil(data.length / pageSize);
@@ -168,14 +169,14 @@ function createPagination(data, pageSize, pageArea){
         btnPage.classList.add(`page_${i}`);
         btnPage.classList.add(`btn_pageIdx`);
         if(i == 0) btnPage.classList.add(`active`);
-        btnPage.addEventListener('click',onBtnPageClick);
+        if(onClickListener) btnPage.addEventListener('click',onClickListener);
         pageArea.append(btnPage);
     }
 }
 
 // 헤더 체크박스 클릭 이벤트
-var onCheckHeaderClick = function(){
-    var arrChk = $(event.target.parentElement.parentElement.parentElement).find('.dataRow > td > input');
+var onCheckHeaderClick = function(child){
+    var arrChk = $(event.target.parentElement.parentElement.parentElement).find(`.${child} > td > input`);
     
     for(var i = 0; i < arrChk.length; i++){
         arrChk[i].checked = event.target.checked;
