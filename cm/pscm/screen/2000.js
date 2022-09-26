@@ -30,6 +30,7 @@ function onStockPageClick(event){
         if(activePageBtn.length > 0) activePageBtn.removeClass('active');
         
         event.target.classList.add("active");
+        pageNum = parseInt(idx)
         createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", parseInt(idx), null, onItemClick);
     }
 }
@@ -41,20 +42,41 @@ function onItemClick(){
 
     if(tdClass.contains('arrow_down') || tdClass.contains('arrow_up')){
         if(tdClass.contains('arrow_down')){
-            spreadPage(data,event.target.parentElement,'orderDetail');
+            spreadPage(data,event.target.parentElement,'orderDetail',RQ_INSERT_ORDER_LIST,(res)=>{
+                dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
+                    if(result == 'success' && data.length > 0){
+                        arrStocks = data;
+                        createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", pageNum, null, onItemClick);
+                    }
+                });
+            });
             $(event.target).removeClass('arrow_down');
             $(event.target).addClass('arrow_up');        
         }
         else if(tdClass.contains('arrow_up')){
-            spreadPage(null,event.target.parentElement);
+            spreadPage(null,event.target.parentElement,RQ_INSERT_ORDER_LIST,(res)=>{
+                dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
+                    if(result == 'success' && data.length > 0){
+                        arrStocks = data;
+                        createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", pageNum, null, onItemClick);
+                    }
+                });
+            });
             $(event.target).removeClass('arrow_up');
             $(event.target).addClass('arrow_down');
         }
     }
     else{
         openDialog('stock',{ inputCd : data.inputCd },(res) => {
+            dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
+                if(result == 'success' && data.length > 0){
+                    arrStocks = data;
+                    createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", pageNum, null, onItemClick);
+                }
+            });
             if(res){
-                location.reload();
+                
+                // location.reload();
             }
         });
         spreadPage(false);
@@ -66,7 +88,7 @@ function onItemClick(){
 function pagePrev(){
     if(pageNum == 0) return;
     else pageNum--;
-
+    
     var activePageBtn = $('.btn_pageIdx.active');
     if(activePageBtn.length > 0) activePageBtn.removeClass('active');    
     $('.page_' + pageNum)[0].classList.add("active");

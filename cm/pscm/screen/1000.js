@@ -21,7 +21,8 @@ function onProductPageClick(event){
         if(activePageBtn.length > 0) activePageBtn.removeClass('active');
         
         event.target.classList.add("active");
-        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", parseInt(idx), dispType, onItemClick);
+        pageNum = parseInt(idx);
+        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', "dataRow", pageNum, dispType, onItemClick);
     }
 }
 function changeType(){

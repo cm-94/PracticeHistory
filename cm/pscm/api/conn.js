@@ -16,6 +16,7 @@ const initConn = (app) => {
     /// 1.1 상품 조회
     app.get('/products', (req, res) => {
         let query = `SELECT * FROM product`;
+        
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
@@ -87,11 +88,14 @@ const initConn = (app) => {
         });
     });
 
-    /* 2. 제고 현황 */
+    /* 2. 재고 현황 */
     /// 2.1 재고 현황 조회
     app.get('/stocks', (req, res) => {
         let query = `SELECT * FROM stock`;
-        
+
+        if(req.query && req.query.inputCd){
+            query = `SELECT * FROM stock WHERE inputCd = '${req.query.inputCd}';`;
+        }
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
@@ -106,8 +110,8 @@ const initConn = (app) => {
         inputCd = ${req.body.inputCd},
         etc = ${req.body.etc},
         restQT = ${req.body.restQT},
-        recvWaitQ = ${req.body.recvWaitQ},
-        deliWaitQ = ${req.body.deliWaitQ}
+        recvWaitQT = ${req.body.recvWaitQT},
+        deliWaitQT = ${req.body.deliWaitQT}
         WHERE inputCd = '${req.body.name}'
         `;
         sqlquery(query, (err, data) => {
@@ -116,14 +120,14 @@ const initConn = (app) => {
         });
     });
 
-    /* 3. 입출고 내역 */
+    /* 입출고 내역 */
     /// 01 : 입고 입력(수정), 02 : 입고 확정, 03 : 출고 입력(수정), 04 : 출고 확정, 00 : 확정 내역
-    /// 3.1 입출고 내역 조회
+    /// 2.3 입출고 내역 조회
     app.get('/orderlist', (req, res) => {
         let query = `SELECT * FROM orderlist`
         
         if(req.query && req.query.inputCd){
-            query += ` WHERE inputCd = ${req.query.inputCd};`
+            query += ` WHERE inputCd = ${req.query.inputCd} ORDER BY orderDT DESC;`
         }
 
         sqlquery(query, (err, data) => {
@@ -132,7 +136,7 @@ const initConn = (app) => {
         });
     });
 
-    /// 3.2 입출고 내역 추가
+    /// 2.4 입출고 내역 추가
     app.post('/orderlistInsert', (req, res) => {
         var body = req.body;
         var type = body.orderType;
@@ -146,8 +150,8 @@ const initConn = (app) => {
         }
         /// 줄고 입력
         else if(type == "03"){
-            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', '${body.orderPlace}', '${body.orderType}', '${orderCd}',
-            null, "${body.deliQT}", '${body.orderDT}', null, null, '${body.etc}');`;
+            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', '${body.placeCd}', '${body.orderType}', '${orderCd}',
+            null, '${body.deliQT}', '${body.orderDT}', null, null, '${body.etc}');`;
         }
 
         sqlquery(query1, (err1, data1) => {
@@ -163,7 +167,7 @@ const initConn = (app) => {
                 }
                 /// 줄고 입력
                 else if(type == "03"){
-                    query2 += `deliWaitQT = deliWaitQT + ${body.deliQT}
+                    query2 += ` deliWaitQT = deliWaitQT + ${body.deliQT}
                     WHERE inputCd = '${body.inputCd}';
                     `
                 }
@@ -176,7 +180,7 @@ const initConn = (app) => {
         });
     });
     
-    /// 3.3 입출고 내역 수정
+    /// 2.4 입출고 내역 수정
     app.post('/orderlistUpdate', (req, res) => {
         let query1 = "UPDATE orderlist SET ";
         var body = req.body;
@@ -187,7 +191,7 @@ const initConn = (app) => {
         /// 입고 확정
         else if(type == "02") query1 += `recvQT = '${body.recvQT}', recvDT = '${body.recvDT}', orderType = '00'`;
         /// 출고 수정
-        else if(type == "03") query1 += `deliQT = ${body.deliQT}`;
+        else if(type == "03") query1 += `deliQT = ${body.deliNewQT}`;
         /// 출고 확정
         else if(type == "04") query1 += `deliDT = '${body.deliDT}', orderType = '00'`;
         
@@ -197,7 +201,7 @@ const initConn = (app) => {
             if (err1) return res.status(500).send(err1);
             else {
                 var query2 = "UPDATE stock SET ";
-
+                
                 /// 입고 수정
                 if(type == "01") query2 += `recvWaitQT = recvWaitQT + ${body.recvNewQT - body.recvQT}`;
                 /// 입고 확정
@@ -208,7 +212,7 @@ const initConn = (app) => {
                 else if(type == "04") query2 += `restQT = restQT - ${body.deliQT}, deliWaitQT = deliWaitQT - ${body.deliQT}`;
                 
                 query2 += ` WHERE inputCd = '${body.inputCd}'`;
-
+                
                 sqlquery(query2, (err2, data2) => {
                     if (err2) return res.status(500).send(err2);
                     else return res.send(data2);
@@ -217,16 +221,72 @@ const initConn = (app) => {
         });
     });
 
-    /// 3.4 입출고 내역 삭제
+    /// 2.5 입출고 내역 삭제
     app.post('/orderlistDelete', (req, res) => {
-        let query = `DELETE FROM orderlist WHERE orderCd = ${req.body.orderCd};`
+        let query1 = `DELETE FROM orderlist WHERE orderCd = '${req.body.orderCd}';`
         
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else {
+                let query2 = "UPDATE stock SET ";
+
+                /// 입고 수정
+                if(req.body.orderType == "01") query2 += `recvWaitQT = recvWaitQT - ${req.body.recvQT}`;
+                /// 출고 수정
+                else if(req.body.orderType == "03") query2 += `deliWaitQT = deliWaitQT - ${req.body.deliQT}`;
+
+                query2 += ` WHERE inputCd = '${req.body.inputCd}'`;
+
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else {
+                        return res.send(data2);
+                    }
+                });
+            }
+        });
+    });
+
+    /* 3. 매장 관리 */
+    /// 3.1 매장 내역
+    app.get('/orderplace', (req, res) => {
+        let query = `SELECT * FROM orderplace`;
+
+        if(req.query && req.query.placeCd){
+            query = `SELECT * FROM orderplace WHERE inputCd = '${req.query.placeCd}';`;
+        }
+
         sqlquery(query, (err, data) => {
             if (err) return res.status(500).send(err);
             else return res.send(data);
         });
     });
 
+    /// 3.2 매장 수정
+    app.post('/orderlistDelete', (req, res) => {
+        let query1 = `DELETE FROM orderlist WHERE orderCd = '${req.body.orderCd}';`
+        
+        sqlquery(query1, (err1, data1) => {
+            if (err1) return res.status(500).send(err1);
+            else {
+                let query2 = "UPDATE stock SET ";
+
+                /// 입고 수정
+                if(req.body.orderType == "01") query2 += `recvWaitQT = recvWaitQT - ${req.body.recvQT}`;
+                /// 출고 수정
+                else if(req.body.orderType == "03") query2 += `deliWaitQT = deliWaitQT - ${req.body.deliQT}`;
+
+                query2 += ` WHERE inputCd = '${req.body.inputCd}'`;
+
+                sqlquery(query2, (err2, data2) => {
+                    if (err2) return res.status(500).send(err2);
+                    else {
+                        return res.send(data2);
+                    }
+                });
+            }
+        });
+    });
 
     /* 예시 */
     // 회원관리 목록 조회

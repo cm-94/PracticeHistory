@@ -6,14 +6,14 @@
     <body>
         <div class="orderSpread" style="height: 350px;padding: 24px;background-color: #a1c5e9;display: flex;">
             <img class="image" style="min-width: 30%;"></img>
-            <div class="orderDetailContents" style="width:-webkit-fill-available;">
+            <div class="orderDetailContents" style="width:-webkit-fill-available; justify-content: space-between; display: flex; flex-direction: column;">
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">상품명</div>
                     <input class="name fSize20" style="width: 70%;" type="text" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">가격</div>
-                    <input class="price fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                    <input class="price fSize20" style="width: 70%;" type="text" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입력바코드</div>
@@ -21,7 +21,7 @@
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">재고 수량</div>
-                    <input class="restQT fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                    <input class="restQT fSize20" style="width: 70%;" type="text" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">주문 유형</div>
@@ -32,32 +32,34 @@
                     </select>
                 </div>
             </div>
-            <div class="orderDetailContents" style="width:-webkit-fill-available;">
+            <div class="orderDetailContents" style="width:-webkit-fill-available; justify-content: space-between; display: flex; flex-direction: column;">
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입고 수량</div>
-                    <input class="recvWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                    <input class="recvQT fSize20" style="width: 70%;" type="number" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">출고 수량</div>
-                    <input class="deliWaitQ fSize20" style="width: 70%;" type="number" disabled="true"></input>
+                    <input class="deliQT fSize20" style="width: 70%;" type="number" disabled="true"></input>
                 </div>
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">매장 선택</div>
-                    <select id="orderPlace" name="orderPlace" style="width: 70%; text-align: center;" onchange="onPlaceSelectChange()">
+                    <select id="orderPlace" name="orderPlace" style="width: 70%; text-align: center;" onchange="onPlaceSelectChange()" disabled="true">
                         <option value="none">=== 선택 ===</option>
-                        <option value="01">입고</option>
-                        <option value="03">출고</option>
                     </select>
                 </div>
-                <div style="display: flex;margin-top:12px;">
+                <!-- <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">날짜</div>
                     <input class="orderDT fSize20" style="width: 70%;" type="number"></input>
-                </div>
+                </div> -->
                 <div style="display: flex;margin-top:12px;">
                     <div class="fSize20 line200" style="margin-right: auto;width: 30%;">기타</div>
                     <textarea class="etc fSize20" style="width: 70%;height: auto;min-height: 40px;" type="text"></textarea>
                 </div>
-                <button class="btn_save" style="margin:0px 8px;width: 60px;height: 32px;" onclick="onOrderClick()">저장</button>
+                <div style="display: flex;margin-top:12px;">
+                    <button class="btn_save" style="margin: 0px 8px; width: calc(100% - 12px); height: 52px; font-size: 20px;" onclick="onOrderSave()">저장</button>
+                    <button class="btn_save" style="margin: 0px 8px; width: calc(100% - 12px); height: 52px; font-size: 20px;" onclick="onOrderCancel()">취소</button>
+                </div>
+                
             </div>
         </div>
     </body>

@@ -3,6 +3,9 @@ var dialogCb;
 
 var subscreenData;
 
+var spreadType;
+var spreadCb;
+
 var moveScreen = function(screenId){
     $('.contentScreen').remove();
     var screenNo = screenId.replaceAll('#','');
@@ -12,7 +15,8 @@ var moveScreen = function(screenId){
 var putThousandSeparate = function(num,type){
     const numberFormatter = Intl.NumberFormat('en-US');
     const formatted = numberFormatter.format(num);
-    return formatted;
+    if(formatted == 'NaN') return null;
+    else return formatted;
 }
 
 var openDialog = function(type,data,callback){
@@ -47,7 +51,8 @@ var openDialog = function(type,data,callback){
 var closeDialog = function(state){
     $('.dialog_main').remove();
     $('.dialog')[0].classList.toggle('act');
-    if(dialogCb && state == true) dialogCb(state);
+
+    if(dialogCb) dialogCb(state);
 
     dialogData = null;
     dialogCb = null;
@@ -60,8 +65,7 @@ function showDialog(state){
 
 function createPage(data, table, group, header, child, pageIdx, dispType, onItemClick){
     if(data.length == 0) return;
-    pageNum = pageIdx;
-    var startIdx = pageNum * pageSize;
+    var startIdx = pageIdx * pageSize;
     var endIdx = startIdx + pageSize;
 
     if($('.' + child).length > 0) $('.' + child).remove();
@@ -96,6 +100,9 @@ function createPage(data, table, group, header, child, pageIdx, dispType, onItem
                 }
                 else if(tdClass.indexOf("btn") > -1){
                     td.children[0].classList.add("btn_" + i);
+                }
+                else if(tdClass.indexOf("DT") > -1){
+                    td.textContent = setDate(text);
                 }
                 else{
                     if(!text && text != 0){
@@ -163,6 +170,7 @@ function createPagination(data, pageSize, pageArea, onClickListener){
 
     var lastIdx = Math.ceil(data.length / pageSize);
     
+    
     for(var i = 0; i < lastIdx; i++){
         var btnPage = document.createElement('div');
         btnPage.textContent = (i+1);
@@ -184,7 +192,9 @@ var onCheckHeaderClick = function(child){
 }
 
 // 그리드 상세 펼치기 / 닫기
-var spreadPage = function(data,pNode,screenId){
+var spreadPage = function(data,pNode,screenId,type,cb){
+    if(cb) spreadCb = cb;
+
     // 펼치기
     if(data){
         subscreenData = data;
@@ -203,6 +213,9 @@ var spreadPage = function(data,pNode,screenId){
         spreadRow.style.minHeight = pNode.offsetHeight + 'px';
         insertAfter(pNode,spreadRow);
 
+        if(type) spreadType = type;
+        else spreadType = "CREATE";
+
         var td = document.createElement('td');
         td.colSpan = colSpan;
         spreadRow.append(td);
@@ -213,11 +226,13 @@ var spreadPage = function(data,pNode,screenId){
     // 접기
     else{
         if($('.spreadRow').length > 0){
+            spreadType = null;
             subscreenData = null;
-
             $('.spreadRow').fadeOut(200,function(){
                 $('.spreadRow').remove();
             });
+            if(spreadCb) spreadCb(true);
+            spreadCb = null;
         }
     }    
 }
@@ -228,4 +243,11 @@ function insertAfter(referenceNode, newNode) {
     } else {
       referenceNode.parentNode.appendChild(newNode);
     }  
+  }
+
+  function setDate(date){
+    if(date && date.length > 8){
+        return `${date.substring(0,4)}/${date.substring(4,6)}/${date.substring(6,8)}`
+    }
+    return '-'
   }

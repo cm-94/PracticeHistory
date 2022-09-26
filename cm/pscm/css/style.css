@@ -24,6 +24,11 @@ body{ height: 100%; margin: 0px;}
     #menu_list{ width: 120px; position: absolute; left: 0; } */
 }
 
+
+/* 페이지 버튼 */
+.btn_pageIdx { width: 20px; font-size: 20px; text-align: center;cursor:pointer; }
+.btn_pageIdx.active { font-size: 22px;font-weight: bold; line-height:24px; }
+
 /* 상품 관리 */
 .s1000 .dataTable {width: 100%;text-align: center;}
 .s1000 .headerRow { height: 48px; background-color: #000; color: #FFF; font-size: 18px; }
@@ -38,8 +43,6 @@ body{ height: 100%; margin: 0px;}
 .s1000 .dataGroup { flex-flow: wrap; justify-content: space-between;}
 .s1000 .gItem { width: 300px; min-height: 260px; font-size: 16px; border: 1px solid rgb(178,180,191);margin: 4px;padding: 12px;}
 .s1000 .gItem .image { width:inherit; min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
-.s1000 .btn_pageIdx { width: 20px; font-size: 20px; text-align: center;cursor:pointer; }
-.s1000 .btn_pageIdx.active { font-size: 22px;font-weight: bold; line-height:24px; }
 
 /* 입출고 관리 */
 .s2000 .dataTable {width: 100%;text-align: center;}
@@ -55,8 +58,6 @@ body{ height: 100%; margin: 0px;}
 .s2000 .dataGroup { flex-flow: wrap; justify-content: space-between;}
 .s2000 .gItem { width: 300px; min-height: 260px; font-size: 16px; border: 1px solid rgb(178,180,191);margin: 4px;padding: 12px;}
 .s2000 .gItem .image { width:inherit; min-height: 240px; font-size: 16px; border: 1px solid rgb(178,180,191);margin-bottom: 12px;}
-.s2000 .btn_pageIdx { width: 20px; font-size: 20px; text-align: center;cursor:pointer; }
-.s2000 .btn_pageIdx.active { font-size: 22px;font-weight: bold; line-height:24px; }
 
 .dialog{width: 100%;height: 100%; background-color: rgba(178,180,191,0.45);position: absolute;top: 0;opacity : 0; transition:opacity 0.3s;display: flex;visibility: hidden/*visible*/;}
 .dialog_header{background-color: #a1c5e9;color: #fff;width: 100%;height: 40px;}
@@ -68,3 +69,23 @@ body{ height: 100%; margin: 0px;}
 .stockDetailList .dataTable2 {width: 100%;text-align: center;}
 .stockDetailList .headerRow2 { height: 48px; background-color: #000; color: #FFF; font-size: 18px; }
 .stockDetailList .dataRow2 { height: 76px; font-size: 16px; border-bottom: 1px solid rgb(21,26,19);cursor:pointer;}
+
+.stockDetailList .dataRow2 .recvQT { width: 15%;}
+.stockDetailList .dataRow2 .deliQT { width: 15%;}
+.stockDetailList .dataRow2 .recvDT { width: 15%;}
+.stockDetailList .dataRow2 .deliDT { width: 15%;}
+.stockDetailList .dataRow2 .orderPlace { width: 15%;}
+.stockDetailList .dataRow2 .etc { width: 15%;}
+.stockDetailList .dataRow2 .btnConfirm { width: 5%;}
+.stockDetailList .dataRow2 .btnChange { width: 5%;}
+
+/* 매장 관리 */
+.s3000 .dataTable {width: 100%;text-align: center;}
+.s3000 .headerRow { height: 48px; background-color: #000; color: #FFF; font-size: 18px; }
+.s3000 .dataRow { height: 76px; font-size: 16px; border-bottom: 1px solid rgb(21,26,19);cursor:pointer;}
+.s3000 .dataRow .name { width: 20%;}
+.s3000 .dataRow .place { width: 10%;}
+.s3000 .dataRow .inputCd { width: 15%;}
+.s3000 .dataRow .outputCd { width: 15%;}
+.s3000 .dataRow .etc { width: 35%;}
+.s3000 .dataRow .check { width: 5%;}
