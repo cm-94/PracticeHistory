@@ -91,10 +91,17 @@ function createPage(data, table, group, header, child, pageIdx, dispType, onItem
                 var text = data[i][tdClass];
 
                 if(tdClass == 'id' || tdClass == 'image') continue;
+
+                td.setAttribute('dataIdx',i);
+                dataRow.append(td);
                 
                 if(onColumnRender){
-                    onColumnRender(td,tdClass,text,data[i]);
-                    continue;
+                    var result = onColumnRender(td,tdClass,text,data[i]);
+                    if(result){
+                        if(result.text) td.textContent = result.text;
+                        else if(result.html) td.innerHTML = result.html;
+                        continue;
+                    }
                 }
                 
                 if(tdClass.indexOf("check") > -1){
@@ -122,9 +129,6 @@ function createPage(data, table, group, header, child, pageIdx, dispType, onItem
                         td.textContent = text;
                     }
                 }
-                
-                td.setAttribute('dataIdx',i);
-                dataRow.append(td);
             }
         }
         if(onItemClick) $('.' + child).on('click',onItemClick);

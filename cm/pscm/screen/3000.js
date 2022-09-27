@@ -14,8 +14,15 @@ $(document).ready(function(){
 
 var onColumnRender = function(td,tdClass,text,data){
     debugger
-    // if(tdClass == "")
-    
+    if(tdClass == "entranceFee"){
+        return { text : putThousandSeparate(data['entranceFee']) + data['entranceType'] }
+    }
+    else if(tdClass == "salesCommi"){
+        return { text : putThousandSeparate(data['salesCommi']) + data['salesCommiType'] }
+    }
+    else if(tdClass == "sattleDate"){
+        return { text : data['salesCommi'] + '일' }
+    }    
 }
 
 function onMarketPageClick(event){
