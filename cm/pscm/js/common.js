@@ -92,6 +92,10 @@ function createPage(data, table, group, header, child, pageIdx, dispType, onItem
 
                 if(tdClass == 'id' || tdClass == 'image') continue;
                 
+                if(onColumnRender){
+                    onColumnRender(td,tdClass,text,data[i]);
+                    continue;
+                }
                 
                 if(tdClass.indexOf("check") > -1){
                     td.children[0].classList.add("chk_" + i);

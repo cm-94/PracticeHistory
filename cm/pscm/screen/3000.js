@@ -12,6 +12,11 @@ $(document).ready(function(){
     });
 });
 
+var onColumnRender = function(td,tdClass,text,data){
+    debugger
+    
+}
+
 function onMarketPageClick(event){
     if(!event.target.classList.contains('active')){
         var idx = event.target.classList[0].split('_')[1];
