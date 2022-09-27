@@ -21,7 +21,7 @@ var onColumnRender = function(td,tdClass,text,data){
         return { text : putThousandSeparate(data['salesCommi']) + data['salesCommiType'] }
     }
     else if(tdClass == "sattleDate"){
-        return { text : data['salesCommi'] + '일' }
+        return { text : data['sattleDate'] + '일' }
     }    
 }
 
