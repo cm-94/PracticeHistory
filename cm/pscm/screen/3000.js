@@ -14,6 +14,7 @@ $(document).ready(function(){
 
 var onColumnRender = function(td,tdClass,text,data){
     debugger
+    // if(tdClass == "")
     
 }
 
