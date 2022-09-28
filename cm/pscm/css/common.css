@@ -29,14 +29,20 @@ body::-webkit-scrollbar {
 textarea { resize: none; }
 
 textarea, input, select{
-  border: 1px solid #a1c5e9;
+  border: 1px solid #c4cdcf;
   border-radius: 6px;
-  background-color: aliceblue;
+  background-color: #b3b9ba;
   padding: 6px;
 }
 
+select {
+  -moz-appearance: none;
+	-webkit-appearance: none;
+	appearance: none;
+}
+
 textarea:disabled, input:disabled, select:disabled{
-  background-color: #84a0bd;
+  background-color: #828185;
 }
 
 /* Chrome, Safari, Edge, Opera */
