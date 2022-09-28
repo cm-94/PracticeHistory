@@ -13,7 +13,6 @@ $(document).ready(function(){
 });
 
 var onColumnRender = function(td,tdClass,text,data){
-    debugger
     if(tdClass == "entranceFee"){
         return { text : putThousandSeparate(data['entranceFee']) + data['entranceType'] }
     }
@@ -21,8 +20,13 @@ var onColumnRender = function(td,tdClass,text,data){
         return { text : putThousandSeparate(data['salesCommi']) + data['salesCommiType'] }
     }
     else if(tdClass == "sattleDate"){
-        return { text : data['sattleDate'] + '일' }
-    }    
+        if(data['sattleDate']) return { text : data['sattleDate'] + '일' }
+        else return { text : '-' }
+    }
+    else if(tdClass == "conTerm"){
+        if(data['conTerm'] && data['conTerm'].length > 0) return { text : data['conTerm'] };
+        else return { text : "-" };
+    }
 }
 
 function onMarketPageClick(event){
@@ -42,12 +46,30 @@ function onItemClick(){
     var data = arrPlaces[idx];
     if(!event.target.classList.contains("check") && event.target.type != 'checkbox'){
         data['type'] = "UPDATE";
-        openDialog('product',data,(res) => {
+        openDialog('place',data,(res) => {
             if(res){
-                location.reload();
+                dataManager.requestApi(RQ_SELECT_ORDERPLACE,null,function(data,result){
+                    if(result == 'success' && data.length > 0){
+                        arrPlaces = data;
+                        createPage(arrPlaces, $('.dataTable'), null, 'headerRow', 'dataRow', pageNum, null, onItemClick);
+                    }
+                });
             }
         });
     }
+}
+
+function onItemAdd(){
+    openDialog('place',{ type : "INSERT"},(res) => {
+        if(res){
+            dataManager.requestApi(RQ_SELECT_ORDERPLACE,null,function(data,result){
+                if(result == 'success' && data.length > 0){
+                    arrPlaces = data;
+                    createPage(arrPlaces, $('.dataTable'), null, 'headerRow', 'dataRow', pageNum, null, onItemClick);
+                }
+            });
+        }
+    });
 }
 
 function onItemDelete(){
@@ -60,18 +82,20 @@ function onItemDelete(){
     }
     if(arrDelete.length > 0){
         if(confirm("정말 삭제하시겠습니까?")){
-            dataManager.requestApi(RQ_DELETE_PRODUCTS,{items:arrDelete},function(data,result){
+            dataManager.requestApi(RQ_DELETE_ORDERPLACE,{items:arrDelete},function(data,result){
                 if(result == 'success'){
                     alert('삭제 완료');
+                    dataManager.requestApi(RQ_SELECT_ORDERPLACE,null,function(data,result){
+                        if(result == 'success' && data.length > 0){
+                            arrPlaces = data;
+                            createPage(arrPlaces, $('.dataTable'), null, 'headerRow', 'dataRow', pageNum, null, onItemClick);
+                        }
+                    });
                 }
                 else alert(result);
             });
         }else{ }        
     }
-}
-
-function onItemAdd(){
-    openDialog('product',{ type : "INSERT"});
 }
 
 function pagePrev(){

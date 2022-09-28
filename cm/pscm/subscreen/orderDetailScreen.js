@@ -53,11 +53,6 @@ function setData(){
             $('#orderPlace').val(orderData.placeCd).prop("seleted",true);
         }
         $('#orderType').attr('disabled',true);
-
-        debugger
-        // 매장 세팅
-
-
     }
 }
 function onTypeSelectChange(){
@@ -85,14 +80,11 @@ function onTypeSelectChange(){
 }
 
 function onPlaceSelectChange(){
-    debugger
     var orderSelect = document.getElementById("orderPlace");  
   
-    // select element에서 선택된 option의 value가 저장된다.  
     var orderPlaceName = orderSelect.options[orderSelect.selectedIndex].text;
     var orderPlace = orderSelect.options[orderSelect.selectedIndex].value;
     orderData.placeCd = orderPlace;
-
 }
 
 function onOrderSave(){

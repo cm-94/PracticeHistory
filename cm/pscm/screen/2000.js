@@ -1,15 +1,4 @@
 var arrStocks = [];
-// {
-//     name : "",      // 상품명
-//     price : "",     // 가격
-//     inputCd : "",   // 입력바코드
-//     restQT : "",    // 재고수량
-//     recvWaitQT : "", // 입고 대기
-//     deliWaitQT : "", // 출고 대기
-//     etc : "" ,      // 기타
-//     image : ""      // 이미지
-// }
-
 var pageNum = 0;
 var pageSize = 10;
 
@@ -68,15 +57,13 @@ function onItemClick(){
     }
     else{
         openDialog('stock',{ inputCd : data.inputCd },(res) => {
-            dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
-                if(result == 'success' && data.length > 0){
-                    arrStocks = data;
-                    createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", pageNum, null, onItemClick);
-                }
-            });
             if(res){
-                
-                // location.reload();
+                dataManager.requestApi(RQ_SELECT_STOCKS,null,function(data,result){
+                    if(result == 'success' && data.length > 0){
+                        arrStocks = data;
+                        createPage(arrStocks, $('.dataTable'), null, 'headerRow', "dataRow", pageNum, null, onItemClick);
+                    }
+                });
             }
         });
         spreadPage(false);

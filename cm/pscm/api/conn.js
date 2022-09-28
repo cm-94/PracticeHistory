@@ -262,31 +262,68 @@ const initConn = (app) => {
         });
     });
 
-    /// 3.2 매장 수정
-    app.post('/orderlistDelete', (req, res) => {
-        let query1 = `DELETE FROM orderlist WHERE orderCd = '${req.body.orderCd}';`
+    /// 3.2 매장 추가
+    app.post('/orderplaceInsert', (req, res) => {
+        let query = `INSERT INTO orderplace VALUES
+        ('${req.body.name}', '${req.body.place}', '${req.body.placeCd}', '${req.body.entranceFee}', '${req.body.entranceType}', '${req.body.salesCommi}', '${req.body.salesCommiType}',        
+        '${req.body.sattleDate}', '${req.body.taxBill}', '${req.body.conTerm}', '${req.body.etc}')`;
         
-        sqlquery(query1, (err1, data1) => {
-            if (err1) return res.status(500).send(err1);
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+
+    /// 3.3 매장 수정
+    app.post('/orderplaceUpdate', (req, res) => {
+        var item = req.body;
+        let query = `UPDATE orderplace SET
+        name = '${item.name}',
+        place = '${item.place}',
+        placeCd = '${item.newPlaceCd}',
+        entranceFee = '${item.entranceFee}',
+        entranceType = '${item.entranceType}',
+        salesCommi = '${item.salesCommi}',
+        salesCommiType = '${item.salesCommiType}',
+        sattleDate = '${item.sattleDate}',
+        taxBill = '${item.taxBill}',
+        conTerm = '${item.conTerm}',
+        etc = '${item.etc}'
+        WHERE placeCd = '${item.placeCd}';`;
+        
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
             else {
-                let query2 = "UPDATE stock SET ";
+                if(item.placeCd != item.newPlaceCd){
+                    var query2 = `UPDATE orderlist SET
+                    placeCd = '${item.newPlaceCd}'
+                    WHERE placeCd = '${item.placeCd}';`;
 
-                /// 입고 수정
-                if(req.body.orderType == "01") query2 += `recvWaitQT = recvWaitQT - ${req.body.recvQT}`;
-                /// 출고 수정
-                else if(req.body.orderType == "03") query2 += `deliWaitQT = deliWaitQT - ${req.body.deliQT}`;
-
-                query2 += ` WHERE inputCd = '${req.body.inputCd}'`;
-
-                sqlquery(query2, (err2, data2) => {
-                    if (err2) return res.status(500).send(err2);
-                    else {
-                        return res.send(data2);
-                    }
-                });
+                    sqlquery(query2, (err2, data2) => {
+                        if (err2) return res.status(500).send(err2);
+                        else return res.send(data2);
+                    });
+                    
+                }
             }
         });
     });
+
+    /// 3.4 매장 삭제
+    app.post('/orderplaceDelete', (req, res) => {
+        var items = req.body.items;
+        let query = `DELETE FROM orderplace WHERE `;
+        for (var i = 0; i < items.length; i++){
+            query += `placeCd = '${items[i].placeCd}' OR `;
+        }
+        query = query.substr(0,query.length-4);
+        
+        sqlquery(query, (err, data) => {
+            if (err) return res.status(500).send(err);
+            else return res.send(data);
+        });
+    });
+    
 
     /* 예시 */
     // 회원관리 목록 조회

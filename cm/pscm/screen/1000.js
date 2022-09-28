@@ -48,7 +48,12 @@ function onItemClick(){
         data['type'] = "UPDATE";
         openDialog('product',data,(res) => {
             if(res){
-                location.reload();
+                dataManager.requestApi(RQ_SELECT_PRODUCTS,null,function(data,result){
+                    if(result == 'success' && data.length > 0){
+                        arrProduct = data;
+                        createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', 'dataRow', pageNum, dispType, onItemClick);
+                    }
+                });
             }
         });
     }
@@ -67,6 +72,12 @@ function onItemDelete(){
             dataManager.requestApi(RQ_DELETE_PRODUCTS,{items:arrDelete},function(data,result){
                 if(result == 'success'){
                     alert('삭제 완료');
+                    dataManager.requestApi(RQ_SELECT_PRODUCTS,null,function(data,result){
+                        if(result == 'success' && data.length > 0){
+                            arrProduct = data;
+                            createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', 'dataRow', pageNum, dispType, onItemClick);
+                        }
+                    });
                 }
                 else alert(result);
             });
@@ -75,7 +86,16 @@ function onItemDelete(){
 }
 
 function onItemAdd(){
-    openDialog('product',{ type : "INSERT"});
+    openDialog('product',{ type : "INSERT"},(res) => {
+        if(res){
+            dataManager.requestApi(RQ_SELECT_PRODUCTS,null,function(data,result){
+                if(result == 'success' && data.length > 0){
+                    arrProduct = data;
+                    createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', 'dataRow', pageNum, dispType, onItemClick);
+                }
+            });
+        }
+    });
 }
 
 function pagePrev(){

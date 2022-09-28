@@ -51,8 +51,11 @@ var openDialog = function(type,data,callback){
 var closeDialog = function(state){
     $('.dialog_main').remove();
     $('.dialog')[0].classList.toggle('act');
-
-    if(dialogCb) dialogCb(state);
+    if(dialogCb) {
+        
+        if(!state || typeof state == 'object') dialogCb(false);
+        else dialogCb(state);
+    }
 
     dialogData = null;
     dialogCb = null;
@@ -95,14 +98,19 @@ function createPage(data, table, group, header, child, pageIdx, dispType, onItem
                 td.setAttribute('dataIdx',i);
                 dataRow.append(td);
                 
-                if(onColumnRender){
-                    var result = onColumnRender(td,tdClass,text,data[i]);
-                    if(result){
-                        if(result.text) td.textContent = result.text;
-                        else if(result.html) td.innerHTML = result.html;
-                        continue;
+                try {
+                    if(onColumnRender){
+                        var result = onColumnRender(td,tdClass,text,data[i]);
+                        if(result){
+                            if(result.text) td.textContent = result.text;
+                            else if(result.html) td.innerHTML = result.html;
+                            continue;
+                        }
                     }
+                } catch (error) {
+                    
                 }
+                
                 
                 if(tdClass.indexOf("check") > -1){
                     td.children[0].classList.add("chk_" + i);

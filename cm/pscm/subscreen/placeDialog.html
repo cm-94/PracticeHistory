@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <script type="text/javascript" src="/subscreen/placeDialog.js"></script>
+    </head>
+    <body>
+        <div style="width: 600px;height: auto;padding: 24px;text-align: center;">
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">업체명</div>
+                <input class="name fSize20" style="width: 70%;" type="text"></input>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">장소</div>
+                <input class="place fSize20" style="width: 70%;" type="text"></input>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">사업자번호</div>
+                <input class="placeCd fSize20" style="width: 70%;" type="text"></input>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">입점 수수료</div>
+                <input class="entranceFee fSize20" style="width: 50%;" type="number"></input>
+                <select id="entranceType" name="entranceType" style="width: 20%; text-align: center;">
+                    <option value="원">원</option>
+                    <option value="%">%</option>
+                </select>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">판매 수수료</div>
+                <input class="salesCommi fSize20" style="width: 50%;" type="number"></input>
+                <select id="salesCommiType" name="salesCommiType" style="width: 20%; text-align: center;">
+                    <option value="원">원</option>
+                    <option value="%">%</option>
+                </select>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">지급일</div>
+                <input class="sattleDate fSize20" style="width: 60%;" type="text"></input>
+                <span style="width: 10%;align-self: center;">일</span>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">세금</div>
+                <input class="taxBill fSize20" style="width: 70%;" type="text"></input>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">계약기간</div>
+                <input class="conTerm fSize20" style="width: 70%;" type="text"></input>
+            </div>
+            <div style="display: flex;margin-top:12px">
+                <div class="fSize20 line200" style="margin-right: auto;width: 30%;">기타</div>
+                <textarea class="etc fSize20" style="width: 70%;height: auto;min-height: 120px;" type="text"></textarea>
+            </div>
+            <button class="marginHauto" style="width: 56px;height: 36px; margin-top: 40px;" onclick="saveData()">저장</button>
+        </div>
+    </body>
+</html>
