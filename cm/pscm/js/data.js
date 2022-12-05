@@ -16,6 +16,11 @@ const RQ_INSERT_ORDERPLACE = {url : '/orderplaceInsert', type : "POST"};
 const RQ_UPDATE_ORDERPLACE = {url : '/orderplaceUpdate', type : "POST"};
 const RQ_DELETE_ORDERPLACE = {url : '/orderplaceDelete', type : "POST"};
 
+const RQ_SELECT_TRASH = {url : '/trash', type : "GET"};
+const RQ_INSERT_TRASH = {url : '/trashInsert', type : "POST"};
+const RQ_UPDATE_TRASH = {url : '/trashUpdate', type : "POST"};
+const RQ_DELETE_TRASH = {url : '/trashDelete', type : "POST"};
+
 var dataManager = {
     products : [],
     orders : [],

@@ -1,3 +1,14 @@
 $(document).ready(function(){
-    debugger
+    dataManager.requestApi(RQ_SELECT_TRASH, null, function(data,result){
+        debugger
+        if(result == 'success' && data.length > 0){
+            // arrProduct = data;
+            // createPage(arrProduct, $('.dataTable'), $('.dataGroup'), 'headerRow', 'dataRow', pageNum, dispType, onItemClick);
+            // createPagination(arrProduct, pageSize, $('.pageArea'),onProductPageClick);
+        }
+    });
 });
+
+function onTrashTypeChange(){
+    debugger
+}
