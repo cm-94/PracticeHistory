@@ -11,6 +11,7 @@ const dbConfigObj = {
 // Create a connection to the database
 const pool = mysql.createPool(dbConfigObj);
 const sqlquery = (query, cb, db) => {
+    console.log("sqlquery","query = " + query);
     if (!query) {
         cb(null, []);
         return;

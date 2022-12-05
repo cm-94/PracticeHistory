@@ -15,6 +15,7 @@ const initConn = (app) => {
     /* 1. 상품 관리 */
     /// 1.1 상품 조회
     app.get('/products', (req, res) => {
+        console.log("GET","/products");
         let query = `SELECT * FROM product`;
         
         sqlquery(query, (err, data) => {
@@ -26,8 +27,8 @@ const initConn = (app) => {
     app.post('/productsInsert', (req, res) => {
         var body = req.body;
         
-        let query1 = `INSERT INTO product VALUES ('${body.name}', '${body.price}', '${body.inputCd}', '${body.outputCd}', '${body.etc}', '${body.image}');`;
-        let query2 = `INSERT INTO stock VALUES ('${body.name}', '${body.price}', '${body.image}', '${body.inputCd}', '${body.etc}', 0, 0, 0);`;
+        let query1 = `INSERT INTO product VALUES ('${body.name}', ${body.price}, '${body.inputCd}', '${body.outputCd}', '${body.etc}', '${body.image}');`;
+        let query2 = `INSERT INTO stock VALUES ('${body.name}', ${body.price}, '${body.image}', '${body.inputCd}', '${body.etc}', 0, 0, 0);`;
 
         sqlquery(query1, (err1, data1) => {
             if (err1) return res.status(500).send(err1);
@@ -127,7 +128,7 @@ const initConn = (app) => {
         let query = `SELECT * FROM orderlist`
         
         if(req.query && req.query.inputCd){
-            query += ` WHERE inputCd = ${req.query.inputCd} ORDER BY orderDT DESC;`
+            query += ` WHERE inputCd = '${req.query.inputCd}' ORDER BY orderDT DESC;`
         }
 
         sqlquery(query, (err, data) => {
@@ -145,13 +146,13 @@ const initConn = (app) => {
         orderCd = body.inputCd + body.orderDT;
         /// 입고 입력
         if(type == "01"){
-            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', "", '${body.orderType}', '${orderCd}',
-            '${body.recvQT}', null, '${body.orderDT}', null, null, '${body.etc}');`;
+            query1 += ` ('${body.name}', ${body.price}, '${body.inputCd}', '', '${body.orderType}', '${orderCd}',
+            ${body.recvQT}, null, '${body.orderDT}', null, null, '${body.etc}');`;
         }
         /// 줄고 입력
         else if(type == "03"){
-            query1 += ` ('${body.name}', '${body.price}', '${body.inputCd}', '${body.placeCd}', '${body.orderType}', '${orderCd}',
-            null, '${body.deliQT}', '${body.orderDT}', null, null, '${body.etc}');`;
+            query1 += ` ('${body.name}', ${body.price}, '${body.inputCd}', '${body.placeCd}', '${body.orderType}', '${orderCd}',
+            null, ${body.deliQT}, '${body.orderDT}', null, null, '${body.etc}');`;
         }
 
         sqlquery(query1, (err1, data1) => {

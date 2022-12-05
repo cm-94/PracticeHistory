@@ -1,5 +1,7 @@
 var getUrl = function(url){
-    return 'http://' + location.hostname +  ":3306" + url;
+    return "http://pineplus.co.kr:3300" + url
+    debugger
+    // return "http://pineplus.co.kr:8000" + url;
 }
 
 var requestApi = function(option,inputData,callback){
