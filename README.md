@@ -21,7 +21,7 @@
 # Android
   
   
-## Elderly Care System
+## 1. Elderly Care System
  첫번째, 그리고 아직 완성되지 않은 프로젝트.
  우린 젊을 떄는 가족과 친구들과 함께하지만, 언젠가 홀로 죽을 수 있습니다. 그래서 노인의 독거사를 예방하는 것은 반드시 고려해야 할 사회 안전망입니다.
  우리는 세 연결을 통해 구현하려 합니다.
@@ -36,7 +36,7 @@
 ### Tech
 - Language : JAVA
 - Tool : Android Stutio
-- lib : OkHttp3, Retrofit2, GoogleMap
+- lib : OkHttp3, Retrofit2, GoogleMap. Push ( google - FCM )
 
 ### Main Connection
  [ Smart Watch ] - ( bluetooth ) - [ Android ] - ( HTTP / Rest Api ) - [ Server ]
@@ -44,10 +44,19 @@
  - 시계는 주인의 동작과 움직임, GPS, 심박수를 측정합니다. 그리고 매 분마다 노인의 휴대폰에 전송합니다. ( 데이터 타입 : String - JSON 포맷 )
  - 노인의 안드로이드 폰은 데이터를 받아 서버로 전송합니다 ( Rest Api )
  - 사회복지사는 담당 노인의 상태와 위치를 모바일로 확인 가능합니다. ( 구글 맵 )
+ - 노인에게 문제 발생 (심박수 저하, 움직임 감지 불능 등) 시 사회복지사의 앱으로 Push가 전송됩니다.
  
  - The watch measures the owner's movements, gyroscope, gps and heart rate. It is sent to elderly's mobile phone every minute. ( Data type : String - JSON Format )
  - Elderly's Android check received data and send to server.
  - Social workers can check the elderly list and state of each one in charge on mobile. ( Google Map )
+ - When a problem occurs in the elderly (low heart rate, inability to detect motion, etc.), a push is sent to the social worker's app.
+
+### Comment..
+ - 안드로이드 개별 학습을 하며 진행한 임베디드 시스템 최종 프로젝트 였으나 몇가지 오류가 발생하였다.
+ - 1. 시계에서 보내는 String 데이터의 검증이 완전하지 않다. JSON 포맷으로 전송하기 때문에 "{" 와 "}" 를 기준으로 데이터 패킷을 나누었다.
+ -  보완 대책으로 Byte크기별 패킷을 나누어 다시 통신 구조를 작성해 볼 수 있다고 판단된다.
+ - 2. push가  전송되지 않는 케이스가 발생한다.
+ -  앱을 오래 꺼두면 OS에서 프로세스를 제거하는 것으로 추측 되지만 현재 테스트 상태 구현을 위해 Spring 서버를 만들어야 한다..
 
 ## Book Search Practice
  ### 도서 검색 
