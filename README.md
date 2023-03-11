@@ -6,7 +6,6 @@
  - Elderly Care System
  
  - Book Search Practice
-  https://github.com/cm-94/PracticeHistory/cm/Practice/BookSearch/
  
  - BitCoin Api Practice
   https://github.com/cm-94/PracticeHistory/cm/Bithumb/
@@ -20,7 +19,8 @@
 
 
 ### Android
-  - https://github.com/cm-94/PracticeHistory/tree/master/cm/ElderlyCareSystem
+  
+  
 ## Elderly Care System
  첫번째, 그리고 아직 완성되지 않은 프로젝트.
  우린 젊을 떄는 가족과 친구들과 함께하지만, 언젠가 홀로 죽을 수 있습니다. 그래서 노인의 독거사를 예방하는 것은 반드시 고려해야 할 사회 안전망입니다.
@@ -28,11 +28,16 @@
 
  It's my first and still unfinished project.
  When we are young, We are with our families and friends but after then can die alone anytime. So preventing the elderly from dying alone must be considered a necessary social safety net. We try to make this three connection for it. 
- 
+
+# Path
+- https://github.com/cm-94/PracticeHistory/tree/master/cm/ElderlyCareSystem
+- https://github.com/cm-94/PracticeHistory/tree/master/cm/ElderlyVersion
+
 # Tech
 - Language : JAVA
 - Tool : Android Stutio
 - lib : OkHttp3, Retrofit2, GoogleMap
+
 # Main Connection
  [ Smart Watch ] - ( bluetooth ) - [ Android ] - ( HTTP / Rest Api ) - [ Server ]
  
@@ -61,4 +66,6 @@
  - FragmentAdapter  - BookFragment 생성
  - 링크를 통해 WebChromeClient로 화면 생성.
  - 주소 복사 및 공유하기 기능.
- 
+
+ # Path
+ - https://github.com/cm-94/PracticeHistory/cm/Practice/BookSearch/
