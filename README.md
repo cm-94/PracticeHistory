@@ -18,7 +18,7 @@
   https://github.com/cm-94/PracticeHistory/tree/master/cm/pscm
 
 
-### Android
+# Android
   
   
 ## Elderly Care System
@@ -29,16 +29,16 @@
  It's my first and still unfinished project.
  When we are young, We are with our families and friends but after then can die alone anytime. So preventing the elderly from dying alone must be considered a necessary social safety net. We try to make this three connection for it. 
 
-# Path
+### Path
 - https://github.com/cm-94/PracticeHistory/tree/master/cm/ElderlyCareSystem
 - https://github.com/cm-94/PracticeHistory/tree/master/cm/ElderlyVersion
 
-# Tech
+### Tech
 - Language : JAVA
 - Tool : Android Stutio
 - lib : OkHttp3, Retrofit2, GoogleMap
 
-# Main Connection
+### Main Connection
  [ Smart Watch ] - ( bluetooth ) - [ Android ] - ( HTTP / Rest Api ) - [ Server ]
  
  - 시계는 주인의 동작과 움직임, GPS, 심박수를 측정합니다. 그리고 매 분마다 노인의 휴대폰에 전송합니다. ( 데이터 타입 : String - JSON 포맷 )
@@ -50,22 +50,22 @@
  - Social workers can check the elderly list and state of each one in charge on mobile. ( Google Map )
 
 ## Book Search Practice
- # 도서 검색 
- 언어 : Kotlin
- 도구 : 안드로이드 스튜디오
- 기술 스택 : okhttp3, retrofit2
- Api : 네이버 책 검색 api 사용 ( https://openapi.naver.com/v1/search/ )
+ ### 도서 검색 
+ - 언어 : Kotlin
+ - 도구 : 안드로이드 스튜디오
+ - 기술 스택 : okhttp3, retrofit2
+ - Api : 네이버 책 검색 api 사용 ( https://openapi.naver.com/v1/search/ )
   로그인 필요 x. 성인 검색어 판별. 오타 변환 기능이 한국어 검색에 유리하다고 판단.
  
- # Main
+ ### Main
  - 도서 검색 및 BookAdapter ( RecyclerView ) 를 통한 리스트 생성
  - 하단 도달 시 다음 데이터 조회. 데이터 클릭 시 상세화면 이동
  - 앱 강제 종료 & 버그 상황 시 앱 재실행. 이때 이전 검색어를 가져오기 위해 onSaveInstanceState override.
  
- # Info
+ ### Info
  - FragmentAdapter  - BookFragment 생성
  - 링크를 통해 WebChromeClient로 화면 생성.
  - 주소 복사 및 공유하기 기능.
 
- # Path
+ ### Path
  - https://github.com/cm-94/PracticeHistory/cm/Practice/BookSearch/
