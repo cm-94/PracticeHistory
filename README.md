@@ -7,20 +7,13 @@
  
  - Book Search Practice
  
- - BitCoin Api Practice
-  https://github.com/cm-94/PracticeHistory/cm/Bithumb/
+ - BitCoin Current Price
   
  - Candle Chart Draw Practice
-  https://github.com/cm-94/PracticeHistory/cm/ChartPractice/
-  
-## Web
- - Practice of Supply Chain System
-  https://github.com/cm-94/PracticeHistory/tree/master/cm/pscm
+
 
 
 # Android
-  
-  
 ## 1. Elderly Care System
  첫번째, 그리고 아직 완성되지 않은 프로젝트.
  우린 젊을 떄는 가족과 친구들과 함께하지만, 언젠가 홀로 죽을 수 있습니다. 그래서 노인의 독거사를 예방하는 것은 반드시 고려해야 할 사회 안전망입니다.
@@ -54,12 +47,13 @@
 ### Comment..
  - 안드로이드 개별 학습을 하며 진행한 임베디드 시스템 최종 프로젝트 였으나 몇가지 오류가 발생하였다.
  - 1. 시계에서 보내는 String 데이터의 검증이 완전하지 않다. JSON 포맷으로 전송하기 때문에 "{" 와 "}" 를 기준으로 데이터 패킷을 나누었다.
- -  보완 대책으로 Byte크기별 패킷을 나누어 다시 통신 구조를 작성해 볼 수 있다고 판단된다.
  - 2. push가  전송되지 않는 케이스가 발생한다.
- -  앱을 오래 꺼두면 OS에서 프로세스를 제거하는 것으로 추측 되지만 현재 테스트 상태 구현을 위해 Spring 서버를 만들어야 한다..
+ -  보완 및 대책
+ - 1. Byte 크기별 패킷을 나누어 다시 통신 구조를 작성해 볼 수 있다고 판단된다.
+ - 2. 앱을 오래 꺼두면 OS에서 프로세스를 제거하는 것으로 추측 되지만 현재 테스트 상태 구현을 위해 Spring 서버를 만들어야 한다..
 
-## Book Search Practice
- ### 도서 검색 
+## 2. Book Search Practice
+ ### 도서 검색 및 공유
  - 언어 : Kotlin
  - 도구 : 안드로이드 스튜디오
  - 기술 스택 : okhttp3, retrofit2
@@ -78,3 +72,49 @@
 
  ### Path
  - https://github.com/cm-94/PracticeHistory/cm/Practice/BookSearch/
+
+
+
+## 3. BitCoin Api Practice
+ ### 비트코인 현재가 조회 어플
+ - 언어 : Kotlin
+ - 도구 : 안드로이드 스튜디오
+ - 기술 스택 : okhttp3, retrofit2
+ - Api : Bithumb Api 사용 ( https://api.bithumb.com/public/ )
+ 
+ ### Main
+ - ViewPager 사용 ( 3페이지. )
+ - 비트코인 종목 조회 및 환율 별 표시
+ - 기본 종목 : BTC 설정. ( 대표 코인 )
+ - 당일 시가 ( 12시 종가 ) 기준 등락률 상승 => 빨간색 / 하락 => 파란색
+ 
+ ### Comments..
+ - 기존 연습 어플보다 나는 api를 작성하고 화면 구성을 하는 등 보안을 하면, 좀 더 괜찮게 보여줄 수 있을 것 같다.
+ - 실시간처럼 보이도록 api를 초당 30회 이상 요청 할 경우 최대 요청 횟수를 초과한다. 그렇다면 어떻게 기준을 세워야 좋을지 생각해보자.
+ - 전체 현재가를 가져온 다음 adapter를 초기화한다. 이렇게 등락률에 따른 색을 변경할 경우 자원 사용에 매우 비효율적이다. Adapter에 event를 추가하여 n번째 item만 수정되도록 해보자.
+ ### Path
+ - https://github.com/cm-94/PracticeHistory/cm/Bithumb/
+
+
+
+## 4. Candle Chart ( Custom View ) Draw Practice
+ ### Custom View 연습 ( 캔들차트 )
+ - 언어 : Kotlin
+ - 도구 : 안드로이드 스튜디오
+ - 목적 1. paint & canvas를 사용해 주식 데이터 ( 시고저종 가 )를 화면에 그려본다.
+ 
+ ### Main
+ - 임의의 데이터에 대한 봉차트 그리기 연습
+ - 해결과제 1. 등락에 따른 색 설정 필요.
+ - 해결과제 2. 최저 ~ 최대 값으로 Layout 내 봉 & 바 높낮이 값 세팅 필요.
+ 
+ ### Comments..
+ - 1. 색 설정 : 종가 > 시가 ( 빨강 ) / 종가 < 시가 ( 파랑 ) / 종가 == 시가 ( 검정 ) 이므로 어렵지 않다.
+ - 2. view는 width / height 뿐만 아니라 margin / padding 값을 가지고 있다. 이를 모두 반영하는 view를 만들려다 계산이 어긋나는 실수가 있었다.
+ - 보완
+ - 1. 실제 api를 통해 데이터 받아오기.
+ - 2. 데이터 수에 따른 봉 사이 간격 조정 등 수정.
+ - 3. 스크롤, 확대 축소 등 추가 기능에 대한 방법 생각해보기.
+ 
+ ### Path
+ - https://github.com/cm-94/PracticeHistory/cm/ChartPractice/
