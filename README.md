@@ -15,10 +15,10 @@
  - Panopticon Supply Chain Management
 
 
-# Android
-## 1. Elderly Care System
- 첫번째, 그리고 아직 완성되지 않은 프로젝트.
- 우린 젊을 떄는 가족과 친구들과 함께하지만, 언젠가 홀로 죽을 수 있습니다. 그래서 노인의 독거사를 예방하는 것은 반드시 고려해야 할 사회 안전망입니다.
+# 1. Android
+## 1.1 Elderly Care System
+ 처음이자 아직 완성되지 않은 프로젝트.
+ 우린 젊을 날 가족과 친구들과 함께하지만, 언젠가 홀로 죽을 수 있습니다. 그래서 노인의 독거사를 예방하는 것은 반드시 고려해야 할 사회 안전망입니다.
  우리는 세 연결을 통해 구현하려 합니다.
 
  It's my first and still unfinished project.
@@ -56,7 +56,7 @@
  
 
 
-## 2. Book Search Practice
+## 1.2 Book Search Practice
  ### 도서 검색 및 공유
  - 언어 : Kotlin
  - 도구 : 안드로이드 스튜디오
@@ -80,7 +80,7 @@
 
 
 
-## 3. BitCoin Api Practice
+## 1.3 BitCoin Api Practice
  ### 비트코인 현재가 조회 어플
  - 언어 : Kotlin
  - 도구 : 안드로이드 스튜디오
@@ -104,7 +104,7 @@
 
 
 
-## 4. Candle Chart ( Custom View ) Draw Practice
+## 1.4 Candle Chart ( Custom View ) Draw Practice
  ### Custom View 연습 ( 캔들차트 )
  - 언어 : Kotlin
  - 도구 : 안드로이드 스튜디오
@@ -127,9 +127,9 @@
  - https://github.com/cm-94/PracticeHistory/cm/ChartPractice/
 
 
-# Web
+# 2. Web
 
-## Panopticon Supply Chain Management
+## 2.1 Panopticon Supply Chain Management
  ### 판옵티콘샵 재고관리 시스템
  - 언어 : Html, Css, Js. 
  - 도구 : Visual Code
