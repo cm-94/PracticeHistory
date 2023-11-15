@@ -1,0 +1,6 @@
+version: "Apple Swift version 5.8.1 (swiftlang-5.8.0.124.5 clang-1403.0.22.11.100)"
+options: "519d6a5580530198e30bea571484623adeb5c01f4c97372ef046c93273b886c7"
+build_start_time: [1699934329, 186311000]
+build_end_time: [1699934329, 224004000]
+inputs:
+  "/Users/smsoftlab/.pub-cache/hosted/pub.dev/desktop_window-0.4.0/macos/Classes/DesktopWindowPlugin.swift": !private [1699685654, 850508491]

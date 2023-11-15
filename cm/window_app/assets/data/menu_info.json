@@ -1,0 +1,22 @@
+{
+  "0000": {
+    "screenKey": "HomePage",
+    "title": "홈페이지"
+  },
+  "1000": {
+    "screenKey": "BusinessPage",
+    "title": "사업 현황"
+  },
+  "2000": {
+    "screenKey": "MonthPage",
+    "title": "월 보고"
+  },
+  "3000": {
+    "screenKey": "ResolutePage",
+    "title": "결의사항"
+  },
+  "4000": {
+    "screenKey": "PaperPage",
+    "title": "제반 문서"
+  }
+}

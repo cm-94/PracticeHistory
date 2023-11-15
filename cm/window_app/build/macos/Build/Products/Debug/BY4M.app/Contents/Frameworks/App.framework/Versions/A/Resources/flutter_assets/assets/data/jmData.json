@@ -1,0 +1,282 @@
+[
+  {
+    "jmCode": "005930",
+    "name": "삼성전자",
+    "data": [
+      {
+        "currentprice": 76636.56,
+        "marketcapitalization": 343215862112.52,
+        "Date": "2023-11-02"
+      },
+      {
+        "currentprice": 75294.13,
+        "marketcapitalization": 332862345463.78,
+        "Date": "2023-11-03"
+      },
+      {
+        "currentprice": 75791.48,
+        "marketcapitalization": 310346586511.88,
+        "Date": "2023-11-04"
+      },
+      {
+        "currentprice": 76514.95,
+        "marketcapitalization": 332455107387.93,
+        "Date": "2023-11-05"
+      },
+      {
+        "currentprice": 79040.32,
+        "marketcapitalization": 317174956689.22,
+        "Date": "2023-11-06"
+      },
+      {
+        "currentprice": 76984.69,
+        "marketcapitalization": 315693828149.92,
+        "Date": "2023-11-07"
+      },
+      {
+        "currentprice": 75438.86,
+        "marketcapitalization": 347446330131.73,
+        "Date": "2023-11-08"
+      },
+      {
+        "currentprice": 79447.65,
+        "marketcapitalization": 321542578810.53,
+        "Date": "2023-11-09"
+      },
+      {
+        "currentprice": 68340.87,
+        "marketcapitalization": 324591503832.52,
+        "Date": "2023-11-10"
+      },
+      {
+        "currentprice": 78145.25,
+        "marketcapitalization": 305511115090.23,
+        "Data": "2023-11-11"
+      }
+    ]
+  },
+  {
+    "jmCode": "373220",
+    "name": "LG에너지솔루션",
+    "data": [
+      {
+        "currentprice": 5504.42,
+        "marketcapitalization": 15434556742.31,
+        "Date": "2023-11-02"
+      },
+      {
+        "currentprice": 5982.36,
+        "marketcapitalization": 11987956420.18,
+        "Date": "2023-11-03"
+      },
+      {
+        "currentprice": 5317.27,
+        "marketcapitalization": 19653134568.97,
+        "Date": "2023-11-04"
+      },
+      {
+        "currentprice": 5178.62,
+        "marketcapitalization": 13987654321.98,
+        "Date": "2023-11-05"
+      },
+      {
+        "currentprice": 5565.34,
+        "marketcapitalization": 17544231256.42,
+        "Date": "2023-11-06"
+      },
+      {
+        "currentprice": 5341.67,
+        "marketcapitalization": 15000000789.32,
+        "Date": "2023-11-07"
+      },
+      {
+        "currentprice": 5662.48,
+        "marketcapitalization": 16897854432.59,
+        "Date": "2023-11-08"
+      },
+      {
+        "currentprice": 5243.25,
+        "marketcapitalization": 19458322917.75,
+        "Date": "2023-11-09"
+      },
+      {
+        "currentprice": 5789.21,
+        "marketcapitalization": 12098765432.10,
+        "Date": "2023-11-10"
+      },
+      {
+        "currentprice": 5362.78,
+        "marketcapitalization": 19876543210.98,
+        "Data": "2023-11-11"
+      }
+    ]
+  },
+  {
+    "jmCode": " 000660",
+    "name": "SK하이닉스",
+    "data": [
+      {
+        "currentprice": 5188.26,
+        "marketcapitalization": 14285397412.37,
+        "Date": "2023-11-02"
+      },
+      {
+        "currentprice": 5572.47,
+        "marketcapitalization": 12654231245.67,
+        "Date": "2023-11-03"
+      },
+      {
+        "currentprice": 5236.89,
+        "marketcapitalization": 18976543210.98,
+        "Date": "2023-11-04"
+      },
+      {
+        "currentprice": 5678.12,
+        "marketcapitalization": 15098765432.10,
+        "Date": "2023-11-05"
+      },
+      {
+        "currentprice": 5342.76,
+        "marketcapitalization": 17432198765.43,
+        "Date": "2023-11-06"
+      },
+      {
+        "currentprice": 5198.45,
+        "marketcapitalization": 19876543210.98,
+        "Date": "2023-11-07"
+      },
+      {
+        "currentprice": 5665.78,
+        "marketcapitalization": 16234567890.12,
+        "Date": "2023-11-08"
+      },
+      {
+        "currentprice": 5421.99,
+        "marketcapitalization": 13890765432.10,
+        "Date": "2023-11-09"
+      },
+      {
+        "currentprice": 5765.32,
+        "marketcapitalization": 14654321987.65,
+        "Date": "2023-11-10"
+      },
+      {
+        "currentprice": 5112.78,
+        "marketcapitalization": 15765432198.76,
+        "Data": "2023-11-11"
+      }
+    ]
+  },
+  {
+    "jmCode": "005380",
+    "name": "현대차",
+    "data": [
+      {
+        "currentprice": 5685.15,
+        "marketcapitalization": 13987654321.98,
+        "Date": "2023-11-02"
+      },
+      {
+        "currentprice": 5879.34,
+        "marketcapitalization": 15098765432.10,
+        "Date": "2023-11-03"
+      },
+      {
+        "currentprice": 5542.67,
+        "marketcapitalization": 17865432198.76,
+        "Date": "2023-11-04"
+      },
+      {
+        "currentprice": 5298.78,
+        "marketcapitalization": 15765432198.76,
+        "Date": "2023-11-05"
+      },
+      {
+        "currentprice": 5764.56,
+        "marketcapitalization": 15432198765.43,
+        "Date": "2023-11-06"
+      },
+      {
+        "currentprice": 5321.89,
+        "marketcapitalization": 16876543210.98,
+        "Date": "2023-11-07"
+      },
+      {
+        "currentprice": 5642.43,
+        "marketcapitalization": 14654321987.65,
+        "Date": "2023-11-08"
+      },
+      {
+        "currentprice": 5498.21,
+        "marketcapitalization": 16234567890.12,
+        "Date": "2023-11-09"
+      },
+      {
+        "currentprice": 5812.99,
+        "marketcapitalization": 13890765432.10,
+        "Date": "2023-11-10"
+      },
+      {
+        "currentprice": 5736.87,
+        "marketcapitalization": 17432198765.43,
+        "Data": "2023-11-11"
+      }
+    ]
+  },
+  {
+    "jmCode": "035420",
+    "name": "네이버",
+    "data": [
+      {
+        "currentprice": 324563.45,
+        "marketcapitalization": 73259846210.98,
+        "Date": "2023-11-02"
+      },
+      {
+        "currentprice": 318921.67,
+        "marketcapitalization": 76823491287.65,
+        "Date": "2023-11-03"
+      },
+      {
+        "currentprice": 333456.78,
+        "marketcapitalization": 72543198765.43,
+        "Date": "2023-11-04"
+      },
+      {
+        "currentprice": 322567.89,
+        "marketcapitalization": 70000098765.43,
+        "Date": "2023-11-05"
+      },
+      {
+        "currentprice": 338765.12,
+        "marketcapitalization": 78012345678.90,
+        "Date": "2023-11-06"
+      },
+      {
+        "currentprice": 329876.45,
+        "marketcapitalization": 75098765432.10,
+        "Date": "2023-11-07"
+      },
+      {
+        "currentprice": 326543.78,
+        "marketcapitalization": 72000000000.00,
+        "Date": "2023-11-08"
+      },
+      {
+        "currentprice": 340000.12,
+        "marketcapitalization": 76432198765.43,
+        "Date": "2023-11-09"
+      },
+      {
+        "currentprice": 335678.90,
+        "marketcapitalization": 78012345678.90,
+        "Date": "2023-11-10"
+      },
+      {
+        "currentprice": 319876.54,
+        "marketcapitalization": 75000098765.43,
+        "Data": "2023-11-11"
+      }
+    ]
+  }
+]

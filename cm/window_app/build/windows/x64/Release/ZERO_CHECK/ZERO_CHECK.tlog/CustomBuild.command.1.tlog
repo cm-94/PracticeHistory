@@ -1,0 +1,10 @@
+^C:\USERS\ADMINISTRATOR\DESKTOP\WINDOW_APP\WINDOW_APP\BUILD\WINDOWS\CMAKEFILES\FB3A95467C4E62CDAD9AE35FB33625A9\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/Administrator/Desktop/window_app/window_app/windows -BC:/Users/Administrator/Desktop/window_app/window_app/build/windows --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/Administrator/Desktop/window_app/window_app/build/windows/BY4M.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
